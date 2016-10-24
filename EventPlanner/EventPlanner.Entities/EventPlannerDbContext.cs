@@ -40,7 +40,7 @@ namespace EventPlanner
         /// <summary>
         /// Active events.
         /// </summary>
-        public DbSet<PlannedEvent> Events
+        public DbSet<Event> Events
         {
             get;
             set;

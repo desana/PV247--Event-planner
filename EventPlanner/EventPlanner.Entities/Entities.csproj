@@ -31,9 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\..\..\.nuget\packages\EntityFramework\6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
@@ -50,14 +49,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\PlannedEvent.cs" />
+    <Compile Include="Entities\Event.cs" />
     <Compile Include="EventPlannerDbContext.cs" />
     <Compile Include="Entities\Place.cs" />
     <Compile Include="Entities\TimeAtPlace.cs" />
     <Compile Include="Entities\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\EventsRepository.cs" />
     <Compile Include="Repositories\IEventsRepository.cs" />
     <Compile Include="Repositories\IVotesRepository.cs" />
+    <Compile Include="Repositories\VotesRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
