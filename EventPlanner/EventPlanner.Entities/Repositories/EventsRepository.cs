@@ -1,24 +1,60 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using EventPlanner.Entities;
+using System.Linq;
 
 namespace EventPlanner.Repositories
 {
     public class EventsRepository : IEventsRepository
     {
-        public Task<PlannedEvent> GetSingleEvent(int id)
+        private EventPlannerDbContext _context;
+
+        public EventsRepository(EventPlannerDbContext context)
         {
-            throw new System.NotImplementedException();
+            _context = context;
         }
 
-        public Task<IEnumerable<PlannedEvent>> GetAllEvent()
+        public async Task<Event> GetSingleEvent(int id)
         {
-            throw new System.NotImplementedException();
+            var plannedEvent = await _context
+                .Events
+                .Where(ev => ev.EventId == id)
+                .SingleOrDefaultAsync();
+
+            return plannedEvent;
         }
 
-        public Task<Vote> AddEvent(PlannedEvent plannedEvent)
+        public async Task<IEnumerable<Event>> GetAllEvent()
         {
-            throw new System.NotImplementedException();
+            var allEvents = await _context.Events.ToArrayAsync();
+            return allEvents;
+        }
+
+        public async Task<Event> AddEvent(Event plannedEvent)
+        {
+            if (plannedEvent == null)
+                throw new ArgumentNullException(nameof(plannedEvent));
+
+            var addedEvent = _context.Events.Add(plannedEvent);
+            await _context.SaveChangesAsync();
+            return addedEvent;
+        }
+
+        public async Task<bool> DeleteEvent(int id)
+        {
+            var foundEvent = _context
+                .Events
+                .FirstOrDefault(ev => ev.EventId == id);
+
+            if (foundEvent == null)
+                return false;
+
+            _context.Events.Remove(foundEvent);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }

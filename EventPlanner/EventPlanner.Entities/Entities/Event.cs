@@ -5,7 +5,7 @@ namespace EventPlanner.Entities
     /// <summary>
     /// Represents one event.
     /// </summary>
-    public class PlannedEvent
+    public class Event
     {
         /// <summary>
         /// Primary key of the event.

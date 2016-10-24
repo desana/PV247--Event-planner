@@ -6,10 +6,12 @@ namespace EventPlanner.Repositories
 {
     public interface IEventsRepository
     {
-        Task<PlannedEvent> GetSingleEvent(int id);
+        Task<Event> GetSingleEvent(int id);
 
-        Task<IEnumerable<PlannedEvent>> GetAllEvent();
+        Task<IEnumerable<Event>> GetAllEvent();
 
-        Task<Vote> AddEvent(PlannedEvent plannedEvent);
+        Task<Event> AddEvent(Event plannedEvent);
+
+        Task<bool> DeleteEvent(int id);
     }
 }
