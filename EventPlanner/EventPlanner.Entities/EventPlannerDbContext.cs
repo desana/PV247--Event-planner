@@ -36,5 +36,14 @@ namespace EventPlanner
             get;
             set;
         }
+
+        /// <summary>
+        /// Active events.
+        /// </summary>
+        public DbSet<PlannedEvent> Events
+        {
+            get;
+            set;
+        }
     }
 }

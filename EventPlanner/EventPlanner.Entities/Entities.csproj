@@ -50,11 +50,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\PlannedEvent.cs" />
     <Compile Include="EventPlannerDbContext.cs" />
     <Compile Include="Entities\Place.cs" />
     <Compile Include="Entities\TimeAtPlace.cs" />
     <Compile Include="Entities\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IEventsRepository.cs" />
+    <Compile Include="Repositories\IVotesRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
