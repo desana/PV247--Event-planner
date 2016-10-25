@@ -53,9 +53,6 @@ namespace EventPlanner.Entities.UnitTests
 
             var mockContext = new Mock<EventPlannerDbContext>();
             mockContext.Setup(c => c.Events).Returns(mockSet.Object);
-            mockContext.Setup(m => m.TimesAtPlaces).Returns(new Mock<DbSet<TimeAtPlace>>().Object);
-            mockContext.Setup(m => m.Places).Returns(new Mock<DbSet<Place>>().Object);
-            mockContext.Setup(m => m.Votes).Returns(new Mock<DbSet<Vote>>().Object);
 
             _eventsRepository = new EventsRepository(mockContext.Object);
         }
@@ -84,5 +81,12 @@ namespace EventPlanner.Entities.UnitTests
             Assert.Equal("Burger Inn", timesAtPlaces[0].Place.Name);
         }
 
+        [Fact]
+        public async void GetSingleEvent_Nonexisting()
+        {
+            var singleEvent = await _eventsRepository.GetSingleEvent(10);
+
+            Assert.Null(singleEvent);
+        }
     }
 }
