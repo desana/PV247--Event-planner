@@ -22,10 +22,9 @@ namespace EventPlanner.Entities.UnitTests
         public async void AddEvent_Saves_Event_Via_Context()
         {
             var mockSet = new Mock<DbSet<Event>>();
-
             _mockContext.Setup(m => m.Events).Returns(mockSet.Object);
-
             var repository = new EventsRepository(_mockContext.Object);
+
             var testPlace = new Place { PlaceId = 1, FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla" };
             var testTime = new TimeAtPlace { Place = testPlace, Time = DateTime.Now, TimeAtPlaceId = 1 };
             var testEvent = new Event
@@ -42,13 +41,22 @@ namespace EventPlanner.Entities.UnitTests
         }
 
         [Fact]
+        public async void AddEvent_Throws()
+        {
+            var mockSet = new Mock<DbSet<Event>>();
+            _mockContext.Setup(m => m.Events).Returns(mockSet.Object);
+            var repository = new EventsRepository(_mockContext.Object);
+
+            await Assert.ThrowsAsync<ArgumentNullException>(() => repository.AddEvent(null));
+        }
+
+        [Fact]
         public async void AddVote_Saves_Vote_Via_Context()
         {
             var mockSet = new Mock<DbSet<Vote>>();
-
             _mockContext.Setup(m => m.Votes).Returns(mockSet.Object);
-
             var repository = new VotesRepository(_mockContext.Object);
+
             var testPlace = new Place { PlaceId = 1, FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla" };
             var testTime = new TimeAtPlace { Place = testPlace, Time = DateTime.Now, TimeAtPlaceId = 1 };
             var testVote = new Vote
@@ -59,6 +67,16 @@ namespace EventPlanner.Entities.UnitTests
 
             mockSet.Verify(m => m.Add(It.IsAny<Vote>()), Times.Once());
             _mockContext.Verify(m => m.SaveChangesAsync(), Times.Once());
+        }
+
+        [Fact]
+        public async void AddVote_Throws()
+        {
+            var mockSet = new Mock<DbSet<Vote>>();
+            _mockContext.Setup(m => m.Votes).Returns(mockSet.Object);
+            var repository = new VotesRepository(_mockContext.Object);
+
+            await Assert.ThrowsAsync<ArgumentNullException>(() => repository.AddVote(null));
         }
 
         [Fact]
@@ -125,5 +143,6 @@ namespace EventPlanner.Entities.UnitTests
             mockSet.Verify(m => m.Remove(It.IsAny<Event>()), Times.Never());
             _mockContext.Verify(m => m.SaveChangesAsync(), Times.Never());
         }
+
     }
 }
