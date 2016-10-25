@@ -1,15 +1,20 @@
-﻿using EventPlanner.Repositories;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using EventPlanner.Repositories;
 using Xunit;
+using Moq;
 
 namespace EventPlanner.Entities.UnitTests
 {
     public class EventsRepositoryTests
     {
-        private EventsRepository _eventsRepository;
+        private Mock<EventPlannerDbContext> _mockContext;
 
         public EventsRepositoryTests()
         {
-            //TODO
+            _mockContext = new Mock<EventPlannerDbContext>();
         }
+
     }
 }

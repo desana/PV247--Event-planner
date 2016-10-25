@@ -8,10 +8,14 @@ namespace EventPlanner
     /// </summary>
     public class EventPlannerDbContext : DbContext
     {
+        public EventPlannerDbContext() : base("EventPlannerContext")
+        {
+        }
+
         /// <summary>
         /// Places used in votes.
         /// </summary>
-        public DbSet<Place> Places
+        public virtual DbSet<Place> Places
         {
             get;
             set;
@@ -21,7 +25,7 @@ namespace EventPlanner
         /// <summary>
         /// Active vote choices. 
         /// </summary>
-        public DbSet<Vote> Votes
+        public virtual DbSet<Vote> Votes
         {
             get;
             set;
@@ -31,7 +35,7 @@ namespace EventPlanner
         /// <summary>
         /// Available time slots used for current votes.
         /// </summary>
-        public DbSet<TimeAtPlace> TimesAtPlaces
+        public virtual DbSet<TimeAtPlace> TimesAtPlaces
         {
             get;
             set;
@@ -40,7 +44,7 @@ namespace EventPlanner
         /// <summary>
         /// Active events.
         /// </summary>
-        public DbSet<Event> Events
+        public virtual DbSet<Event> Events
         {
             get;
             set;

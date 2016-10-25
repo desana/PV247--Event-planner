@@ -8,7 +8,7 @@ using EventPlanner.Entities;
 
 namespace EventPlanner.Repositories
 {
-    class VotesRepository : IVotesRepository
+    public class VotesRepository : IVotesRepository
     {
         private EventPlannerDbContext _context;
 
