@@ -26,7 +26,7 @@ namespace EventPlanner.Repositories
             return plannedEvent;
         }
 
-        public async Task<IEnumerable<Event>> GetAllEvent()
+        public async Task<IEnumerable<Event>> GetAllEvents()
         {
             var allEvents = await _context.Events.ToArrayAsync();
             return allEvents;

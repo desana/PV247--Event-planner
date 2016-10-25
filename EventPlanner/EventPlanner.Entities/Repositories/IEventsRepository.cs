@@ -8,7 +8,7 @@ namespace EventPlanner.Repositories
     {
         Task<Event> GetSingleEvent(int id);
 
-        Task<IEnumerable<Event>> GetAllEvent();
+        Task<IEnumerable<Event>> GetAllEvents();
 
         Task<Event> AddEvent(Event plannedEvent);
 

@@ -24,11 +24,12 @@ namespace EventPlanner.Entities.UnitTests
             _mockContext.Setup(m => m.Events).Returns(mockSet.Object);
 
             var repository = new EventsRepository(_mockContext.Object);
-            var testPlace = new Place() { PlaceId = 1, FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla" };
-            var testTime = new TimeAtPlace() { Place = testPlace, Time = DateTime.Now, TimeAtPlaceId = 1 };
-            var testEvent = new Event()
+            var testPlace = new Place { PlaceId = 1, FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla" };
+            var testTime = new TimeAtPlace { Place = testPlace, Time = DateTime.Now, TimeAtPlaceId = 1 };
+            var testEvent = new Event
             {
                 EventId = 1,
+                EventName = "Sraz",
                 TimesAtPlaces = new List<TimeAtPlace> { testTime },
                 Votes = new List<Vote>() 
             };

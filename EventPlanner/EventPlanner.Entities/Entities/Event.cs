@@ -17,6 +17,15 @@ namespace EventPlanner.Entities
         }
 
         /// <summary>
+        /// Name of the event.
+        /// </summary>
+        public string EventName
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Collection of all votes for this event.
         /// </summary>
         public ICollection<Vote> Votes { get; set; } = new List<Vote>();
