@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace EventPlanner.Entities.UnitTests
 {
+    /// <summary>
+    /// https://msdn.microsoft.com/en-us/data/dn314429.aspx#async
+    /// Provider for testing with async queries.
+    /// </summary>
     internal class TestDbAsyncQueryProvider<TEntity> : IDbAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;
