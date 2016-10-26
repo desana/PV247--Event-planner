@@ -28,6 +28,7 @@ namespace EventPlanner.Entities.UnitTests
                 {
                     EventId = 1,
                     EventName = "Sraz",
+                    EventDescription = "Sraz členů spolku",
                     TimesAtPlaces = new List<TimeAtPlace> { testTime1, testTime2 },
                     Votes = new List<Vote>()
                 },
@@ -35,6 +36,7 @@ namespace EventPlanner.Entities.UnitTests
                 {
                     EventId = 2,
                     EventName = "Sraz 2",
+                    EventDescription = "Sraz členů jiného spolku",
                     TimesAtPlaces = new List<TimeAtPlace> { testTime3 },
                     Votes = new List<Vote>()
                 }
@@ -66,6 +68,8 @@ namespace EventPlanner.Entities.UnitTests
             Assert.Equal(2, events.Count());
             Assert.Equal("Sraz", eventsList[0].EventName);
             Assert.Equal("Sraz 2", eventsList[1].EventName);
+            Assert.Equal("Sraz členů spolku", eventsList[0].EventDescription);
+            Assert.Equal("Sraz členů jiného spolku", eventsList[1].EventDescription);
         }
 
         [Fact]

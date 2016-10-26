@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace EventPlanner.Entities
 {
@@ -30,7 +31,17 @@ namespace EventPlanner.Entities
         /// <summary>
         /// Starting time of the time slot.
         /// </summary>
+        [Required]
         public DateTime Time
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Event to which this belongs to.
+        /// </summary>
+        public Event Event
         {
             get;
             set;

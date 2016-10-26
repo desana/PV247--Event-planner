@@ -1,4 +1,6 @@
-﻿namespace EventPlanner.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EventPlanner.Entities
 {
     /// <summary>
     /// Represents one choice in vote.
@@ -13,17 +15,6 @@
             get;
             set;
         }
-        
-
-        /// <summary>
-        /// Link to vote.
-        /// </summary>
-        public string VoteLink
-        {
-            get;
-            set;
-        }
-
 
         /// <summary>
         /// Time and place of the choice.
@@ -43,6 +34,15 @@
             get;
             set;
         }
-        
+
+        /// <summary>
+        /// Event to which this vote belongs to.
+        /// </summary>
+        public Event Event
+        {
+            get;
+            set;
+        }
+
     }
 }

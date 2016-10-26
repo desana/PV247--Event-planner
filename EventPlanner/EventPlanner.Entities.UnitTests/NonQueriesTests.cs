@@ -31,6 +31,7 @@ namespace EventPlanner.Entities.UnitTests
             {
                 EventId = 1,
                 EventName = "Sraz",
+                EventDescription = "Sraz členů spolku",
                 TimesAtPlaces = new List<TimeAtPlace> { testTime },
                 Votes = new List<Vote>() 
             };
@@ -61,7 +62,7 @@ namespace EventPlanner.Entities.UnitTests
             var testTime = new TimeAtPlace { Place = testPlace, Time = DateTime.Now, TimeAtPlaceId = 1 };
             var testVote = new Vote
             {
-                VoteId = 1, TimeAtPlace = testTime, VoteLink = "", Votes = 4
+                VoteId = 1, TimeAtPlace = testTime, Votes = 4
             };
             await repository.AddVote(testVote);
 
@@ -91,6 +92,7 @@ namespace EventPlanner.Entities.UnitTests
                 {
                     EventId = 3,
                     EventName = "Sraz",
+                    EventDescription = "Sraz členů spolku",
                     TimesAtPlaces = new List<TimeAtPlace> {testTime},
                     Votes = new List<Vote>()
                 }
