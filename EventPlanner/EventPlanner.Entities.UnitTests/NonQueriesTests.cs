@@ -41,7 +41,7 @@ namespace EventPlanner.Entities.UnitTests
         }
 
         [Fact]
-        public async void AddEvent_Throws()
+        public async void AddEvent_If_Null_Throws_Exception()
         {
             var mockSet = new Mock<DbSet<Event>>();
             _mockContext.Setup(m => m.Events).Returns(mockSet.Object);
@@ -70,7 +70,7 @@ namespace EventPlanner.Entities.UnitTests
         }
 
         [Fact]
-        public async void AddVote_Throws()
+        public async void AddVote_If_Null_Throws_Exception()
         {
             var mockSet = new Mock<DbSet<Vote>>();
             _mockContext.Setup(m => m.Votes).Returns(mockSet.Object);
