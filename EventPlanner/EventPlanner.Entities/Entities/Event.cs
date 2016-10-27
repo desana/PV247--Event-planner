@@ -53,6 +53,11 @@ namespace EventPlanner.Entities
         public ICollection<Vote> Votes { get; set; } = new List<Vote>();
 
         /// <summary>
+        /// Collection of all possible places for this event.
+        /// </summary>
+        public ICollection<Place> Places { get; set; } = new List<Place>();
+
+        /// <summary>
         /// Collection of all possible times at concrete places for this event.
         /// </summary>
         public ICollection<TimeAtPlace> TimesAtPlaces { get; set; } = new List<TimeAtPlace>();

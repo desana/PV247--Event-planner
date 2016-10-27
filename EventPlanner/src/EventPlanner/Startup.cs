@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Collections.Generic;
+using EventPlanner.Entities;
+using EventPlanner.Repositories;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +30,20 @@ namespace EventPlanner
 
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Hello World!");
+                await context.Response.WriteAsync("Hello World!" + Environment.NewLine);
+
+                //TODO remove this later, just for test purposes
+                var eventsRepository = new EventsRepository(new EventPlannerDbContext());
+                var events = await eventsRepository.GetAllEvents();
+                foreach (var ev in events)
+                {
+                    await context.Response.WriteAsync(ev.EventName + Environment.NewLine);
+                }
+                
+                
             });
+
+            
         }
     }
 }

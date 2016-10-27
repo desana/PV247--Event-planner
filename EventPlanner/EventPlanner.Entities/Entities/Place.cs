@@ -32,5 +32,14 @@
             get;
             set;
         }
+
+        /// <summary>
+        /// Event to which this belongs to.
+        /// </summary>
+        public Event Event
+        {
+            get;
+            set;
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using EventPlanner.Entities;
 using Microsoft.AspNetCore.Hosting;
 
@@ -10,15 +12,37 @@ namespace EventPlanner
         {
             using (var databaseContext = new EventPlannerDbContext())
             {
-                Place testPlace = new Place
+                Event e = new Event()
                 {
-                    Name = "testName",
-                    FourSquareLink = "https://foursquare.com/v/aire-ancient-baths/4fbbd9ede4b0756c0d4c2364"
+                    EventName = "Meeting",
+                    EventDescription = "Company meeting winter 2016",
+                    EventLink = "some.fake.link",
+                    Votes = new List<Vote>
+                {
+                    new Vote
+                    {
+                        TimeAtPlace = new TimeAtPlace
+                        {
+                            Place = new Place { FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla"},
+                            Time = DateTime.Now
+                        }
+                    },
+                    new Vote
+                    {
+                        TimeAtPlace = new TimeAtPlace
+                        {
+                            Place = new Place { FourSquareLink = "https://foursquare.com/v/burger-inn/55a93496498e49f11b0a9532", Name = "Burger Inn"},
+                            Time = DateTime.Now
+                        }
+                    }
+                }
+
                 };
 
+
                 databaseContext
-                    .Places
-                    .Add(testPlace);
+                    .Events
+                    .Add(e);
 
                 databaseContext.SaveChanges();
             }
