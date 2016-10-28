@@ -10,6 +10,7 @@ namespace EventPlanner
     {
         public EventPlannerDbContext() : base("EventPlannerContext")
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<EventPlannerDbContext, Migrations.Configuration>());
         }
 
         /// <summary>

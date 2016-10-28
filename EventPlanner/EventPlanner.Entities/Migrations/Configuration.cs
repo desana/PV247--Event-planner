@@ -1,18 +1,27 @@
-﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using EventPlanner.Entities;
-using Microsoft.AspNetCore.Hosting;
 
-namespace EventPlanner
+namespace EventPlanner.Migrations
 {
-    public class Program
+    using System;
+    using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
+
+    internal sealed class Configuration : DbMigrationsConfiguration<EventPlanner.EventPlannerDbContext>
     {
-        public static void Main(string[] args)
+        public Configuration()
         {
-            /*using (var databaseContext = new EventPlannerDbContext())
-            {
-                Event e = new Event()
+            AutomaticMigrationsEnabled = true;
+        }
+
+        protected override void Seed(EventPlannerDbContext context)
+        {
+            //  This method will be called after migrating to the latest version.
+
+            context.Events.AddOrUpdate(
+                e => e.EventName,
+                new Event()
                 {
                     EventName = "Meeting",
                     EventDescription = "Company meeting winter 2016",
@@ -37,26 +46,8 @@ namespace EventPlanner
                     }
                 }
 
-                };
-
-
-                databaseContext
-                    .Events
-                    .Add(e);
-
-                databaseContext.SaveChanges();
-            }*/
-
-
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .Build();
-
-            host.Run();
+                }
+                );
         }
-
     }
 }
