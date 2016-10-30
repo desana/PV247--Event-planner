@@ -1,0 +1,42 @@
+﻿@{
+ ViewData["CreateAndVote"] = "Event";
+}
+
+<html>
+
+<head>
+    <title>Create new event</title>
+</head>
+
+<body>
+
+    <form id="newEvent">
+
+        @* Title and description fields *@
+        <h3>Event title</h3>
+        <input id="fieldTitle" name="Title" type="text" />
+
+        <h3>Event description</h3>
+        <input id="fieldDescription" name="Description" type="text" />
+
+        @* Dynamic adding of places/times *@
+
+        <h3>Places</h3>
+
+        <div id="places">
+            <!-- This element's contents will be replaced with AddPlacesAndTimes script. -->
+        </div>
+
+        @* Send button and validation *@
+
+        <button type='submit'>Submit</button>
+    </form>
+
+    @* Scripts *@
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
+    <script src="@Url.Content("~/js/AddPlacesAndTimes.jsx")"></script>
+</body>
+</html>
