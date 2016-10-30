@@ -1276,9 +1276,6 @@
         "runtime": {
           "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll": {}
         }
-      },
-      "Entities/1.0.0": {
-        "type": "project"
       }
     }
   },
@@ -3783,10 +3780,6 @@
         "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.dll",
         "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.xml"
       ]
-    },
-    "Entities/1.0.0": {
-      "type": "project",
-      "msbuildProject": "../../EventPlanner.Entities/Entities.csproj"
     }
   },
   "projectFileDependencyGroups": {

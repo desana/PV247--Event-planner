@@ -1,0 +1,28 @@
+﻿@using System.Threading.Tasks
+@using EventPlanner.Models
+@model CreateEventModel
+
+@{  
+    ViewData["Title"] = "Create event";
+}
+
+<form asp-action="Create">
+    @* Event title *@
+    <div>
+        <label asp-for="Title"></label>
+        <input asp-for="Title"/>
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    @* Event description *@
+    <div>
+        <label asp-for="Description"></label>
+        <input asp-for="Description"/>
+    </div>
+    
+    @* Submit button *@
+
+    <div>
+        <input type="submit" value="Create event" class="btn btn-default"/>
+    </div>
+</form>
