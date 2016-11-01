@@ -27,6 +27,11 @@ namespace EventPlanner.Controllers
             return View();
         }
 
+        public IActionResult CreateAndVote()
+        {
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View();
