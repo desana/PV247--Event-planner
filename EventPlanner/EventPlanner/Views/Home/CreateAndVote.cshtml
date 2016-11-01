@@ -10,33 +10,37 @@
 
 <body>
 
-    <form id="newEvent">
+<h3>Create new event</h3>
 
-        @* Title and description fields *@
-        <h3>Event title</h3>
-        <input id="fieldTitle" name="Title" type="text" />
+<form id="newEvent">
 
-        <h3>Event description</h3>
-        <input id="fieldDescription" name="Description" type="text" />
+    @* Title and description fields *@
+    <div class="form-group">
+        <label for="fieldTitle">Event title</label>
+        <input class="form-control" id="fieldTitle" name="Title" type="text">
+    </div>
 
-        @* Dynamic adding of places/times *@
+    <div class="form-group">
+        <label for="fieldDescription">Event description</label>
+        <input class="form-control" id="fieldDescription" name="Description" type="text">
+    </div>
 
-        <h3>Places</h3>
+    @* Dynamic adding of places/times *@
 
-        <div id="places">
-            <!-- This element's contents will be replaced with AddPlacesAndTimes script. -->
-        </div>
+    <div class="form-group" id="places">
+        <!-- This element's contents will be replaced with AddPlacesAndTimes script. -->
+    </div>
 
-        @* Send button and validation *@
+    @* Send button and validation *@
 
-        <button type='submit'>Submit</button>
-    </form>
+    <button class="btn btn-primary" type='submit'>Submit</button>
+</form>
 
-    @* Scripts *@
+@* Scripts *@
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
-    <script src="@Url.Content("~/js/AddPlacesAndTimes.jsx")"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
+<script src="@Url.Content("~/js/AddPlacesAndTimes.jsx")"></script>
 </body>
 </html>
