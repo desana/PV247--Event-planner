@@ -1,6 +1,6 @@
-﻿using EventPlanner.Models;
+﻿using System;
+using EventPlanner.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EventPlanner.Controllers
 {
@@ -28,11 +28,6 @@ namespace EventPlanner.Controllers
             return View();
         }
 
-        public IActionResult CreateAndVote()
-        {
-            return View();
-        }
-
         public IActionResult Error()
         {
             return View();
@@ -45,6 +40,8 @@ namespace EventPlanner.Controllers
 
         public IActionResult Create()
         {
+            throw new NotImplementedException();
+
             var newEvent = new CreateEventModel();
             return View(newEvent);
         }
