@@ -27,14 +27,14 @@ namespace EventPlanner.Controllers
             return View();
         }
 
-        public IActionResult CreateAndVote()
+        public IActionResult Error()
         {
             return View();
         }
 
-        public IActionResult Error()
+        public IActionResult CreateEvent()
         {
-            return View();
+            return RedirectToAction("CreateAndVote", "Event");
         }
     }
 }
