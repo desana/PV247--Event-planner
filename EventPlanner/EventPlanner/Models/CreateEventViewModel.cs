@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EventPlanner.Models
 {
-    public class CreateEventModel : IValidatableObject
+    public class CreateEventViewModel : IValidatableObject
     {
         [Required]
         [Display(Name = "Event title")]

@@ -1,12 +1,12 @@
 ﻿@using System.Threading.Tasks
 @using EventPlanner.Models
-@model CreateEventModel
+@model CreateEventViewModel
 
 @{  
     ViewData["Title"] = "Create event";
 }
 
-<form>
+<form asp-action="CreateNewEvent">
     @* Event title *@
     <div class="form-group">
         <label asp-for="Title"></label>
