@@ -22,14 +22,13 @@ namespace EventPlanner.Services
                 .Map<IEnumerable<Entities.Event>, IEnumerable<EventItem>>(dataAccessEventModel)
                 .ToArray();
         }
-
-
-        public async Task<DataTransferModels.Event> AddEvent(DataTransferModels.EventItem @event, string developerCodeName)
+        
+        public async Task<Event> AddEvent(EventItem newEvent)
         {
-            Entities.Event dataAccessEventModel = _mapper.Map<Entities.Event>(@event);
+            Entities.Event dataAccessEventModel = _mapper.Map<Entities.Event>(newEvent);
             dataAccessEventModel = await _eventRepository.AddEvent(dataAccessEventModel);
 
-            return _mapper.Map<DataTransferModels.Event>(dataAccessEventModel);
+            return _mapper.Map<Event>(dataAccessEventModel);
         }
 
     }

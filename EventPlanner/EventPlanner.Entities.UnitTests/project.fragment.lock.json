@@ -3,7 +3,7 @@
   "exports": {
     "Entities/1.0.0": {
       "type": "project",
-      "framework": ".NETFramework,Version=v4.5.2",
+      "framework": ".NETFramework,Version=v4.6.2",
       "compile": {
         "bin/Debug/EventPlanner.Entities.dll": {}
       },
