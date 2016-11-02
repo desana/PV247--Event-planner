@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace EventPlanner.Entities
+﻿namespace EventPlanner.Entities
 {
     /// <summary>
     /// Represents one choice in vote.

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using EventPlanner.Configuration;
+using EventPlanner.Services.Configuration;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +32,19 @@ namespace EventPlanner
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        { 
+            // Configure model mappings
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                ViewModelsMapperConfiguration.InitialializeMappings(cfg);
+                ServicesMapperConfiguration.InitialializeMappings(cfg);
+
+            }).CreateMapper();
+
+            // Do not allow application to start with broken configuration. Fail fast.
+            mapper.ConfigurationProvider.AssertConfigurationIsValid();
+            services.AddSingleton(mapper);
+
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

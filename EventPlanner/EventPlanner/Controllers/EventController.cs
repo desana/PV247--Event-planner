@@ -2,6 +2,7 @@
 using AutoMapper;
 using EventPlanner.Models;
 using EventPlanner.Services;
+using EventPlanner.Services.Event;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,6 +13,7 @@ namespace EventPlanner.Controllers
     {
         private readonly EventService _eventService = new EventService();
         private IMapper _mapper;
+        private string currentEventName;
 
         // GET: /<controller>/
         public IActionResult CreateEvent()
@@ -19,20 +21,21 @@ namespace EventPlanner.Controllers
             return View();
         }
         
-        public async Task<IActionResult> CreateNewEvent(CreateEventViewModel newEvent)
+        public async Task<IActionResult> CreateNewEvent(EventViewModel newEvent)
         {
             if (!ModelState.IsValid)
             {
                 return View("CreateEvent");
             }
 
-            await _eventService.AddEvent(_mapper.Map<Services.DataTransferModels.EventItem>(newEvent));
+            currentEventName = newEvent.EventName;
+            await _eventService.AddEvent(_mapper.Map<Services.DataTransferModels.Event>(newEvent));
             return RedirectToAction("AddPlaces");
         }
 
         public IActionResult AddPlaces()
         {
-            return View();
+            return View(_eventService.GetSingleEvent(currentEventName));
         }
     }
 }

@@ -1,35 +1,45 @@
-﻿using System;
-using EventPlanner.Services.DataTransferModels;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using EventPlanner.Repositories;
 
-namespace EventPlanner.Services
+namespace EventPlanner.Services.Event
 {
     public class EventService
     {
         private IMapper _mapper;
         private IEventsRepository _eventRepository;
 
-        public async Task<EventItem[]> GetAllEvents()
+        public async Task<IEnumerable<DataTransferModels.Event>> GetAllEvents()
         {
-            // _logger.LogInformation("Starting Game service method");
-
             IEnumerable<Entities.Event> dataAccessEventModel = await _eventRepository.GetAllEvents();
-            return _mapper
-                .Map<IEnumerable<Entities.Event>, IEnumerable<EventItem>>(dataAccessEventModel)
-                .ToArray();
+            return _mapper.Map<IEnumerable<Entities.Event>, IEnumerable<DataTransferModels.Event>>(dataAccessEventModel);
         }
-        
-        public async Task<Event> AddEvent(EventItem newEvent)
+
+        public async Task<DataTransferModels.Event> AddEvent(DataTransferModels.Event newEvent)
         {
             Entities.Event dataAccessEventModel = _mapper.Map<Entities.Event>(newEvent);
             dataAccessEventModel = await _eventRepository.AddEvent(dataAccessEventModel);
 
-            return _mapper.Map<Event>(dataAccessEventModel);
+            return _mapper.Map<DataTransferModels.Event>(dataAccessEventModel);
         }
 
+        public async Task<DataTransferModels.Event> GetSingleEvent(string eventName)
+        {
+            Entities.Event dataAccessEventModel = await _eventRepository.GetSingleEvent(eventName);
+            return _mapper.Map<DataTransferModels.Event>(dataAccessEventModel);
+        }
+        
+        public async Task<DataTransferModels.Event> GetSingleEvent(int id)
+        {
+            Entities.Event dataAccessEventModel = await _eventRepository.GetSingleEvent(id);
+            return _mapper.Map<DataTransferModels.Event>(dataAccessEventModel);
+        }
+        
+        public async Task<bool> DeleteEvent(int id)
+        {
+            bool wasRemoved = await _eventRepository.DeleteEvent(id);
+            return wasRemoved;
+        }
     }
 }

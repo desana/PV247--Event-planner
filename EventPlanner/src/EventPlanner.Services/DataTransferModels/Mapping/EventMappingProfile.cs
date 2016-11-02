@@ -7,8 +7,8 @@ namespace EventPlanner.Services.DataTransferModels.Mapping
         public EventMappingProfile()
         {
             CreateMap<Entities.Event, Event>()
-                .ForMember(dst => dst.Title, opt => opt.MapFrom(src => src.EventName))
-                .ForMember(dst => dst.Description, opt => opt.MapFrom(src => src.EventDescription));
+                .ForMember(dst => dst.EventName, opt => opt.MapFrom(src => src.EventName))
+                .ForMember(dst => dst.EventDescription, opt => opt.MapFrom(src => src.EventDescription));
         }
     }
 }

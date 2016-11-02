@@ -9,7 +9,7 @@ namespace EventPlanner.Repositories
 {
     public class EventsRepository : IEventsRepository
     {
-        private EventPlannerDbContext _context;
+        private readonly EventPlannerDbContext _context;
 
         public EventsRepository(EventPlannerDbContext context)
         {
@@ -21,6 +21,17 @@ namespace EventPlanner.Repositories
             var plannedEvent = await _context
                 .Events
                 .Where(ev => ev.EventId == id)
+                .SingleOrDefaultAsync();
+
+            return plannedEvent;
+        }
+
+
+        public async Task<Event> GetSingleEvent(string name)
+        {
+            var plannedEvent = await _context
+                .Events
+                .Where(ev => ev.EventName == name)
                 .SingleOrDefaultAsync();
 
             return plannedEvent;

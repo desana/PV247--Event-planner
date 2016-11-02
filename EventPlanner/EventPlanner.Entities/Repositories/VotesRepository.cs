@@ -10,7 +10,7 @@ namespace EventPlanner.Repositories
 {
     public class VotesRepository : IVotesRepository
     {
-        private EventPlannerDbContext _context;
+        private readonly EventPlannerDbContext _context;
 
         public VotesRepository(EventPlannerDbContext context)
         {
