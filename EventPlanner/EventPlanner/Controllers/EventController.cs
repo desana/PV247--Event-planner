@@ -11,9 +11,15 @@ namespace EventPlanner.Controllers
 {
     public class EventController : Controller
     {
-        private readonly EventService _eventService = new EventService();
-        private IMapper _mapper;
-        private string currentEventName;
+        private readonly IEventService _eventService;
+        private readonly IMapper _mapper;
+        private string _currentEventName;
+
+        public EventController(IMapper mapper, IEventService eventService)
+        {
+            _mapper = mapper;
+            _eventService = eventService;
+        }
 
         // GET: /<controller>/
         public IActionResult CreateEvent()
@@ -28,14 +34,14 @@ namespace EventPlanner.Controllers
                 return View("CreateEvent");
             }
 
-            currentEventName = newEvent.EventName;
+            _currentEventName = newEvent.EventName;
             await _eventService.AddEvent(_mapper.Map<Services.DataTransferModels.Event>(newEvent));
             return RedirectToAction("AddPlaces");
         }
 
         public IActionResult AddPlaces()
         {
-            return View(_eventService.GetSingleEvent(currentEventName));
+            return View(_eventService.GetSingleEvent(_currentEventName));
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using EventPlanner.Configuration;
+using EventPlanner.Repositories;
 using EventPlanner.Services.Configuration;
+using EventPlanner.Services.Event;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -44,6 +46,16 @@ namespace EventPlanner
             // Do not allow application to start with broken configuration. Fail fast.
             mapper.ConfigurationProvider.AssertConfigurationIsValid();
             services.AddSingleton(mapper);
+
+            // Scoped - For every request within an implicitly or explicitly defined scope.
+            services
+                .Configure<ConnectionOptions>(options => options.ConnectionString = Configuration.GetConnectionString("EventPlannerConnection"))
+                .AddScoped<IEventService, EventService>();
+
+            // Transient - A new instance of the service type will be created each time the service is requested from the container. If multiple consumers depend on the service within the same graph, each consumer will get its own new instance of the given service.
+            services
+                .AddTransient<IEventsRepository, EventsRepository>();
+
 
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);

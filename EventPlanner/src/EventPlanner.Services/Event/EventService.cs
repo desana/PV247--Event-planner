@@ -5,10 +5,16 @@ using EventPlanner.Repositories;
 
 namespace EventPlanner.Services.Event
 {
-    public class EventService
+    public class EventService : IEventService
     {
-        private IMapper _mapper;
-        private IEventsRepository _eventRepository;
+        private readonly IMapper _mapper;
+        private readonly IEventsRepository _eventRepository;
+
+        public EventService(IMapper mapper, IEventsRepository eventRepository)
+        {
+            _mapper = mapper;
+            _eventRepository = eventRepository;
+        }
 
         public async Task<IEnumerable<DataTransferModels.Event>> GetAllEvents()
         {
