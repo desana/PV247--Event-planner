@@ -24,6 +24,8 @@ namespace EventPlanner.Services.Event
 
         public async Task<DataTransferModels.Event> AddEvent(DataTransferModels.Event newEvent)
         {
+            newEvent.GenerateUniqueLink();
+
             Entities.Event dataAccessEventModel = _mapper.Map<Entities.Event>(newEvent);
             dataAccessEventModel = await _eventRepository.AddEvent(dataAccessEventModel);
 

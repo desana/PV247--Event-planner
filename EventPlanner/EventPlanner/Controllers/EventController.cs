@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using EventPlanner.Models;
 using EventPlanner.Services;
@@ -13,7 +14,6 @@ namespace EventPlanner.Controllers
     {
         private readonly IEventService _eventService;
         private readonly IMapper _mapper;
-        private string _currentEventName;
 
         public EventController(IMapper mapper, IEventService eventService)
         {
@@ -26,22 +26,26 @@ namespace EventPlanner.Controllers
         {
             return View();
         }
-        
+
+        public IActionResult AddPlaces()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Creates new event and sets <see cref="EventViewModel.EventName"/> and <see cref="EventViewModel.EventDescription"/>.
+        /// It also generates unique <see cref="EventViewModel.EventLink"/>.
+        /// </summary>
+        /// <param name="newEvent"> <see cref="EventViewModel"/> containing data from user.</param>
         public async Task<IActionResult> CreateNewEvent(EventViewModel newEvent)
         {
             if (!ModelState.IsValid)
             {
                 return View("CreateEvent");
             }
-
-            _currentEventName = newEvent.EventName;
+            
             await _eventService.AddEvent(_mapper.Map<Services.DataTransferModels.Event>(newEvent));
             return RedirectToAction("AddPlaces");
-        }
-
-        public IActionResult AddPlaces()
-        {
-            return View(_eventService.GetSingleEvent(_currentEventName));
         }
     }
 }
