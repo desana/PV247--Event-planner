@@ -22,8 +22,7 @@
             get;
             set;
         }
-
-
+        
         /// <summary>
         /// Link to the FourSquare page of location.
         /// </summary>

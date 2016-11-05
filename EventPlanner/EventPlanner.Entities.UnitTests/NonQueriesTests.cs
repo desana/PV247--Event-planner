@@ -6,16 +6,17 @@ using System.Linq;
 using EventPlanner.Repositories;
 using Xunit;
 using Moq;
+using Microsoft.Extensions.Options;
 
 namespace EventPlanner.Entities.UnitTests
 {
     public class NonQueriesTests
     {
-        private Mock<EventPlannerDbContext> _mockContext;
+        private readonly Mock<EventPlannerContext> _mockContext;
 
         public NonQueriesTests()
         {
-            _mockContext = new Mock<EventPlannerDbContext>();
+            _mockContext = new Mock<EventPlannerContext>();
         }
 
         [Fact]
@@ -47,7 +48,7 @@ namespace EventPlanner.Entities.UnitTests
             var mockSet = new Mock<DbSet<Event>>();
             _mockContext.Setup(m => m.Events).Returns(mockSet.Object);
             var repository = new EventsRepository(_mockContext.Object);
-
+            
             await Assert.ThrowsAsync<ArgumentNullException>(() => repository.AddEvent(null));
         }
 

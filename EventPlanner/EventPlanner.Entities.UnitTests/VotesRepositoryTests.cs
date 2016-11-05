@@ -11,7 +11,7 @@ namespace EventPlanner.Entities.UnitTests
 {
     public class VotesRepositoryTests
     {
-        private VotesRepository _votesRepository;
+        private readonly VotesRepository _votesRepository;
 
         public VotesRepositoryTests()
         {
@@ -46,7 +46,7 @@ namespace EventPlanner.Entities.UnitTests
             mockSet.As<IQueryable<Vote>>().Setup(m => m.ElementType).Returns(data.ElementType);
             mockSet.As<IQueryable<Vote>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
-            var mockContext = new Mock<EventPlannerDbContext>();
+            var mockContext = new Mock<EventPlannerContext>();
             mockContext.Setup(c => c.Votes).Returns(mockSet.Object);
 
             _votesRepository = new VotesRepository(mockContext.Object);

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using EventPlanner.Entities;
 
@@ -10,9 +9,9 @@ namespace EventPlanner.Repositories
 {
     public class VotesRepository : IVotesRepository
     {
-        private EventPlannerDbContext _context;
+        private readonly EventPlannerContext _context;
 
-        public VotesRepository(EventPlannerDbContext context)
+        public VotesRepository(EventPlannerContext context)
         {
             _context = context;
         }

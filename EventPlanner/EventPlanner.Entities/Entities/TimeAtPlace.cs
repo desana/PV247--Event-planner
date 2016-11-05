@@ -16,8 +16,7 @@ namespace EventPlanner.Entities
             get;
             set;
         }
-
-
+        
         /// <summary>
         /// Place at which time slot takes place on.
         /// </summary>
@@ -26,8 +25,7 @@ namespace EventPlanner.Entities
             get;
             set;
         }
-
-
+        
         /// <summary>
         /// Starting time of the time slot.
         /// </summary>
