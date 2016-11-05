@@ -22,8 +22,7 @@
             get;
             set;
         }
-
-
+        
         /// <summary>
         /// Number of votes for the choice.
         /// </summary>
@@ -41,6 +40,5 @@
             get;
             set;
         }
-
     }
 }

@@ -6,14 +6,14 @@ namespace EventPlanner.Migrations
     using System;
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<EventPlannerDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<EventPlannerContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(EventPlannerDbContext context)
+        protected override void Seed(EventPlannerContext context)
         {
             //  This method will be called after migrating to the latest version.
 

@@ -53,7 +53,7 @@ namespace EventPlanner.Entities.UnitTests
             mockSet.As<IQueryable<Event>>().Setup(m => m.ElementType).Returns(data.ElementType);
             mockSet.As<IQueryable<Event>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
-            var mockContext = new Mock<EventPlannerDbContext>();
+            var mockContext = new Mock<EventPlannerContext>();
             mockContext.Setup(c => c.Events).Returns(mockSet.Object);
 
             _eventsRepository = new EventsRepository(mockContext.Object);

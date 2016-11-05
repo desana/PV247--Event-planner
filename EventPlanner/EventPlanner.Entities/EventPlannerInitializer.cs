@@ -4,9 +4,9 @@ using EventPlanner.Entities;
 
 namespace EventPlanner
 {
-    class EventPlannerInitializer : System.Data.Entity.CreateDatabaseIfNotExists<EventPlannerDbContext>
+    class EventPlannerInitializer : System.Data.Entity.CreateDatabaseIfNotExists<EventPlannerContext>
     {
-        protected override void Seed(EventPlannerDbContext context)
+        protected override void Seed(EventPlannerContext context)
         {
             context.Events.Add(GetSomeEvent());
             context.SaveChanges();

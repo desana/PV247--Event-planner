@@ -6,11 +6,16 @@ namespace EventPlanner
     /// <summary>
     /// Database context of event planner. 
     /// </summary>
-    public class EventPlannerDbContext : DbContext
+    public class EventPlannerContext : DbContext
     {
-        public EventPlannerDbContext() : base("EventPlannerContext")
+        public EventPlannerContext() : base("EventPlannerContext")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<EventPlannerDbContext, Migrations.Configuration>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<EventPlannerContext, Migrations.Configuration>());
+        }
+
+        public EventPlannerContext(string connectionString)
+            : base(connectionString)
+        {
         }
 
         /// <summary>
@@ -21,8 +26,7 @@ namespace EventPlanner
             get;
             set;
         }
-
-
+        
         /// <summary>
         /// Active vote choices. 
         /// </summary>
@@ -31,8 +35,7 @@ namespace EventPlanner
             get;
             set;
         }
-
-
+        
         /// <summary>
         /// Available time slots used for current votes.
         /// </summary>
@@ -50,7 +53,5 @@ namespace EventPlanner
             get;
             set;
         }
-
-       
     }
 }

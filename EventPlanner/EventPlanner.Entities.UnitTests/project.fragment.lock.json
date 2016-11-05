@@ -9,6 +9,7 @@
       },
       "runtime": {
         "../../../../Users/Desanka/.nuget/packages/AutoMapper/5.0.2/lib/net45/AutoMapper.dll": {},
+        "../../../../Users/Desanka/.nuget/packages/Microsoft.Extensions.Options/1.0.0/lib/netstandard1.0/Microsoft.Extensions.Options.dll": {},
         "../packages/EntityFramework.6.1.3/lib/net45/EntityFramework.SqlServer.dll": {},
         "../packages/EntityFramework.6.1.3/lib/net45/EntityFramework.dll": {},
         "bin/Debug/EventPlanner.Entities.dll": {}

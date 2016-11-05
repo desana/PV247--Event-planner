@@ -4,16 +4,26 @@ using System.Data.Entity;
 using System.Threading.Tasks;
 using EventPlanner.Entities;
 using System.Linq;
+using EventPlanner.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace EventPlanner.Repositories
 {
     public class EventsRepository : IEventsRepository
     {
-        private readonly EventPlannerDbContext _context;
+        private readonly EventPlannerContext _context;
 
-        public EventsRepository(EventPlannerDbContext context)
+        public EventsRepository(EventPlannerContext context)
         {
             _context = context;
+        }
+
+        /// <summary>
+        /// Default repository constructor that uses connection string provided by top most level configuration
+        /// </summary>
+        public EventsRepository(IOptions<ConnectionOptions> options)
+            : this(new EventPlannerContext(options.Value.ConnectionString))
+        {
         }
 
         public async Task<Event> GetSingleEvent(int id)
@@ -25,8 +35,7 @@ namespace EventPlanner.Repositories
 
             return plannedEvent;
         }
-
-
+        
         public async Task<Event> GetSingleEvent(string name)
         {
             var plannedEvent = await _context
