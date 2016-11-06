@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3FC4412D-9D6D-4E9B-A31D-4B5C02F4099A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{3FC4412D-9D6D-4E9B-A31D-4B5C02F4099A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6ECBEF48-87F2-49AC-B4FD-C6F113465FAC}"
 	ProjectSection(SolutionItems) = preProject
@@ -20,7 +20,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EventPlanner", "EventPlanne
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Services_DO_NOT_USE", "src\EventPlanner.Services\Services_DO_NOT_USE.xproj", "{67C41604-6779-482D-80DF-302DE4549001}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{106F649C-BD4E-42EA-BE51-E7721EAD20C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "EventPlanner.Services\Services.csproj", "{106F649C-BD4E-42EA-BE51-E7721EAD20C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
