@@ -11,38 +11,22 @@ namespace EventPlanner.Entities
         /// <summary>
         /// Primary key of the time slot.
         /// </summary>
-        public int TimeAtPlaceId
-        {
-            get;
-            set;
-        }
-        
+        public int TimeAtPlaceId { get; set; }
+
         /// <summary>
         /// Place at which time slot takes place on.
         /// </summary>
-        public Place Place
-        {
-            get;
-            set;
-        }
-        
+        public Place Place { get; set; }
+
         /// <summary>
         /// Starting time of the time slot.
         /// </summary>
         [Required]
-        public DateTime Time
-        {
-            get;
-            set;
-        }
+        public DateTime Time { get; set; }
 
         /// <summary>
         /// Event to which this belongs to.
         /// </summary>
-        public Event Event
-        {
-            get;
-            set;
-        }
+        public Event Event { get; set; }
     }
 }

@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Configuration\ServicesMapperConfiguration.cs" />
     <Compile Include="DataTransferModels\Event.cs" />
+    <Compile Include="DataTransferModels\Generators\UniqueLinkGenerator.cs" />
     <Compile Include="DataTransferModels\Mapping\EventMappingProfile.cs" />
     <Compile Include="Event\EventService.cs" />
     <Compile Include="Event\IEventService.cs" />

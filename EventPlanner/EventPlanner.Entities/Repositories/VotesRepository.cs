@@ -16,7 +16,10 @@ namespace EventPlanner.Repositories
             _context = context;
         }
 
-
+        /// <summary>
+        /// Returns single vote from the database.
+        /// </summary>
+        /// <param name="id">Id of requested vote.</param>
         public async Task<Vote> GetSingleVote(int id)
         {
             var vote = await _context
@@ -27,12 +30,19 @@ namespace EventPlanner.Repositories
             return vote;
         }
 
+        /// <summary>
+        /// Returns all votes from the database.
+        /// </summary>
         public async Task<IEnumerable<Vote>> GetAllVotes()
         {
             var allVotes = await _context.Votes.ToArrayAsync();
             return allVotes;
         }
 
+        /// <summary>
+        /// Adds a vote to the database.
+        /// </summary>
+        /// <param name="vote">Vote to be added.</param>
         public async Task<Vote> AddVote(Vote vote)
         {
             if (vote == null)

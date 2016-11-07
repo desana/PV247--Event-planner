@@ -146,6 +146,5 @@ namespace EventPlanner.Entities.UnitTests
             mockSet.Verify(m => m.Remove(It.IsAny<Event>()), Times.Never());
             _mockContext.Verify(m => m.SaveChangesAsync(), Times.Never());
         }
-
     }
 }

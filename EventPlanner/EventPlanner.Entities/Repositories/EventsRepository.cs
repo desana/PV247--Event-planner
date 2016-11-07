@@ -26,6 +26,10 @@ namespace EventPlanner.Repositories
         {
         }
 
+        /// <summary>
+        /// Returns single event from the database.
+        /// </summary>
+        /// <param name="id">Id of requested event.</param>
         public async Task<Event> GetSingleEvent(int id)
         {
             var plannedEvent = await _context
@@ -35,7 +39,11 @@ namespace EventPlanner.Repositories
 
             return plannedEvent;
         }
-        
+
+        /// <summary>
+        /// Returns single event from the database.
+        /// </summary>
+        /// <param name="name">Name of requested event.</param>
         public async Task<Event> GetSingleEvent(string name)
         {
             var plannedEvent = await _context
@@ -46,12 +54,19 @@ namespace EventPlanner.Repositories
             return plannedEvent;
         }
 
+        /// <summary>
+        /// Returns all events from the database.
+        /// </summary>
         public async Task<IEnumerable<Event>> GetAllEvents()
         {
             var allEvents = await _context.Events.ToArrayAsync();
             return allEvents;
         }
 
+        /// <summary>
+        /// Adds event to the database.
+        /// </summary>
+        /// <param name="plannedEvent">Event to be added.</param>
         public async Task<Event> AddEvent(Event plannedEvent)
         {
             if (plannedEvent == null)
@@ -62,6 +77,11 @@ namespace EventPlanner.Repositories
             return addedEvent;
         }
 
+        /// <summary>
+        /// Removed event from the database.
+        /// </summary>
+        /// <param name="id">Id of the event to be removed.</param>
+        /// <returns><c>True</c> if event was removed.</returns>
         public async Task<bool> DeleteEvent(int id)
         {
             var foundEvent = _context
