@@ -3,26 +3,3 @@
 @{
     Layout = null;
 }
-
-@using (Html.BeginForm())
-            {
-    @Html.AntiForgeryToken()
-
-    <div id="fields"></div>
-
-                <button>Submit</button>
-}
-
-<div style="color:blue"><b>Data:</b> @ViewBag.Data</div>
-
-<script type="text/javascript">
-
-        $(document).ready(function() {
-            var $fields = $('#fields');
-            $('#btnAddField').click(function(e) {
-                e.preventDefault();
-                $('<input type="text" name="dynamicField" /><br/>').appendTo($fields);
-            });
-        });
-
-</script>
