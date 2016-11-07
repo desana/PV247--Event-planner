@@ -1,4 +1,5 @@
 ﻿using System;
+using EventPlanner.Services.DataTransferModels.Models;
 
 namespace EventPlanner.Services.DataTransferModels.Generators
 {
@@ -8,7 +9,7 @@ namespace EventPlanner.Services.DataTransferModels.Generators
         /// Generates new unique link for event.
         /// </summary>
         /// <param name="currentEvent">Event without link.</param>
-        public static void GenerateUniqueLink(this Event currentEvent)
+        public static void GenerateUniqueLink(this EventTransferModel currentEvent)
         {
             currentEvent.EventLink = Guid.NewGuid().ToString();
         }

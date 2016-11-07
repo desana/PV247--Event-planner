@@ -4,8 +4,25 @@
     Layout = null;
 }
 
-<div>
-    <h1>@Model.EventName</h1>
-    <h1>@Model.EventDescription</h1>
+@using (Html.BeginForm())
+            {
+    @Html.AntiForgeryToken()
 
-</div>
+    <div id="fields"></div>
+
+                <button>Submit</button>
+}
+
+<div style="color:blue"><b>Data:</b> @ViewBag.Data</div>
+
+<script type="text/javascript">
+
+        $(document).ready(function() {
+            var $fields = $('#fields');
+            $('#btnAddField').click(function(e) {
+                e.preventDefault();
+                $('<input type="text" name="dynamicField" /><br/>').appendTo($fields);
+            });
+        });
+
+</script>

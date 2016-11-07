@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EventPlanner.Repositories;
 using EventPlanner.Services.DataTransferModels.Generators;
+using EventPlanner.Services.DataTransferModels.Models;
 
 namespace EventPlanner.Services.Event
 {
@@ -20,44 +21,44 @@ namespace EventPlanner.Services.Event
         /// <summary>
         /// Returns all events from the database.
         /// </summary>
-        public async Task<IEnumerable<DataTransferModels.Event>> GetAllEvents()
+        public async Task<IEnumerable<EventTransferModel>> GetAllEvents()
         {
             IEnumerable<Entities.Event> dataAccessEventModel = await _eventRepository.GetAllEvents();
-            return _mapper.Map<IEnumerable<Entities.Event>, IEnumerable<DataTransferModels.Event>>(dataAccessEventModel);
+            return _mapper.Map<IEnumerable<Entities.Event>, IEnumerable<EventTransferModel>>(dataAccessEventModel);
         }
 
         /// <summary>
         /// Adds event to the database.
         /// </summary>
         /// <param name="newEvent">Event to be added.</param>
-        public async Task<DataTransferModels.Event> AddEvent(DataTransferModels.Event newEvent)
+        public async Task<EventTransferModel> AddEvent(EventTransferModel newEvent)
         {
             newEvent.GenerateUniqueLink();
 
             Entities.Event dataAccessEventModel = _mapper.Map<Entities.Event>(newEvent);
             dataAccessEventModel = await _eventRepository.AddEvent(dataAccessEventModel);
 
-            return _mapper.Map<DataTransferModels.Event>(dataAccessEventModel);
+            return _mapper.Map<EventTransferModel>(dataAccessEventModel);
         }
 
         /// <summary>
         /// Returns single event from the database.
         /// </summary>
         /// <param name="name">Name of requested event.</param>
-        public async Task<DataTransferModels.Event> GetSingleEvent(string name)
+        public async Task<EventTransferModel> GetSingleEvent(string name)
         {
             Entities.Event dataAccessEventModel = await _eventRepository.GetSingleEvent(name);
-            return _mapper.Map<DataTransferModels.Event>(dataAccessEventModel);
+            return _mapper.Map<EventTransferModel>(dataAccessEventModel);
         }
 
         /// <summary>
         /// Returns single event from the database.
         /// </summary>
         /// <param name="id">Id of requested event.</param>
-        public async Task<DataTransferModels.Event> GetSingleEvent(int id)
+        public async Task<EventTransferModel> GetSingleEvent(int id)
         {
             Entities.Event dataAccessEventModel = await _eventRepository.GetSingleEvent(id);
-            return _mapper.Map<DataTransferModels.Event>(dataAccessEventModel);
+            return _mapper.Map<EventTransferModel>(dataAccessEventModel);
         }
 
         /// <summary>

@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using EventPlanner.Models;
-using EventPlanner.Services;
 using EventPlanner.Services.Event;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,7 +42,7 @@ namespace EventPlanner.Controllers
                 return View("CreateEvent");
             }
             
-            await _eventService.AddEvent(_mapper.Map<Services.DataTransferModels.Event>(newEvent));
+            await _eventService.AddEvent(_mapper.Map<Services.DataTransferModels.Models.EventTransferModel>(newEvent));
             return RedirectToAction("AddPlaces");
         }
     }

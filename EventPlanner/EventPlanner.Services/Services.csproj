@@ -45,9 +45,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ServicesMapperConfiguration.cs" />
-    <Compile Include="DataTransferModels\Event.cs" />
+    <Compile Include="DataTransferModels\Models\EventTransferModel.cs" />
     <Compile Include="DataTransferModels\Generators\UniqueLinkGenerator.cs" />
-    <Compile Include="DataTransferModels\Mapping\EventMappingProfile.cs" />
+    <Compile Include="DataTransferModels\Mappings\EventMappingProfile.cs" />
+    <Compile Include="DataTransferModels\Mappings\PlaceMappingProfile.cs" />
+    <Compile Include="DataTransferModels\Mappings\TimeAtPlaceMappingProfile.cs" />
+    <Compile Include="DataTransferModels\Mappings\VoteMappingProfile.cs" />
+    <Compile Include="DataTransferModels\Models\PlaceTransferModel.cs" />
+    <Compile Include="DataTransferModels\Models\TimeAtPlaceTransferModel.cs" />
+    <Compile Include="DataTransferModels\Models\VoteTransferModel.cs" />
     <Compile Include="Event\EventService.cs" />
     <Compile Include="Event\IEventService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -8,6 +8,9 @@ namespace EventPlanner.Configuration
         public static void InitialializeMappings(IMapperConfigurationExpression cfg)
         {
             cfg.AddProfile<EventMappingProfile>();
+            cfg.AddProfile<PlaceMappingProfile>();
+            cfg.AddProfile<TimeAtPlaceMappingProfile>();
+            cfg.AddProfile<VoteMappingProfile>();
         }
     }
 }
