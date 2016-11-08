@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using EventPlanner.Configuration;
 using EventPlanner.Repositories;
 using EventPlanner.Services.Configuration;
@@ -63,6 +64,7 @@ namespace EventPlanner
             
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
+            
             services.AddMvc();
         }
 
@@ -86,6 +88,7 @@ namespace EventPlanner
 
             app.UseApplicationInsightsExceptionTelemetry();
             app.UseStaticFiles();
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

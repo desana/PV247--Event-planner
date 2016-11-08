@@ -1,5 +1,41 @@
-﻿@model EventPlanner.Models.EventViewModel
+﻿@using System.Threading.Tasks
+@using EventPlanner.Models
+@model EventViewModel
 
 @{
-    Layout = null;
+    Dictionary<PlaceViewModel, List<DateTime>> currentRecords = Model.GetTimesWithCoupledPlaces();
 }
+
+@foreach (var item in currentRecords)
+{
+    @Html.DisplayFor(modelItem => item.Key.Name)
+
+    List<DateTime> times = item.Value;
+    foreach (var time in times)
+    {
+        Html.DisplayText(time.ToString());
+    }
+}
+
+<form>
+
+    @* Place *@
+
+    <label asp-for="CurrentPlace"></label>
+    <input class="form-group" asp-for="CurrentPlace" type="datetime" />
+    <input type="button" value="Add Place" class="btn btn-primary" />
+
+    @* Times*@
+
+    <div class="form-group">
+        <label asp-for="CurrentTime"></label>
+        <input class="form-group" asp-for="CurrentTime" type="datetime" />
+        <input type="button" value="Add Time" class="btn btn-primary" />
+    </div>
+
+    @* Submit button *@
+
+    <div class="form-group">
+        <input type="submit" value="Next" class="btn btn-primary" />
+    </div>
+</form>

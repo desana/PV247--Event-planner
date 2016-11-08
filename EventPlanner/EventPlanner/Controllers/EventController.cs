@@ -27,7 +27,7 @@ namespace EventPlanner.Controllers
 
         public IActionResult AddPlaces()
         {
-            return View();
+            return View(TempData["event"] as EventViewModel);
         }
 
         /// <summary>
@@ -42,7 +42,9 @@ namespace EventPlanner.Controllers
                 return View("CreateEvent");
             }
             
-            await _eventService.AddEvent(_mapper.Map<Services.DataTransferModels.Models.EventTransferModel>(newEvent));
+            var savedEvent = await _eventService.AddEvent(_mapper.Map<Services.DataTransferModels.Models.EventTransferModel>(newEvent));
+            TempData["event"] = _mapper.Map<EventViewModel>(savedEvent);
+
             return RedirectToAction("AddPlaces");
         }
     }
