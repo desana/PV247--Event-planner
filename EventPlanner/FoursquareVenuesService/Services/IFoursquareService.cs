@@ -16,13 +16,13 @@ namespace FoursquareVenuesService.Services
         /// <param name="city">Search venues near this city.</param>
         /// <param name="numberOfResults">Maximum of results.</param>
         /// <returns>List of venues that match the given parameters.</returns>
-        IEnumerable<Venue> SearchVenues(string query, string city, int numberOfResults);
+        Task<IEnumerable<Venue>> SearchVenuesAsync(string query, string city, int numberOfResults);
 
         /// <summary>
         /// Gets venue with given id.
         /// </summary>
         /// <param name="id">Id of venue.</param>
         /// <returns>Venue with given id.</returns>
-        Venue GetVenue(int id);
+        Task<Venue> GetVenueAsync(int id);
     }
 }
