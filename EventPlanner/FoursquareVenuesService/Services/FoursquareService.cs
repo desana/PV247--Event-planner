@@ -16,15 +16,14 @@ namespace FoursquareVenuesService.Services
 
         private static HttpClient _client;
         private readonly string _clientId;
-        private string _clientSecret;
+        private readonly string _clientSecret;
 
-        public FoursquareService(string clientSecret)
+        public FoursquareService()
         {
-            _clientSecret = clientSecret;
             _client = new HttpClient();
             // TODO add App.config file with those keys, do not share it via github
             _clientId = ConfigurationManager.AppSettings["clientId"];
-            _clientId = ConfigurationManager.AppSettings["clientSecret"];
+            _clientSecret = ConfigurationManager.AppSettings["clientSecret"];
         }
 
         public async Task<IEnumerable<Venue>> SearchVenuesAsync(string query, string city, int numberOfResults)
