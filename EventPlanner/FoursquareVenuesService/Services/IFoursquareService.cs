@@ -23,6 +23,6 @@ namespace FoursquareVenuesService.Services
         /// </summary>
         /// <param name="id">Id of venue.</param>
         /// <returns>Venue with given id.</returns>
-        Task<Venue> GetVenueAsync(int id);
+        Task<Venue> GetVenueAsync(string id);
     }
 }

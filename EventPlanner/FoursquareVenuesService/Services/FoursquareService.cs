@@ -31,10 +31,11 @@ namespace FoursquareVenuesService.Services
             throw new NotImplementedException();
         }
 
-        public async Task<Venue> GetVenueAsync(int id)
+        public async Task<Venue> GetVenueAsync(string id)
         {
-            var uri = F_URL + id + "?" + "client_id=" + _clientId + "&client_secret=" + _clientSecret;          
-            return await HttpHelper<Venue>.GetResult(_client, uri);
+            var uri = F_URL + id + "?" + "client_id=" + _clientId + "&client_secret=" + _clientSecret + F_VERSION;          
+            var response = await HttpHelper<VenueWrapper>.GetResult(_client, uri);
+            return response.Response.Venue;
         }
     }
 }
