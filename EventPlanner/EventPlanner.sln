@@ -20,6 +20,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EventPlanner", "EventPlanne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "EventPlanner.Services\Services.csproj", "{106F649C-BD4E-42EA-BE51-E7721EAD20C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoursquareVenuesService", "FoursquareVenuesService\FoursquareVenuesService.csproj", "{CBF55C00-1BD1-4838-85FB-2F769536F0A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{106F649C-BD4E-42EA-BE51-E7721EAD20C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{106F649C-BD4E-42EA-BE51-E7721EAD20C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{106F649C-BD4E-42EA-BE51-E7721EAD20C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBF55C00-1BD1-4838-85FB-2F769536F0A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBF55C00-1BD1-4838-85FB-2F769536F0A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBF55C00-1BD1-4838-85FB-2F769536F0A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBF55C00-1BD1-4838-85FB-2F769536F0A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,5 +57,6 @@ Global
 		{11BA98E0-51DA-4FD0-AADD-15AA2AAD5F50} = {77DED5F1-379F-4F38-84B0-8891307C6FBF}
 		{257BA49F-F5F3-47C8-9A23-1831EB396A52} = {3FC4412D-9D6D-4E9B-A31D-4B5C02F4099A}
 		{106F649C-BD4E-42EA-BE51-E7721EAD20C8} = {3FC4412D-9D6D-4E9B-A31D-4B5C02F4099A}
+		{CBF55C00-1BD1-4838-85FB-2F769536F0A0} = {3FC4412D-9D6D-4E9B-A31D-4B5C02F4099A}
 	EndGlobalSection
 EndGlobal
