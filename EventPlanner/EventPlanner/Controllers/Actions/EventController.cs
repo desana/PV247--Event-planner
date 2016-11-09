@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using EventPlanner.Models;
+using EventPlanner.Services.DataTransferModels.Models;
 using EventPlanner.Services.Event;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace EventPlanner.Controllers
             _mapper = mapper;
             _eventService = eventService;
         }
+
         /// <summary>
         /// Creates new event and sets <see cref="EventViewModel.EventName"/> and <see cref="EventViewModel.EventDescription"/>.
         /// It also generates unique <see cref="EventViewModel.EventLink"/>.
@@ -30,7 +32,7 @@ namespace EventPlanner.Controllers
                 return View("CreateEvent");
             }
 
-            var savedEvent = await _eventService.AddEvent(_mapper.Map<Services.DataTransferModels.Models.EventTransferModel>(newEvent));
+            var savedEvent = await _eventService.AddEvent(_mapper.Map<EventTransferModel>(newEvent));
             TempData["event"] = _mapper.Map<EventViewModel>(savedEvent);
 
             return RedirectToAction("AddPlaces");
@@ -43,9 +45,15 @@ namespace EventPlanner.Controllers
         /// <returns>Redirect to <see cref="AddPlaces"/> page with updated data.</returns>
         public async Task<IActionResult> AddCurrentTime(EventViewModel currentevent)
         {
-            // Add time to timeAtPlace table
+            if (!ModelState.IsValid)
+            {
+                return View("AddPlaces");
+            }
 
-            TempData["event"] = currentevent;
+            var savedEvent = await _eventService
+               .AddEventTime(_mapper.Map<EventTransferModel>(currentevent), currentevent.CurrentPlace);
+
+            TempData["event"] = _mapper.Map<EventViewModel>(savedEvent);
             return RedirectToAction("AddPlaces");
         }
 
@@ -57,14 +65,16 @@ namespace EventPlanner.Controllers
         /// <returns>Redirect to <see cref="AddPlaces"/> page with updated data.</returns>
         public async Task<IActionResult> AddCurrentPlace(EventViewModel currentevent)
         {
-            // Add place to places table
+            if (!ModelState.IsValid)
+            {
+                return View("AddPlaces");
+            }
 
-            // Add place do timeAtPlace table
+            var savedEvent = await _eventService
+                .AddEventPlace(_mapper.Map<EventTransferModel>(currentevent), currentevent.CurrentPlaceFoursquareId);
 
-            // Add timeAtPlace to event in event table
-
-            TempData["event"] = currentevent;
+            TempData["event"] = _mapper.Map<EventViewModel>(savedEvent);
             return RedirectToAction("AddPlaces");
         }
-    }
+     }
 }

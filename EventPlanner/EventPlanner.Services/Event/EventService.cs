@@ -71,5 +71,15 @@ namespace EventPlanner.Services.Event
             bool wasRemoved = await _eventRepository.DeleteEvent(id);
             return wasRemoved;
         }
+
+        public Task<int> AddEventPlace(EventTransferModel targetEvent, int foursquareId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<bool> AddEventTime(EventTransferModel targetEvent, string targetPlace)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

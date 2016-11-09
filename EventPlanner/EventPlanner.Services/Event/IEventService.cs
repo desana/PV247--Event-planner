@@ -35,5 +35,21 @@ namespace EventPlanner.Services.Event
         /// <param name="id">Id of the event to be removed.</param>
         /// <returns><c>True</c> if event was removed.</returns>
         Task<bool> DeleteEvent(int id);
+
+        /// <summary>
+        /// Adds place to an event. 
+        /// Adds records to <see cref="PlaceTransferModel"/> and <see cref="TimeAtPlaceTransferModel"/> accordingly.
+        /// </summary>
+        /// <param name="targetEvent"><see cref="EventTransferModel"/> which will be updated.</param>
+        /// <param name="foursquareId">Foursquare ID of the new <see cref="PlaceTransferModel"/>.</param>
+        /// <returns>Id of the newly created place.</returns>
+        Task<int> AddEventPlace(EventTransferModel targetEvent, int foursquareId);
+
+        /// <summary>
+        /// Adds time to <see cref="TimeAtPlaceTransferModel"/>.
+        /// </summary>
+        /// <param name="targetEvent"><see cref="EventTransferModel"/> which will be updated.</param>
+        /// <param name="targetPlace"><see cref="PlaceTransferModel"/> to which the time belongs to.</param>
+        Task<bool> AddEventTime(EventTransferModel targetEvent, string targetPlace);
     }
 }

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using EventPlanner.Entities;
 
 namespace EventPlanner.Models
 {
@@ -40,10 +37,7 @@ namespace EventPlanner.Models
                 yield return new ValidationResult("No event title was added.");
             }
         }
-
-
-
-
+        
         //public Dictionary<PlaceViewModel, List<DateTime>> GetTimesWithCoupledPlaces()
         //{
         //    Dictionary<PlaceViewModel, List<DateTime>> results = new Dictionary<PlaceViewModel, List<DateTime>>  ();
