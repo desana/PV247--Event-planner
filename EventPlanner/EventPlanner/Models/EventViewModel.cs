@@ -44,23 +44,23 @@ namespace EventPlanner.Models
 
 
 
-        public Dictionary<PlaceViewModel, List<DateTime>> GetTimesWithCoupledPlaces()
-        {
-            Dictionary<PlaceViewModel, List<DateTime>> results = new Dictionary<PlaceViewModel, List<DateTime>>  ();
+        //public Dictionary<PlaceViewModel, List<DateTime>> GetTimesWithCoupledPlaces()
+        //{
+        //    Dictionary<PlaceViewModel, List<DateTime>> results = new Dictionary<PlaceViewModel, List<DateTime>>  ();
 
             
-            foreach (var record in TimesAtPlaces)
-            {
-                if (results[record.Place] == null)
-                {
-                    results[record.Place] = new List<DateTime>();
-                }
+        //    foreach (var record in TimesAtPlaces)
+        //    {
+        //        if (results[record.Place] == null)
+        //        {
+        //            results[record.Place] = new List<DateTime>();
+        //        }
                 
-                results[record.Place].Add(record.Time);
-            }
+        //        results[record.Place].Add(record.Time);
+        //    }
 
-            return results;
-        }
+        //    return results;
+        //}
 
     }
 }
