@@ -94,7 +94,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EventsRepository.cs" />
     <Compile Include="Repositories\IEventsRepository.cs" />
+    <Compile Include="Repositories\ITimeAtPlaceRepository.cs" />
     <Compile Include="Repositories\IVotesRepository.cs" />
+    <Compile Include="Repositories\TimeAtPlaceRepository.cs" />
     <Compile Include="Repositories\VotesRepository.cs" />
   </ItemGroup>
   <ItemGroup>

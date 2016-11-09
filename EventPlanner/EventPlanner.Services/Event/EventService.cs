@@ -11,11 +11,13 @@ namespace EventPlanner.Services.Event
     {
         private readonly IMapper _mapper;
         private readonly IEventsRepository _eventRepository;
+        private readonly ITimeAtPlaceRepository _timePlaceRepository;
 
-        public EventService(IMapper mapper, IEventsRepository eventRepository)
+        public EventService(IMapper mapper, IEventsRepository eventRepository, ITimeAtPlaceRepository timePlaceRepository)
         {
             _mapper = mapper;
             _eventRepository = eventRepository;
+            _timePlaceRepository = timePlaceRepository;
         }
 
         /// <summary>
@@ -72,12 +74,24 @@ namespace EventPlanner.Services.Event
             return wasRemoved;
         }
 
-        public Task<int> AddEventPlace(EventTransferModel targetEvent, int foursquareId)
+        public async Task<int> AddEventPlace(EventTransferModel targetEvent, int foursquareId)
         {
-            throw new System.NotImplementedException();
+            var timeAtPlace = new TimeAtPlaceTransferModel()
+            {
+                Place = new PlaceTransferModel()
+                {
+                    PlaceId = foursquareId
+                }
+            };
+
+            var timeAtPlaceId = await _timePlaceRepository.AddTimeAtPlace(_mapper.Map<Entities.TimeAtPlace>(timeAtPlace));
+            
+            // Add timeAtPlace to Event
+            
+            return timeAtPlaceId.TimeAtPlaceId;
         }
 
-        public Task<bool> AddEventTime(EventTransferModel targetEvent, string targetPlace)
+        public async Task<bool> AddEventTime(EventTransferModel targetEvent, string targetPlace)
         {
             throw new System.NotImplementedException();
         }
