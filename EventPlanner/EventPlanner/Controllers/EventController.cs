@@ -47,6 +47,12 @@ namespace EventPlanner.Controllers
 
             return RedirectToAction("AddPlaces");
         }
+
+        public IActionResult AddCurrentPlace(EventViewModel currentevent)
+        {
+            TempData["event"] = currentevent;
+            return RedirectToAction("AddPlaces");
+        }
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace EventPlanner.Entities
@@ -21,8 +22,7 @@ namespace EventPlanner.Entities
         /// <summary>
         /// Starting time of the time slot.
         /// </summary>
-        [Required]
-        public DateTime Time { get; set; }
+        public ICollection<DateTime> Time { get; set; } = new List<DateTime>();
 
         /// <summary>
         /// Event to which this belongs to.

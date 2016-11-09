@@ -17,8 +17,8 @@ namespace EventPlanner.Entities.UnitTests
         {
             var testPlace1 = new Place { PlaceId = 1, FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla" };
             var testPlace2 = new Place { PlaceId = 2, FourSquareLink = "https://foursquare.com/v/burger-inn/55a93496498e49f11b0a9532", Name = "Burger Inn" };
-            var testTime1 = new TimeAtPlace { Place = testPlace1, Time = DateTime.Now, TimeAtPlaceId = 1 };
-            var testTime2 = new TimeAtPlace { Place = testPlace2, Time = DateTime.Now, TimeAtPlaceId = 2 };
+            var testTime1 = new TimeAtPlace { Place = testPlace1, Time = new List<DateTime> { DateTime.Now }, TimeAtPlaceId = 1 };
+            var testTime2 = new TimeAtPlace { Place = testPlace2, Time = new List<DateTime> { DateTime.Now }, TimeAtPlaceId = 2 };
 
             // Seed data
             var data = new List<Vote>

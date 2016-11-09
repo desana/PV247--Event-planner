@@ -26,8 +26,11 @@ namespace EventPlanner.Models
 
         public ICollection<TimeAtPlaceViewModel> TimesAtPlaces { get; set; } = new List<TimeAtPlaceViewModel>();
 
-        public PlaceViewModel CurrentPlace { get; set; }
-        public PlaceViewModel CurrentTime { get; set; }
+
+        public int CurrentPlaceFoursquareId { get; set; }
+        public string CurrentCity { get; set; }
+        public string CurrentPlace { get; set; }
+        public DateTime CurrentTime { get; set; }
 
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

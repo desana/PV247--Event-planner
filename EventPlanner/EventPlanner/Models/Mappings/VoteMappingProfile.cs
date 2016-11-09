@@ -8,9 +8,10 @@ namespace EventPlanner.Models.Mappings
         public VoteMappingProfile()
         {
             CreateMap<VoteViewModel, VoteTransferModel>()
-                .ForMember(dst => dst.Votes, opt => opt.MapFrom(src => src.Votes));
-             //  .ForMember(dst => dst.Event, opt => opt.MapFrom(src => src.Event))
-             //  .ForMember(dst => dst.TimeAtPlace, opt => opt.MapFrom(src => src.TimeAtPlace));
+                .ForMember(dst => dst.Votes, opt => opt.MapFrom(src => src.Votes))
+                 .ForAllOtherMembers(dst => dst.Ignore());
+            //  .ForMember(dst => dst.Event, opt => opt.MapFrom(src => src.Event))
+            //  .ForMember(dst => dst.TimeAtPlace, opt => opt.MapFrom(src => src.TimeAtPlace));
 
             CreateMap<VoteViewModel, Entities.Vote>()
                 .ForMember(dst => dst.Votes, opt => opt.MapFrom(src => src.Votes))

@@ -27,7 +27,7 @@ namespace EventPlanner.Entities.UnitTests
             var repository = new EventsRepository(_mockContext.Object);
 
             var testPlace = new Place { PlaceId = 1, FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla" };
-            var testTime = new TimeAtPlace { Place = testPlace, Time = DateTime.Now, TimeAtPlaceId = 1 };
+            var testTime = new TimeAtPlace { Place = testPlace, Time = new List<DateTime> { DateTime.Now }, TimeAtPlaceId = 1 };
             var testEvent = new Event
             {
                 EventId = 1,
@@ -58,9 +58,9 @@ namespace EventPlanner.Entities.UnitTests
             var mockSet = new Mock<DbSet<Vote>>();
             _mockContext.Setup(m => m.Votes).Returns(mockSet.Object);
             var repository = new VotesRepository(_mockContext.Object);
-
+            
             var testPlace = new Place { PlaceId = 1, FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla" };
-            var testTime = new TimeAtPlace { Place = testPlace, Time = DateTime.Now, TimeAtPlaceId = 1 };
+            var testTime = new TimeAtPlace { Place = testPlace, Time = new List<DateTime> { DateTime.Now }, TimeAtPlaceId = 1 };
             var testVote = new Vote
             {
                 VoteId = 1, TimeAtPlace = testTime, Votes = 4
@@ -85,7 +85,7 @@ namespace EventPlanner.Entities.UnitTests
         public async void DeleteEvent_Deletes_Event_Via_Context()
         {
             var testPlace = new Place { PlaceId = 1, FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla" };
-            var testTime = new TimeAtPlace { Place = testPlace, Time = DateTime.Now, TimeAtPlaceId = 1 };
+            var testTime = new TimeAtPlace { Place = testPlace, Time = new List<DateTime> { DateTime.Now }, TimeAtPlaceId = 1 };
             // Seed data
             var data = new List<Event>
             {

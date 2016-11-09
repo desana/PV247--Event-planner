@@ -31,7 +31,7 @@ namespace EventPlanner.Migrations
                         TimeAtPlace = new TimeAtPlace
                         {
                             Place = new Place { FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla"},
-                            Time = DateTime.Now
+                            Time = new List<DateTime>{ DateTime.Now }
                         }
                     },
                     new Vote
@@ -39,7 +39,7 @@ namespace EventPlanner.Migrations
                         TimeAtPlace = new TimeAtPlace
                         {
                             Place = new Place { FourSquareLink = "https://foursquare.com/v/burger-inn/55a93496498e49f11b0a9532", Name = "Burger Inn"},
-                            Time = DateTime.Now
+                            Time = new List<DateTime>{ DateTime.Now } 
                         }
                     }
                 }

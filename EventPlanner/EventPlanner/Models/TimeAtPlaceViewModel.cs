@@ -11,7 +11,7 @@ namespace EventPlanner.Models
         
         public PlaceViewModel Place { get; set; }
         
-        public DateTime Time { get; set; }
+        public List<DateTime> Time { get; set; }
         
         public EventViewModel Event { get; set; }
     }

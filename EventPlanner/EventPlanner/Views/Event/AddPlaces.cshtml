@@ -1,19 +1,18 @@
-﻿@using System.Threading.Tasks
+﻿@using System.Globalization
+@using System.Threading.Tasks
 @using EventPlanner.Models
 @model EventViewModel
 
 @{
-    Dictionary<PlaceViewModel, List<DateTime>> currentRecords = Model.GetTimesWithCoupledPlaces();
 }
 
-@foreach (var item in currentRecords)
+@foreach (var item in Model.TimesAtPlaces)
 {
-    @Html.DisplayFor(modelItem => item.Key.Name)
-
-    List<DateTime> times = item.Value;
-    foreach (var time in times)
+    @Html.DisplayFor(modelItem => item.Place.Name)
+    
+    foreach (var time in item.Time)
     {
-        Html.DisplayText(time.ToString());
+        Html.DisplayText(time.ToString(CultureInfo.CurrentCulture));
     }
 }
 
@@ -22,8 +21,11 @@
     @* Place *@
 
     <label asp-for="CurrentPlace"></label>
-    <input class="form-group" asp-for="CurrentPlace" type="datetime" />
-    <input type="button" value="Add Place" class="btn btn-primary" />
+    <input class="form-group" asp-for="CurrentCity" type="text" />
+    <input class="form-group" asp-for="CurrentPlace" type="text" />
+    <input class="form-group" asp-for="CurrentPlaceFoursquareId" type="number" hidden="True"/>
+    
+    <input type="button" value="Add Place" class="btn btn-primary" onclick="location.href='@Url.Action("AddCurrentPlace", "Event", new { CurrentEvent = Model })'" />
 
     @* Times*@
 
