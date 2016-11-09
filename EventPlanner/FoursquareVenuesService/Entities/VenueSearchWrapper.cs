@@ -7,7 +7,7 @@
     public class VenueSearchWrapper
     {
         /// <summary>
-        /// Data from venue/search request.
+        /// Data from venues/search request.
         /// </summary>
         public VenueSearchResponse Response { get; set; }
     }

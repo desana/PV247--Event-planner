@@ -20,6 +20,14 @@ namespace FoursquareVenuesService
             venueTask.Wait();
             var venue = venueTask.Result;
             Console.WriteLine(venue.Name);
+
+            var venueTask2 = foursquareService.SearchVenuesAsync("Pizza", "Brno", 10);
+            venueTask.Wait();
+            var venues = venueTask2.Result;
+            foreach (var v in venues)
+            {
+                Console.WriteLine(v.Name);
+            }
             Console.ReadLine();
         }
     }

@@ -8,7 +8,7 @@ namespace FoursquareVenuesService.Entities
     public class VenueSearchResponse
     {
         /// <summary>
-        /// Final list witch venues.
+        /// Final list with venues.
         /// </summary>
         public List<Venue> Venues { get; set; }
     }
