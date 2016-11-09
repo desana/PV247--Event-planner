@@ -27,8 +27,12 @@ namespace FoursquareVenuesService.Services
         }
 
         public async Task<IEnumerable<Venue>> SearchVenuesAsync(string query, string city, int numberOfResults)
-        {            
-            throw new NotImplementedException();
+        {
+            var uri = F_URL + "search?" + "near=" + city + "&query=" + query +
+                "&limit=" + numberOfResults + "&client_id=" + _clientId +
+                "&client_secret=" + _clientSecret + F_VERSION;
+            var response = await HttpHelper<VenueSearchWrapper>.GetResult(_client, uri);
+            return response.Response.Venues;
         }
 
         public async Task<Venue> GetVenueAsync(string id)

@@ -14,7 +14,7 @@ namespace FoursquareVenuesService.Services
         /// </summary>
         /// <param name="query">Search with this query.</param>
         /// <param name="city">Search venues near this city.</param>
-        /// <param name="numberOfResults">Maximum of results.</param>
+        /// <param name="numberOfResults">Maximum number of results.</param>
         /// <returns>List of venues that match the given parameters.</returns>
         Task<IEnumerable<Venue>> SearchVenuesAsync(string query, string city, int numberOfResults);
 
