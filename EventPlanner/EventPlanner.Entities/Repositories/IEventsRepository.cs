@@ -35,5 +35,13 @@ namespace EventPlanner.Repositories
         /// <param name="id">Id of the event to be removed.</param>
         /// <returns><c>True</c> if event was removed.</returns>
         Task<bool> DeleteEvent(int id);
+
+        /// <summary>
+        /// Adds <see cref="TimeAtPlace"/> to the event.
+        /// </summary>
+        /// <param name="eventId">Id of the event.</param>
+        /// <param name="timeAtPlaceId"><see cref="TimeAtPlace"/> to add.</param>
+        /// <returns><c>True</c> if operation was succesfull.</returns>
+        Task<bool> AddTimeAtPlace(int eventId, int timeAtPlaceId);
     }
 }

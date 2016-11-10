@@ -51,7 +51,7 @@ namespace EventPlanner.Controllers
             }
 
             var savedEvent = await _eventService
-               .AddEventTime(_mapper.Map<EventTransferModel>(currentevent), currentevent.CurrentPlace);
+               .AddEventTime(_mapper.Map<EventTransferModel>(currentevent), currentevent.CurrentPlaceFoursquareId);
 
             TempData["event"] = _mapper.Map<EventViewModel>(savedEvent);
             return RedirectToAction("AddPlaces");

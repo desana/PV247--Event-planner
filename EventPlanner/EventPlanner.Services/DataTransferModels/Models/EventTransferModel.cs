@@ -7,7 +7,7 @@ namespace EventPlanner.Services.DataTransferModels.Models
         /// <summary>
         /// Primary key of the event.
         /// </summary>
-        public string EventId { get; set; }
+        public int EventId { get; set; }
 
         /// <summary>
         /// Name of the event.

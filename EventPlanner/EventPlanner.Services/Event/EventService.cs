@@ -74,9 +74,16 @@ namespace EventPlanner.Services.Event
             return wasRemoved;
         }
 
+        /// <summary>
+        /// Adds place to an event. 
+        /// Adds records to <see cref="PlaceTransferModel"/> and <see cref="TimeAtPlaceTransferModel"/> accordingly.
+        /// </summary>
+        /// <param name="targetEvent"><see cref="EventTransferModel"/> which will be updated.</param>
+        /// <param name="foursquareId">Foursquare ID of the new <see cref="PlaceTransferModel"/>.</param>
+        /// <returns>Id of the newly created place.</returns>
         public async Task<int> AddEventPlace(EventTransferModel targetEvent, int foursquareId)
         {
-            var timeAtPlace = new TimeAtPlaceTransferModel()
+            var atPlaceTransferModel= new TimeAtPlaceTransferModel()
             {
                 Place = new PlaceTransferModel()
                 {
@@ -84,14 +91,24 @@ namespace EventPlanner.Services.Event
                 }
             };
 
-            var timeAtPlaceId = await _timePlaceRepository.AddTimeAtPlace(_mapper.Map<Entities.TimeAtPlace>(timeAtPlace));
+            var timeAtPlaceEntity = await _timePlaceRepository
+                .AddTimeAtPlace(_mapper.Map<Entities.TimeAtPlace>(atPlaceTransferModel));
+               
+            var timeAtPlaceId = timeAtPlaceEntity.TimeAtPlaceId;
+
+            // This is ugly
+
+            var wasAdded = await _eventRepository.AddTimeAtPlace(targetEvent.EventId, timeAtPlaceId);
             
-            // Add timeAtPlace to Event
-            
-            return timeAtPlaceId.TimeAtPlaceId;
+            return timeAtPlaceId;
         }
 
-        public async Task<bool> AddEventTime(EventTransferModel targetEvent, string targetPlace)
+        /// <summary>
+        /// Adds time to <see cref="TimeAtPlaceTransferModel"/>.
+        /// </summary>
+        /// <param name="targetEvent"><see cref="EventTransferModel"/> which will be updated.</param>
+        /// <param name="targetPlace"><see cref="PlaceTransferModel"/> to which the time belongs to.</param>
+        public async Task<bool> AddEventTime(EventTransferModel targetEvent, int targetPlace)
         {
             throw new System.NotImplementedException();
         }

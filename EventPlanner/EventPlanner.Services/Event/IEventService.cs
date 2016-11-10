@@ -50,6 +50,6 @@ namespace EventPlanner.Services.Event
         /// </summary>
         /// <param name="targetEvent"><see cref="EventTransferModel"/> which will be updated.</param>
         /// <param name="targetPlace"><see cref="PlaceTransferModel"/> to which the time belongs to.</param>
-        Task<bool> AddEventTime(EventTransferModel targetEvent, string targetPlace);
+        Task<bool> AddEventTime(EventTransferModel targetEvent, int targetPlace);
     }
 }

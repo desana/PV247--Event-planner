@@ -96,5 +96,30 @@ namespace EventPlanner.Repositories
 
             return true;
         }
+
+        /// <summary>
+        /// Adds <see cref="TimeAtPlace"/> to the event.
+        /// </summary>
+        /// <param name="eventId">Id of the event.</param>
+        /// <param name="timeAtPlaceId"><see cref="TimeAtPlace"/> to add.</param>
+        /// <returns><c>True</c> if operation was succesfull.</returns>
+        public async Task<bool> AddTimeAtPlace(int eventId, int timeAtPlaceId)
+        {
+            var foundEvent = _context
+                .Events
+                .FirstOrDefault(ev => ev.EventId == eventId);
+
+            if (foundEvent == null)
+                return false;
+
+            var timeAtPlaceToAdd = _context
+                .TimesAtPlaces
+                .FirstOrDefault(tp => tp.TimeAtPlaceId == timeAtPlaceId);
+
+            foundEvent.TimesAtPlaces.Add(timeAtPlaceToAdd);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
