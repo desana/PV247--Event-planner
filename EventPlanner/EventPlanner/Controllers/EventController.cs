@@ -1,6 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using AutoMapper;
+using EventPlanner.Entities;
 using EventPlanner.Models;
+using EventPlanner.Services.DataTransferModels.Models;
 using EventPlanner.Services.Event;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,6 +29,21 @@ namespace EventPlanner.Controllers
         public IActionResult CreateEvent()
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Results(int id)
+        {   
+            var requestedEvent = _mapper.Map<EventViewModel>(await _eventService.GetSingleEvent(id));
+
+            if (requestedEvent == null)
+            {
+                //TODO
+            }
+
+            ViewData["EventName"] = requestedEvent.EventName;
+
+            return View(requestedEvent);
         }
 
         public IActionResult AddPlaces()
