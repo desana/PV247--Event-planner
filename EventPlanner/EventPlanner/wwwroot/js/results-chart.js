@@ -4,7 +4,7 @@
             type: 'bar'
         },
         title: {
-            text: 'Event name'
+            text: eventJson.eventName
         },
         xAxis: {
             categories: ['a', 'b', 'c']
