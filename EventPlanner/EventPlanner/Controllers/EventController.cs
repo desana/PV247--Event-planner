@@ -4,9 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
-using EventPlanner.Entities;
 using EventPlanner.Models;
-using EventPlanner.Services.DataTransferModels.Models;
 using EventPlanner.Services.Event;
 using Microsoft.AspNetCore.Mvc;
 

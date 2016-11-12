@@ -35,6 +35,9 @@ namespace EventPlanner.Repositories
             var plannedEvent = await _context
                 .Events
                 .Where(ev => ev.EventId == id)
+                .Include(ev => ev.Places)
+                .Include(ev => ev.TimesAtPlaces)
+                .Include(ev => ev.Votes)
                 .SingleOrDefaultAsync();
 
             return plannedEvent;
