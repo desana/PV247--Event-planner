@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using EventPlanner.Models;
+using EventPlanner.Services.DataTransferModels.Models;
 using EventPlanner.Services.Event;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,16 +34,18 @@ namespace EventPlanner.Controllers
         [HttpGet]
         public async Task<IActionResult> Results(int id)
         {   
-            var requestedEvent = _mapper.Map<EventViewModel>(await _eventService.GetSingleEvent(id));
+            var requestedEventName = await _eventService.GetEventName(id);
 
-            if (requestedEvent == null)
+            if (requestedEventName == null)
             {
-                //TODO
+                //TODO show 404 or something
             }
 
-            ViewData["EventName"] = requestedEvent.EventName;
+            ViewData["EventName"] = requestedEventName;
+            var chartModel = await GetChartModel(id);
+            chartModel.EventName = requestedEventName;
 
-            return View(requestedEvent);
+            return View(chartModel);
         }
 
         public IActionResult AddPlaces()
@@ -65,6 +69,29 @@ namespace EventPlanner.Controllers
             TempData["event"] = _mapper.Map<EventViewModel>(savedEvent);
 
             return RedirectToAction("AddPlaces");
+        }
+
+        /// <summary>
+        /// Gets json object that will be used for rendering charts.
+        /// </summary>
+        /// <param name="id">Event id.</param>
+        /// <returns>Json object.</returns>
+        private async Task<ChartModel> GetChartModel(int id)
+        {
+            var chartModel = new ChartModel();
+            // NOTE: we do not display places and times witch zero votes
+            var votes = _mapper.Map<IEnumerable<VoteViewModel>>(await _eventService.GetVotesForEvent(id));
+            var data = votes.ToDictionary(
+                vote => vote.TimeAtPlace.Place.Name + " - " + vote.TimeAtPlace.Time.ToString("dd/MM/yyyy H:mm"), 
+                vote => vote.Votes).OrderBy(k => k.Key);
+
+            foreach (var pair in data)
+            {
+                chartModel.Categories.Add(pair.Key);
+                chartModel.Data.Add(pair.Value);
+            }
+
+            return chartModel;
         }
     }
 }

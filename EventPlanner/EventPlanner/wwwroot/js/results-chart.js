@@ -4,10 +4,10 @@
             type: 'bar'
         },
         title: {
-            text: eventJson.eventName
+            text: dataJson.eventName
         },
         xAxis: {
-            categories: ['a', 'b', 'c']
+            categories: dataJson.categories
         },
         yAxis: {
             title: {
@@ -16,7 +16,7 @@
         },
         series: [{
             name: 'Votes',
-            data: [1, 2, 4]
+            data: dataJson.data
         }]
     });
 });
