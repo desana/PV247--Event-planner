@@ -5,7 +5,7 @@
 EventPlanner/FoursquareVenuesService/App.config
 
 # Highcharts library
-EventPlanner/EventPlanner/wwwroot/lib/highcharts
+#EventPlanner/EventPlanner/wwwroot/lib/highcharts
 
 # User-specific files
 *.suo
