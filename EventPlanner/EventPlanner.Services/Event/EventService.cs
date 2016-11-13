@@ -71,5 +71,25 @@ namespace EventPlanner.Services.Event
             bool wasRemoved = await _eventRepository.DeleteEvent(id);
             return wasRemoved;
         }
+
+        public async Task<string> GetEventName(int id)
+        {
+            var foundEvent = await _eventRepository.GetSingleEvent(id);
+
+            return foundEvent?.EventName;
+
+        }
+
+        public async Task<IEnumerable<VoteTransferModel>> GetVotesForEvent(int id)
+        {
+            var votes = await _eventRepository.GetAllVotesForEvent(id);
+            return _mapper.Map<IEnumerable<Entities.Vote>, IEnumerable<VoteTransferModel>>(votes);
+        }
+
+        public async Task<IEnumerable<TimeAtPlaceTransferModel>> GetTimeAtPlacesForEvent(int id)
+        {
+            var timeAtPlaces = await _eventRepository.GetTimeAtPlacesForEvent(id);
+            return _mapper.Map<IEnumerable<Entities.TimeAtPlace>, IEnumerable<TimeAtPlaceTransferModel>>(timeAtPlaces);
+        }
     }
 }

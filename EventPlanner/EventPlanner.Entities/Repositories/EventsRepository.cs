@@ -35,6 +35,9 @@ namespace EventPlanner.Repositories
             var plannedEvent = await _context
                 .Events
                 .Where(ev => ev.EventId == id)
+                .Include(ev => ev.Places)
+                .Include(ev => ev.TimesAtPlaces)
+                .Include(ev => ev.Votes)
                 .SingleOrDefaultAsync();
 
             return plannedEvent;
@@ -95,6 +98,20 @@ namespace EventPlanner.Repositories
             await _context.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<IEnumerable<TimeAtPlace>> GetTimeAtPlacesForEvent(int id)
+        {
+            var timesAtPlaces = await _context.TimesAtPlaces
+               .Where(tp => tp.Event.EventId == id).ToListAsync();
+            return timesAtPlaces;
+        }
+
+        public async Task<IEnumerable<Vote>> GetAllVotesForEvent(int id)
+        {
+            var votes = await _context.Votes
+                .Where(v => v.Event.EventId == id).ToListAsync();
+            return votes;
         }
     }
 }

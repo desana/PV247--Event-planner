@@ -35,5 +35,19 @@ namespace EventPlanner.Repositories
         /// <param name="id">Id of the event to be removed.</param>
         /// <returns><c>True</c> if event was removed.</returns>
         Task<bool> DeleteEvent(int id);
+
+        /// <summary>
+        /// Gets timesAtPlaces for event.
+        /// </summary>
+        /// <param name="id">Id of event.</param>
+        /// <returns>TimesAtPlaces for the event.</returns>
+        Task<IEnumerable<TimeAtPlace>> GetTimeAtPlacesForEvent(int id);
+
+        /// <summary>
+        /// Returns all votes for given event.
+        /// </summary>
+        /// <param name="id">Id of the event.</param>
+        /// <returns>All votes for the event.</returns>
+        Task<IEnumerable<Vote>> GetAllVotesForEvent(int id);
     }
 }
