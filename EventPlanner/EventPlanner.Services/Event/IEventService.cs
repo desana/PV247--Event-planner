@@ -51,5 +51,25 @@ namespace EventPlanner.Services.Event
         /// <param name="targetEvent"><see cref="EventTransferModel"/> which will be updated.</param>
         /// <param name="targetPlace"><see cref="PlaceTransferModel"/> to which the time belongs to.</param>
         Task<bool> AddEventTime(EventTransferModel targetEvent, int targetPlace);
+
+        /// Get the name of the event.
+        /// </summary>
+        /// <param name="id">Id of event.</param>
+        /// <returns>Event name.</returns>
+        Task<string> GetEventName(int id);
+
+        /// <summary>
+        /// Gets all votes for given event from the database.
+        /// </summary>
+        /// <param name="id">Id of the event.</param>
+        /// <returns>All votes for the event.</returns>
+        Task<IEnumerable<VoteTransferModel>> GetVotesForEvent(int id);
+
+        /// <summary>
+        /// Gets all timeAtPlaces for given event from the database.
+        /// </summary>
+        /// <param name="id">Id of the event.</param>
+        /// <returns>All timeAtPlaces for the event.</returns>
+        Task<IEnumerable<TimeAtPlaceTransferModel>> GetTimeAtPlacesForEvent(int id);
     }
 }

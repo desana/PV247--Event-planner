@@ -74,6 +74,7 @@ namespace EventPlanner.Services.Event
             return wasRemoved;
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// Adds place to an event. 
         /// Adds records to <see cref="PlaceTransferModel"/> and <see cref="TimeAtPlaceTransferModel"/> accordingly.
@@ -111,6 +112,26 @@ namespace EventPlanner.Services.Event
         public async Task<bool> AddEventTime(EventTransferModel targetEvent, int targetPlace)
         {
             throw new System.NotImplementedException();
+=======
+        public async Task<string> GetEventName(int id)
+        {
+            var foundEvent = await _eventRepository.GetSingleEvent(id);
+
+            return foundEvent?.EventName;
+
+        }
+
+        public async Task<IEnumerable<VoteTransferModel>> GetVotesForEvent(int id)
+        {
+            var votes = await _eventRepository.GetAllVotesForEvent(id);
+            return _mapper.Map<IEnumerable<Entities.Vote>, IEnumerable<VoteTransferModel>>(votes);
+        }
+
+        public async Task<IEnumerable<TimeAtPlaceTransferModel>> GetTimeAtPlacesForEvent(int id)
+        {
+            var timeAtPlaces = await _eventRepository.GetTimeAtPlacesForEvent(id);
+            return _mapper.Map<IEnumerable<Entities.TimeAtPlace>, IEnumerable<TimeAtPlaceTransferModel>>(timeAtPlaces);
+>>>>>>> refs/remotes/origin/master
         }
     }
 }

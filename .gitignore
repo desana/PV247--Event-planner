@@ -4,6 +4,9 @@
 # App.config with clientId and clientSecret
 EventPlanner/FoursquareVenuesService/App.config
 
+# Highcharts library
+#EventPlanner/EventPlanner/wwwroot/lib/highcharts
+
 # User-specific files
 *.suo
 *.user
