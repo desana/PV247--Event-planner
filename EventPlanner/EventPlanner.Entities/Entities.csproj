@@ -89,6 +89,10 @@
     <Compile Include="Entities\TimeAtPlace.cs" />
     <Compile Include="Entities\Vote.cs" />
     <Compile Include="EventPlannerInitializer.cs" />
+    <Compile Include="Migrations\DateTimeToList.cs" />
+    <Compile Include="Migrations\DateTimeToList.Designer.cs">
+      <DependentUpon>DateTimeToList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EventsRepository.cs" />
@@ -103,6 +107,11 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\DateTimeToList.resx">
+      <DependentUpon>DateTimeToList.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
