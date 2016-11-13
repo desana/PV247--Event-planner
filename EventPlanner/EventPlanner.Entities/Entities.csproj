@@ -89,9 +89,9 @@
     <Compile Include="Entities\TimeAtPlace.cs" />
     <Compile Include="Entities\Vote.cs" />
     <Compile Include="EventPlannerInitializer.cs" />
-    <Compile Include="Migrations\DateTimeToList.cs" />
-    <Compile Include="Migrations\DateTimeToList.Designer.cs">
-      <DependentUpon>DateTimeToList.cs</DependentUpon>
+    <Compile Include="Migrations\201611132056327_DateTimeToList.cs" />
+    <Compile Include="Migrations\201611132056327_DateTimeToList.Designer.cs">
+      <DependentUpon>201611132056327_DateTimeToList.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -109,8 +109,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\DateTimeToList.resx">
-      <DependentUpon>DateTimeToList.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611132056327_DateTimeToList.resx">
+      <DependentUpon>201611132056327_DateTimeToList.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

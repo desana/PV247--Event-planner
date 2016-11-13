@@ -13,7 +13,7 @@ namespace EventPlanner.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201611131918190_DateTimeToList"; }
+            get { return "201611132056327_DateTimeToList"; }
         }
         
         string IMigrationMetadata.Source
