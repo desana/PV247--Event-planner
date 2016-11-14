@@ -16,29 +16,24 @@ namespace EventPlanner
         {
             return new Event()
             {
-                EventName = "Meeting",
-                EventDescription = "Company meeting winter 2016",
-                EventLink = "some.fake.link",
-                Votes = new List<Vote>
+                Name = "Meeting",
+                Description = "Company meeting winter 2016",
+                Link = "some.fake.link",
+                TimesAtPlaces = new List<TimeAtPlace>
                 {
-                    new Vote
+                    new TimeAtPlace
                     {
-                        TimeAtPlace = new TimeAtPlace
-                        {
-                            Place = new Place { FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla"},
-                            Time = new List<DateTime> {DateTime.Now}
-                        }
+                        Place = new Place { FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla" },
+                        Time = DateTime.Now
+
                     },
-                    new Vote
+                    new TimeAtPlace
                     {
-                        TimeAtPlace = new TimeAtPlace
-                        {
-                            Place = new Place { FourSquareLink = "https://foursquare.com/v/burger-inn/55a93496498e49f11b0a9532", Name = "Burger Inn"},
-                            Time = new List<DateTime> {DateTime.Now}
-                        }
+                        Place = new Place { FourSquareLink = "https://foursquare.com/v/burger-inn/55a93496498e49f11b0a9532", Name = "Burger Inn" },
+                        Time = DateTime.Now
                     }
+
                 }
-               
             };
         }
     }

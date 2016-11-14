@@ -7,32 +7,22 @@ namespace EventPlanner.Services.DataTransferModels.Models
         /// <summary>
         /// Primary key of the event.
         /// </summary>
-        public int EventId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Name of the event.
         /// </summary>
-        public string EventName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Description of the event.
         /// </summary>
-        public string EventDescription { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// Link to vote.
         /// </summary>
-        public string EventLink { get; set; }
-
-        /// <summary>
-        /// Collection of all votes for this event.
-        /// </summary>
-        public ICollection<VoteTransferModel> Votes { get; set; } = new List<VoteTransferModel>();
-
-        /// <summary>
-        /// Collection of all possible places for this event.
-        /// </summary>
-        public ICollection<PlaceTransferModel> Places { get; set; } = new List<PlaceTransferModel>();
+        public string Link { get; set; }
 
         /// <summary>
         /// Collection of all possible times at concrete places for this event.

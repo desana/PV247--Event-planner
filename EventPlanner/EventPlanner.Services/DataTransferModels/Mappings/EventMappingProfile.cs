@@ -8,19 +8,17 @@ namespace EventPlanner.Services.DataTransferModels.Mappings
         public EventMappingProfile()
         {
             CreateMap<Entities.Event, EventTransferModel>()
-                .ForMember(dst => dst.EventId, opt => opt.MapFrom(src => src.EventId))
-                .ForMember(dst => dst.EventName, opt => opt.MapFrom(src => src.EventName))
-                .ForMember(dst => dst.EventDescription, opt => opt.MapFrom(src => src.EventDescription))
-                .ForMember(dst => dst.EventLink, opt => opt.MapFrom(src => src.EventLink))
-                .ForMember(dst => dst.Places, opt => opt.MapFrom(src => src.Places))
+                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dst => dst.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dst => dst.Link, opt => opt.MapFrom(src => src.Link))
                 .ForMember(dst => dst.TimesAtPlaces, opt => opt.MapFrom(src => src.TimesAtPlaces))
-                .ForMember(dst => dst.Votes, opt => opt.MapFrom(src => src.Votes))
                 .ForAllOtherMembers(dst => dst.Ignore());
 
             CreateMap<EventTransferModel, Entities.Event>()
-                .ForMember(dst => dst.EventName, opt => opt.MapFrom(src => src.EventName))
-                .ForMember(dst => dst.EventDescription, opt => opt.MapFrom(src => src.EventDescription))
-                .ForMember(dst => dst.EventLink, opt => opt.MapFrom(src => src.EventLink))
+                .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dst => dst.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dst => dst.Link, opt => opt.MapFrom(src => src.Link))
                 .ForAllOtherMembers(dst => dst.Ignore());
         }
     }

@@ -34,10 +34,8 @@ namespace EventPlanner.Repositories
         {
             var plannedEvent = await _context
                 .Events
-                .Where(ev => ev.EventId == id)
-                .Include(ev => ev.Places)
+                .Where(ev => ev.Id == id)
                 .Include(ev => ev.TimesAtPlaces)
-                .Include(ev => ev.Votes)
                 .SingleOrDefaultAsync();
 
             return plannedEvent;
@@ -51,7 +49,7 @@ namespace EventPlanner.Repositories
         {
             var plannedEvent = await _context
                 .Events
-                .Where(ev => ev.EventName == name)
+                .Where(ev => ev.Name == name)
                 .SingleOrDefaultAsync();
 
             return plannedEvent;
@@ -89,7 +87,7 @@ namespace EventPlanner.Repositories
         {
             var foundEvent = _context
                 .Events
-                .FirstOrDefault(ev => ev.EventId == id);
+                .FirstOrDefault(ev => ev.Id == id);
 
             if (foundEvent == null)
                 return false;
@@ -100,7 +98,6 @@ namespace EventPlanner.Repositories
             return true;
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Adds <see cref="TimeAtPlace"/> to the event.
         /// </summary>
@@ -111,33 +108,33 @@ namespace EventPlanner.Repositories
         {
             var foundEvent = _context
                 .Events
-                .FirstOrDefault(ev => ev.EventId == eventId);
+                .FirstOrDefault(ev => ev.Id == eventId);
 
             if (foundEvent == null)
                 return false;
 
             var timeAtPlaceToAdd = _context
                 .TimesAtPlaces
-                .FirstOrDefault(tp => tp.TimeAtPlaceId == timeAtPlaceId);
+                .FirstOrDefault(tp => tp.Id == timeAtPlaceId);
 
             foundEvent.TimesAtPlaces.Add(timeAtPlaceToAdd);
             await _context.SaveChangesAsync();
 
             return true;
-=======
+        }
+
         public async Task<IEnumerable<TimeAtPlace>> GetTimeAtPlacesForEvent(int id)
         {
             var timesAtPlaces = await _context.TimesAtPlaces
-               .Where(tp => tp.Event.EventId == id).ToListAsync();
+               .Where(tp => tp.Event.Id == id).ToListAsync();
             return timesAtPlaces;
         }
 
-        public async Task<IEnumerable<Vote>> GetAllVotesForEvent(int id)
+        public async Task<IEnumerable<TimeAtPlace>> GetAllVotesForEvent(int id)
         {
-            var votes = await _context.Votes
-                .Where(v => v.Event.EventId == id).ToListAsync();
+            var votes = await _context.TimesAtPlaces
+                .Where(v => v.Event.Id == id).ToListAsync();
             return votes;
->>>>>>> refs/remotes/origin/master
         }
     }
 }

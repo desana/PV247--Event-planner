@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using EventPlanner.Repositories;
@@ -74,7 +75,6 @@ namespace EventPlanner.Services.Event
             return wasRemoved;
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Adds place to an event. 
         /// Adds records to <see cref="PlaceTransferModel"/> and <see cref="TimeAtPlaceTransferModel"/> accordingly.
@@ -84,23 +84,23 @@ namespace EventPlanner.Services.Event
         /// <returns>Id of the newly created place.</returns>
         public async Task<int> AddEventPlace(EventTransferModel targetEvent, int foursquareId)
         {
-            var atPlaceTransferModel= new TimeAtPlaceTransferModel()
+            var atPlaceTransferModel = new TimeAtPlaceTransferModel()
             {
                 Place = new PlaceTransferModel()
                 {
-                    PlaceId = foursquareId
+                    Id = foursquareId
                 }
             };
 
             var timeAtPlaceEntity = await _timePlaceRepository
                 .AddTimeAtPlace(_mapper.Map<Entities.TimeAtPlace>(atPlaceTransferModel));
-               
-            var timeAtPlaceId = timeAtPlaceEntity.TimeAtPlaceId;
+
+            var timeAtPlaceId = timeAtPlaceEntity.Id;
 
             // This is ugly
 
-            var wasAdded = await _eventRepository.AddTimeAtPlace(targetEvent.EventId, timeAtPlaceId);
-            
+            var wasAdded = await _eventRepository.AddTimeAtPlace(targetEvent.Id, timeAtPlaceId);
+
             return timeAtPlaceId;
         }
 
@@ -112,26 +112,31 @@ namespace EventPlanner.Services.Event
         public async Task<bool> AddEventTime(EventTransferModel targetEvent, int targetPlace)
         {
             throw new System.NotImplementedException();
-=======
+        }
+
         public async Task<string> GetEventName(int id)
         {
             var foundEvent = await _eventRepository.GetSingleEvent(id);
 
-            return foundEvent?.EventName;
+            return foundEvent?.Name;
 
         }
 
-        public async Task<IEnumerable<VoteTransferModel>> GetVotesForEvent(int id)
+        public async Task<IEnumerable<TimeAtPlaceTransferModel>> GetVotesForEvent(int id)
         {
             var votes = await _eventRepository.GetAllVotesForEvent(id);
-            return _mapper.Map<IEnumerable<Entities.Vote>, IEnumerable<VoteTransferModel>>(votes);
+            return _mapper.Map<IEnumerable<Entities.TimeAtPlace>, IEnumerable<TimeAtPlaceTransferModel>>(votes);
         }
 
         public async Task<IEnumerable<TimeAtPlaceTransferModel>> GetTimeAtPlacesForEvent(int id)
         {
             var timeAtPlaces = await _eventRepository.GetTimeAtPlacesForEvent(id);
             return _mapper.Map<IEnumerable<Entities.TimeAtPlace>, IEnumerable<TimeAtPlaceTransferModel>>(timeAtPlaces);
->>>>>>> refs/remotes/origin/master
+        }
+
+        Task<object> IEventService.GetVotesForEvent(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -8,7 +8,7 @@
         /// <summary>
         /// Primary key of place.
         /// </summary>
-        public int PlaceId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Display name of the location.
@@ -16,13 +16,13 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Link to the FourSquare page of location.
+        /// Id of the FourSquare location.
         /// </summary>
-        public string FourSquareLink { get; set; }
+        public string FourSquareId { get; set; }
 
         /// <summary>
-        /// Event to which this belongs to.
+        /// Link to FourSquare location.
         /// </summary>
-        public Event Event { get; set; }
+        public string FourSquareLink { get; set; }
     }
 }

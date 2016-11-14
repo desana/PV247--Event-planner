@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EventPlanner.Entities
 {
@@ -11,7 +12,7 @@ namespace EventPlanner.Entities
         /// <summary>
         /// Primary key of the time slot.
         /// </summary>
-        public int TimeAtPlaceId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Place at which time slot takes place on.
@@ -21,10 +22,15 @@ namespace EventPlanner.Entities
         /// <summary>
         /// Starting time of the time slot.
         /// </summary>
-        public ICollection<DateTime> Time { get; set; } = new List<DateTime>();
+        public DateTime Time { get; set; }
 
         /// <summary>
-        /// Event to which this belongs to.
+        /// Number of votes for this timeslot.
+        /// </summary>
+        public int Votes { get; set; }
+
+        /// <summary>
+        /// Event which time slot belongs to.
         /// </summary>
         public Event Event { get; set; }
     }

@@ -8,7 +8,7 @@ namespace EventPlanner.Services.DataTransferModels.Models
         /// <summary>
         /// Primary key of the time slot.
         /// </summary>
-        public int TimeAtPlaceId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Place at which time slot takes place on.
@@ -24,5 +24,10 @@ namespace EventPlanner.Services.DataTransferModels.Models
         /// Event to which this belongs to.
         /// </summary>
         public EventTransferModel Event { get; set; }
+
+        /// <summary>
+        /// Number of recorded votes.
+        /// </summary>
+        public int Votes { get; set; }
     }
 }

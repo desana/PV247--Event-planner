@@ -5,7 +5,7 @@
         /// <summary>
         /// Primary key of place.
         /// </summary>
-        public int PlaceId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Display name of the location.

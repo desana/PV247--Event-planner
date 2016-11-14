@@ -11,7 +11,7 @@ namespace EventPlanner.Services.DataTransferModels.Generators
         /// <param name="currentEvent">Event without link.</param>
         public static void GenerateUniqueLink(this EventTransferModel currentEvent)
         {
-            currentEvent.EventLink = Guid.NewGuid().ToString();
+            currentEvent.Link = Guid.NewGuid().ToString();
         }
     }
 }

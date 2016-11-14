@@ -11,35 +11,25 @@ namespace EventPlanner.Entities
         /// <summary>
         /// Primary key of the event.
         /// </summary>
-        public int EventId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Name of the event.
         /// </summary>
         [Required]
         [StringLength(50)]
-        public string EventName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Description of the event.
         /// </summary>
-        public string EventDescription { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// Link to vote.
         /// </summary>
         [Required]
-        public string EventLink { get; set; }
-
-        /// <summary>
-        /// Collection of all votes for this event.
-        /// </summary>
-        public ICollection<Vote> Votes { get; set; } = new List<Vote>();
-
-        /// <summary>
-        /// Collection of all possible places for this event.
-        /// </summary>
-        public ICollection<Place> Places { get; set; } = new List<Place>();
+        public string Link { get; set; }
 
         /// <summary>
         /// Collection of all possible times at concrete places for this event.

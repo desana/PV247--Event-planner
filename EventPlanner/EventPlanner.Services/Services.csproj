@@ -34,9 +34,6 @@
       <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Html.Abstractions">
-      <HintPath>..\..\..\..\..\.nuget\packages\Microsoft.AspNetCore.Html.Abstractions\1.0.0\lib\netstandard1.0\Microsoft.AspNetCore.Html.Abstractions.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -53,10 +50,8 @@
     <Compile Include="DataTransferModels\Mappings\EventMappingProfile.cs" />
     <Compile Include="DataTransferModels\Mappings\PlaceMappingProfile.cs" />
     <Compile Include="DataTransferModels\Mappings\TimeAtPlaceMappingProfile.cs" />
-    <Compile Include="DataTransferModels\Mappings\VoteMappingProfile.cs" />
     <Compile Include="DataTransferModels\Models\PlaceTransferModel.cs" />
     <Compile Include="DataTransferModels\Models\TimeAtPlaceTransferModel.cs" />
-    <Compile Include="DataTransferModels\Models\VoteTransferModel.cs" />
     <Compile Include="Event\EventService.cs" />
     <Compile Include="Event\IEventService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
