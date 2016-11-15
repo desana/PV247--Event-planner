@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using EventPlanner.Repositories;
@@ -11,11 +12,13 @@ namespace EventPlanner.Services.Event
     {
         private readonly IMapper _mapper;
         private readonly IEventsRepository _eventRepository;
+        private readonly ITimeAtPlaceRepository _timePlaceRepository;
 
-        public EventService(IMapper mapper, IEventsRepository eventRepository)
+        public EventService(IMapper mapper, IEventsRepository eventRepository, ITimeAtPlaceRepository timePlaceRepository)
         {
             _mapper = mapper;
             _eventRepository = eventRepository;
+            _timePlaceRepository = timePlaceRepository;
         }
 
         /// <summary>
@@ -72,24 +75,68 @@ namespace EventPlanner.Services.Event
             return wasRemoved;
         }
 
+        /// <summary>
+        /// Adds place to an event. 
+        /// Adds records to <see cref="PlaceTransferModel"/> and <see cref="TimeAtPlaceTransferModel"/> accordingly.
+        /// </summary>
+        /// <param name="targetEvent"><see cref="EventTransferModel"/> which will be updated.</param>
+        /// <param name="foursquareId">Foursquare ID of the new <see cref="PlaceTransferModel"/>.</param>
+        /// <returns>Id of the newly created place.</returns>
+        public async Task<int> AddEventPlace(EventTransferModel targetEvent, int foursquareId)
+        {
+            var atPlaceTransferModel = new TimeAtPlaceTransferModel()
+            {
+                Place = new PlaceTransferModel()
+                {
+                    Id = foursquareId
+                }
+            };
+
+            var timeAtPlaceEntity = await _timePlaceRepository
+                .AddTimeAtPlace(_mapper.Map<Entities.TimeAtPlace>(atPlaceTransferModel));
+
+            var timeAtPlaceId = timeAtPlaceEntity.Id;
+
+            // This is ugly
+
+            var wasAdded = await _eventRepository.AddTimeAtPlace(targetEvent.Id, timeAtPlaceId);
+
+            return timeAtPlaceId;
+        }
+
+        /// <summary>
+        /// Adds time to <see cref="TimeAtPlaceTransferModel"/>.
+        /// </summary>
+        /// <param name="targetEvent"><see cref="EventTransferModel"/> which will be updated.</param>
+        /// <param name="targetPlace"><see cref="PlaceTransferModel"/> to which the time belongs to.</param>
+        public async Task<bool> AddEventTime(EventTransferModel targetEvent, int targetPlace)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public async Task<string> GetEventName(int id)
         {
             var foundEvent = await _eventRepository.GetSingleEvent(id);
 
-            return foundEvent?.EventName;
+            return foundEvent?.Name;
 
         }
 
-        public async Task<IEnumerable<VoteTransferModel>> GetVotesForEvent(int id)
+        public async Task<IEnumerable<TimeAtPlaceTransferModel>> GetVotesForEvent(int id)
         {
             var votes = await _eventRepository.GetAllVotesForEvent(id);
-            return _mapper.Map<IEnumerable<Entities.Vote>, IEnumerable<VoteTransferModel>>(votes);
+            return _mapper.Map<IEnumerable<Entities.TimeAtPlace>, IEnumerable<TimeAtPlaceTransferModel>>(votes);
         }
 
         public async Task<IEnumerable<TimeAtPlaceTransferModel>> GetTimeAtPlacesForEvent(int id)
         {
             var timeAtPlaces = await _eventRepository.GetTimeAtPlacesForEvent(id);
             return _mapper.Map<IEnumerable<Entities.TimeAtPlace>, IEnumerable<TimeAtPlaceTransferModel>>(timeAtPlaces);
+        }
+
+        Task<object> IEventService.GetVotesForEvent(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

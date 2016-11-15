@@ -10,7 +10,6 @@ namespace EventPlanner.Configuration
             cfg.AddProfile<EventMappingProfile>();
             cfg.AddProfile<PlaceMappingProfile>();
             cfg.AddProfile<TimeAtPlaceMappingProfile>();
-            cfg.AddProfile<VoteMappingProfile>();
         }
     }
 }

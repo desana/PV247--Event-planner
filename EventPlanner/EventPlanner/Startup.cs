@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using EventPlanner.Configuration;
+using EventPlanner.Entities;
 using EventPlanner.Repositories;
 using EventPlanner.Services.Configuration;
 using EventPlanner.Services.Event;
@@ -60,8 +61,9 @@ namespace EventPlanner
 
             // Transient - A new instance of the service type will be created each time the service is requested from the container. If multiple consumers depend on the service within the same graph, each consumer will get its own new instance of the given service.
             services
-                .AddTransient<IEventsRepository, EventsRepository>();
-            
+                .AddTransient<IEventsRepository, EventsRepository>()
+                .AddTransient<ITimeAtPlaceRepository, TimeAtPlaceRepository>();
+
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
             

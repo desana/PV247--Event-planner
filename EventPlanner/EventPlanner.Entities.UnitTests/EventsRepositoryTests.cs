@@ -15,30 +15,28 @@ namespace EventPlanner.Entities.UnitTests
 
         public EventsRepositoryTests()
         {
-            var testPlace1 = new Place { PlaceId = 1, FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla" };
-            var testPlace2 = new Place { PlaceId = 2, FourSquareLink = "https://foursquare.com/v/burger-inn/55a93496498e49f11b0a9532", Name = "Burger Inn" };
-            var testTime1 = new TimeAtPlace { Place = testPlace1, Time = DateTime.Now, TimeAtPlaceId = 1 };
-            var testTime2 = new TimeAtPlace { Place = testPlace1, Time = DateTime.Now, TimeAtPlaceId = 2 };
-            var testTime3 = new TimeAtPlace { Place = testPlace2, Time = DateTime.Now, TimeAtPlaceId = 3 };
+            var testPlace1 = new Place { Id = 1, FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla" };
+            var testPlace2 = new Place { Id = 2, FourSquareLink = "https://foursquare.com/v/burger-inn/55a93496498e49f11b0a9532", Name = "Burger Inn" };
+            var testTime1 = new TimeAtPlace { Place = testPlace1, Time = DateTime.Now , Id = 1 };
+            var testTime2 = new TimeAtPlace { Place = testPlace1, Time = DateTime.Now , Id = 2 };
+            var testTime3 = new TimeAtPlace { Place = testPlace2, Time = DateTime.Now, Id = 3 };
 
             // Seed data
             var data = new List<Event>
             {
                new Event
                 {
-                    EventId = 1,
-                    EventName = "Sraz",
-                    EventDescription = "Sraz členů spolku",
-                    TimesAtPlaces = new List<TimeAtPlace> { testTime1, testTime2 },
-                    Votes = new List<Vote>()
+                    Id = 1,
+                    Name = "Sraz",
+                    Description = "Sraz členů spolku",
+                    TimesAtPlaces = new List<TimeAtPlace> { testTime1, testTime2 }
                 },
                new Event
                 {
-                    EventId = 2,
-                    EventName = "Sraz 2",
-                    EventDescription = "Sraz členů jiného spolku",
-                    TimesAtPlaces = new List<TimeAtPlace> { testTime3 },
-                    Votes = new List<Vote>()
+                    Id = 2,
+                    Name = "Sraz 2",
+                    Description = "Sraz členů jiného spolku",
+                    TimesAtPlaces = new List<TimeAtPlace> { testTime3 }
                 }
             }.AsQueryable();
 
@@ -66,10 +64,10 @@ namespace EventPlanner.Entities.UnitTests
             var eventsList = events.ToList();
 
             Assert.Equal(2, events.Count());
-            Assert.Equal("Sraz", eventsList[0].EventName);
-            Assert.Equal("Sraz 2", eventsList[1].EventName);
-            Assert.Equal("Sraz členů spolku", eventsList[0].EventDescription);
-            Assert.Equal("Sraz členů jiného spolku", eventsList[1].EventDescription);
+            Assert.Equal("Sraz", eventsList[0].Name);
+            Assert.Equal("Sraz 2", eventsList[1].Name);
+            Assert.Equal("Sraz členů spolku", eventsList[0].Description);
+            Assert.Equal("Sraz členů jiného spolku", eventsList[1].Description);
         }
 
         [Fact]
@@ -77,7 +75,7 @@ namespace EventPlanner.Entities.UnitTests
         {
             var singleEvent = await _eventsRepository.GetSingleEvent(2);
 
-            Assert.Equal("Sraz 2", singleEvent.EventName);
+            Assert.Equal("Sraz 2", singleEvent.Name);
             Assert.Equal(1, singleEvent.TimesAtPlaces.Count);
 
             var timesAtPlaces = singleEvent.TimesAtPlaces.ToList();

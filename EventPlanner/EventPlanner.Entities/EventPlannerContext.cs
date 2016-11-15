@@ -24,11 +24,6 @@ namespace EventPlanner
         public virtual DbSet<Place> Places { get; set; }
         
         /// <summary>
-        /// Active vote choices. 
-        /// </summary>
-        public virtual DbSet<Vote> Votes { get; set; }
-
-        /// <summary>
         /// Available time slots used for current votes.
         /// </summary>
         public virtual DbSet<TimeAtPlace> TimesAtPlaces { get; set; }

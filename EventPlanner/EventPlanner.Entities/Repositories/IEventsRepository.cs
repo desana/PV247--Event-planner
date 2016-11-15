@@ -37,6 +37,12 @@ namespace EventPlanner.Repositories
         Task<bool> DeleteEvent(int id);
 
         /// <summary>
+        /// Adds <see cref="TimeAtPlace"/> to the event.
+        /// </summary>
+        /// <param name="eventId">Id of the event.</param>
+        /// <param name="timeAtPlaceId"><see cref="TimeAtPlace"/> to add.</param>
+        /// <returns><c>True</c> if operation was succesfull.</returns>
+        Task<bool> AddTimeAtPlace(int eventId, int timeAtPlaceId);
         /// Gets timesAtPlaces for event.
         /// </summary>
         /// <param name="id">Id of event.</param>
@@ -48,6 +54,6 @@ namespace EventPlanner.Repositories
         /// </summary>
         /// <param name="id">Id of the event.</param>
         /// <returns>All votes for the event.</returns>
-        Task<IEnumerable<Vote>> GetAllVotesForEvent(int id);
+        Task<IEnumerable<TimeAtPlace>> GetAllVotesForEvent(int id);
     }
 }
