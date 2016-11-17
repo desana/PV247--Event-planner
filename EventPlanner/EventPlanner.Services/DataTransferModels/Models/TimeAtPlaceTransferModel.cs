@@ -18,7 +18,7 @@ namespace EventPlanner.Services.DataTransferModels.Models
         /// <summary>
         /// Starting time of the time slot.
         /// </summary>
-        public List<DateTime> Time { get; set; }
+        public DateTime Time { get; set; }
 
         /// <summary>
         /// Event to which this belongs to.

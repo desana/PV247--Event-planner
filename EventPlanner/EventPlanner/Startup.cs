@@ -1,7 +1,5 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using EventPlanner.Configuration;
-using EventPlanner.Entities;
 using EventPlanner.Entities.Repositories;
 using EventPlanner.Repositories;
 using EventPlanner.Services.Configuration;
@@ -52,8 +50,9 @@ namespace EventPlanner
             services.AddSingleton(mapper);
 
             // Singleton - There will be at most one instance of the registered service type and the container will hold on to that instance until the container is disposed or goes out of scope. Clients will always receive that same instance from the container.
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
-              .AddSingleton<IActionContextAccessor, ActionContextAccessor>(); ;
+            services
+                .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
+                .AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             
             // Scoped - For every request within an implicitly or explicitly defined scope.
             services
