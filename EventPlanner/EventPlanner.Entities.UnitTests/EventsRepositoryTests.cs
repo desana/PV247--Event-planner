@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using EventPlanner.Entities.Repositories;
 using EventPlanner.Repositories;
 using Xunit;
 using Moq;
@@ -84,9 +85,30 @@ namespace EventPlanner.Entities.UnitTests
         }
 
         [Fact]
+        public async void GetSingleEvent2_Async()
+        {
+            var singleEvent = await _eventsRepository.GetSingleEvent("Sraz 2");
+
+            Assert.Equal("Sraz 2", singleEvent.Name);
+            Assert.Equal(1, singleEvent.TimesAtPlaces.Count);
+
+            var timesAtPlaces = singleEvent.TimesAtPlaces.ToList();
+            Assert.NotNull(timesAtPlaces[0].Place);
+            Assert.Equal("Burger Inn", timesAtPlaces[0].Place.Name);
+        }
+
+        [Fact]
         public async void GetSingleEvent_Nonexisting()
         {
             var singleEvent = await _eventsRepository.GetSingleEvent(10);
+
+            Assert.Null(singleEvent);
+        }
+
+        [Fact]
+        public async void GetSingleEvent2_Nonexisting()
+        {
+            var singleEvent = await _eventsRepository.GetSingleEvent("Nonexisting event");
 
             Assert.Null(singleEvent);
         }

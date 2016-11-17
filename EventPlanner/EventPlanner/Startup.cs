@@ -2,6 +2,7 @@
 using AutoMapper;
 using EventPlanner.Configuration;
 using EventPlanner.Entities;
+using EventPlanner.Entities.Repositories;
 using EventPlanner.Repositories;
 using EventPlanner.Services.Configuration;
 using EventPlanner.Services.Event;

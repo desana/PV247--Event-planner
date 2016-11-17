@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Threading.Tasks;
-using EventPlanner.Entities;
 using System.Linq;
+using System.Threading.Tasks;
 using EventPlanner.Configuration;
+using EventPlanner.Repositories;
 using Microsoft.Extensions.Options;
 
-namespace EventPlanner.Repositories
+namespace EventPlanner.Entities.Repositories
 {
     public class EventsRepository : IEventsRepository
     {

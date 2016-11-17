@@ -43,6 +43,8 @@ namespace EventPlanner.Repositories
         /// <param name="timeAtPlaceId"><see cref="TimeAtPlace"/> to add.</param>
         /// <returns><c>True</c> if operation was succesfull.</returns>
         Task<bool> AddTimeAtPlace(int eventId, int timeAtPlaceId);
+
+        /// <summary>
         /// Gets timesAtPlaces for event.
         /// </summary>
         /// <param name="id">Id of event.</param>

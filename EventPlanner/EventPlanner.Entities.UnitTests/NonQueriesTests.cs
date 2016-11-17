@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using EventPlanner.Entities.Repositories;
 using EventPlanner.Repositories;
 using Xunit;
 using Moq;
@@ -50,31 +51,6 @@ namespace EventPlanner.Entities.UnitTests
             await Assert.ThrowsAsync<ArgumentNullException>(() => repository.AddEvent(null));
         }
 
-        [Fact]
-        public async void AddVote_Saves_Vote_Via_Context()
-        {
-            var mockSet = new Mock<DbSet<TimeAtPlace>>();
-            _mockContext.Setup(m => m.TimesAtPlaces).Returns(mockSet.Object);
-            var repository = new TimeAtPlaceRepository(_mockContext.Object); 
-
-            var testPlace = new Place { Id = 1, FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla" };
-            var testTime = new TimeAtPlace { Place = testPlace, Time = DateTime.Now, Id = 1, Votes = 5};
-            
-            //await repository.AddVote();
-
-            //mockSet.Verify(m => m.Add(It.IsAny<Vote>()), Times.Once());
-            //_mockContext.Verify(m => m.SaveChangesAsync(), Times.Once());
-        }
-
-        [Fact]
-        public async void AddVote_If_Null_Throws_Exception()
-        {
-            //var mockSet = new Mock<DbSet<TimeAtPlace>>();
-            //_mockContext.Setup(m => m.Votes).Returns(mockSet.Object);
-            ////var repository = new VotesRepository(_mockContext.Object);
-
-            //await Assert.ThrowsAsync<ArgumentNullException>(() => repository.AddVote(null));
-        }
 
         [Fact]
         public async void DeleteEvent_Deletes_Event_Via_Context()
