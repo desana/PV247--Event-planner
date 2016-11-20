@@ -88,13 +88,9 @@
     <Compile Include="Entities\Place.cs" />
     <Compile Include="Entities\TimeAtPlace.cs" />
     <Compile Include="EventPlannerInitializer.cs" />
-    <Compile Include="Migrations\201611132056327_DateTimeToList.cs" />
-    <Compile Include="Migrations\201611132056327_DateTimeToList.Designer.cs">
-      <DependentUpon>201611132056327_DateTimeToList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611141606304_DatabaseRefactoring.cs" />
-    <Compile Include="Migrations\201611141606304_DatabaseRefactoring.Designer.cs">
-      <DependentUpon>201611141606304_DatabaseRefactoring.cs</DependentUpon>
+    <Compile Include="Migrations\201611201244590_Initial.cs" />
+    <Compile Include="Migrations\201611201244590_Initial.Designer.cs">
+      <DependentUpon>201611201244590_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -112,11 +108,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611132056327_DateTimeToList.resx">
-      <DependentUpon>201611132056327_DateTimeToList.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611141606304_DatabaseRefactoring.resx">
-      <DependentUpon>201611141606304_DatabaseRefactoring.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611201244590_Initial.resx">
+      <DependentUpon>201611201244590_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
