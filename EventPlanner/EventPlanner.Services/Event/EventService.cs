@@ -133,10 +133,5 @@ namespace EventPlanner.Services.Event
             var timeAtPlaces = await _eventRepository.GetTimeAtPlacesForEvent(id);
             return _mapper.Map<IEnumerable<Entities.TimeAtPlace>, IEnumerable<TimeAtPlaceTransferModel>>(timeAtPlaces);
         }
-
-        Task<object> IEventService.GetVotesForEvent(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

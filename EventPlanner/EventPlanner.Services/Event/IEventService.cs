@@ -65,7 +65,5 @@ namespace EventPlanner.Services.Event
         /// <param name="id">Id of the event.</param>
         /// <returns>All timeAtPlaces for the event.</returns>
         Task<IEnumerable<TimeAtPlaceTransferModel>> GetTimeAtPlacesForEvent(int id);
-
-        Task<object> GetVotesForEvent(int id);
     }
 }

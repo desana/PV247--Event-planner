@@ -88,7 +88,7 @@ namespace EventPlanner.Controllers
         {
             var chartModel = new ChartModel();
             // NOTE: we do not display places and times witch zero votes
-            var votes = _mapper.Map<IEnumerable<TimeAtPlaceViewModel>>(await _eventService.GetVotesForEvent(id));
+            var votes = _mapper.Map<IEnumerable<TimeAtPlaceViewModel>>(await _eventService.GetTimeAtPlacesForEvent(id));
             var data = votes.ToDictionary(
                 vote => vote.Place.Name + " - " + vote.Time.ToString("dd/MM/yyyy H:mm"),
                 vote => vote.Votes).OrderBy(k => k.Key);

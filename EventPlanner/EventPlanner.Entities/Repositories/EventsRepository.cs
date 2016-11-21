@@ -126,7 +126,9 @@ namespace EventPlanner.Entities.Repositories
         public async Task<IEnumerable<TimeAtPlace>> GetTimeAtPlacesForEvent(int id)
         {
             var timesAtPlaces = await _context.TimesAtPlaces
-               .Where(tp => tp.Event.Id == id).ToListAsync();
+               .Where(tp => tp.Event.Id == id)
+               .Include(tp => tp.Place)
+               .ToListAsync();
             return timesAtPlaces;
         }
 
