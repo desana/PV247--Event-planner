@@ -11,13 +11,13 @@ namespace EventPlanner.Services.DataTransferModels.Mappings
                 .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dst => dst.Place, opt => opt.MapFrom(src => src.Place))
                 .ForMember(dst => dst.Time, opt => opt.MapFrom(src => src.Time))
-                .ForMember(dst => dst.Event, opt => opt.MapFrom(src => src.Event))
+                .ForMember(dst => dst.EventId, opt => opt.MapFrom(src => src.EventId))
                 .ForAllOtherMembers(dst => dst.Ignore());
                 
             CreateMap<TimeAtPlaceTransferModel, Entities.TimeAtPlace>()
                 .ForMember(dst => dst.Place, opt => opt.MapFrom(src => src.Place))
                 .ForMember(dst => dst.Time, opt => opt.MapFrom(src => src.Time))
-                .ForMember(dst => dst.Event, opt => opt.MapFrom(src => src.Event))
+                .ForMember(dst => dst.EventId, opt => opt.MapFrom(src => src.EventId))
                 .ForAllOtherMembers(dst => dst.Ignore());
         }
     }

@@ -4,6 +4,8 @@ using EventPlanner.Entities.Repositories;
 using EventPlanner.Repositories;
 using EventPlanner.Services.Configuration;
 using EventPlanner.Services.Event;
+using FoursquareVenuesService;
+using FoursquareVenuesService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +24,7 @@ namespace EventPlanner
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile($"appsettings.local.json", optional: true)
                 .AddEnvironmentVariables();
 
             if (env.IsDevelopment())
@@ -36,7 +39,12 @@ namespace EventPlanner
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        { 
+        {
+            // Settings
+            services
+                .Configure<ConnectionOptions>(options => options.ConnectionString = Configuration.GetConnectionString("EventPlannerConnection"))
+                .Configure<FoursquareOptions>(options => Configuration.GetSection("FoursquareSettings").Bind(options));
+
             // Configure model mappings
             var mapper = new MapperConfiguration(cfg =>
             {
@@ -52,11 +60,11 @@ namespace EventPlanner
             // Singleton - There will be at most one instance of the registered service type and the container will hold on to that instance until the container is disposed or goes out of scope. Clients will always receive that same instance from the container.
             services
                 .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
-                .AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-            
+                .AddSingleton<IActionContextAccessor, ActionContextAccessor>()
+                .AddSingleton<IFoursquareService, FoursquareService>();
+
             // Scoped - For every request within an implicitly or explicitly defined scope.
             services
-                .Configure<ConnectionOptions>(options => options.ConnectionString = Configuration.GetConnectionString("EventPlannerConnection"))
                 .AddScoped<IEventService, EventService>();
 
             // Transient - A new instance of the service type will be created each time the service is requested from the container. If multiple consumers depend on the service within the same graph, each consumer will get its own new instance of the given service.
@@ -68,6 +76,8 @@ namespace EventPlanner
             services.AddApplicationInsightsTelemetry(Configuration);
             
             services.AddMvc();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,7 +100,8 @@ namespace EventPlanner
 
             app.UseApplicationInsightsExceptionTelemetry();
             app.UseStaticFiles();
-            
+
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

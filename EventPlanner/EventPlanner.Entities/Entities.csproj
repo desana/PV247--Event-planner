@@ -92,6 +92,10 @@
     <Compile Include="Migrations\201611201244590_Initial.Designer.cs">
       <DependentUpon>201611201244590_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611211946574_Votes.cs" />
+    <Compile Include="Migrations\201611211946574_Votes.Designer.cs">
+      <DependentUpon>201611211946574_Votes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EventsRepository.cs" />
@@ -110,6 +114,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611201244590_Initial.resx">
       <DependentUpon>201611201244590_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611211946574_Votes.resx">
+      <DependentUpon>201611211946574_Votes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,15 @@
+﻿@using EventPlanner.Services.DataTransferModels.Models
+
+@model IEnumerable<EventTransferModel>
+
+@{
+    ViewBag.Title = "Choose event to vote";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="list-group">
+    @foreach (var eventItem in Model)
+    {
+        <a asp-controller="Vote" asp-action="Index" asp-route-id="@eventItem.Id" class="list-group-item">@eventItem.Name</a>
+    }
+</div>

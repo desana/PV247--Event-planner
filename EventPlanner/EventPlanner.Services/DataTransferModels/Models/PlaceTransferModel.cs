@@ -13,6 +13,11 @@
         public string Name { get; set; }
 
         /// <summary>
+        /// Id of the FourSquare location.
+        /// </summary>
+        public string FourSquareId { get; set; }
+
+        /// <summary>
         /// Link to the FourSquare page of location.
         /// </summary>
         public string FourSquareLink { get; set; }

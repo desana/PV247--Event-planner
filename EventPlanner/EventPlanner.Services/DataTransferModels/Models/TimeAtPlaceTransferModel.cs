@@ -23,7 +23,7 @@ namespace EventPlanner.Services.DataTransferModels.Models
         /// <summary>
         /// Event to which this belongs to.
         /// </summary>
-        public EventTransferModel Event { get; set; }
+        public int EventId { get; set; }
 
         /// <summary>
         /// Number of recorded votes.

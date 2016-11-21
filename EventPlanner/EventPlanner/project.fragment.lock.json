@@ -44,6 +44,36 @@
           "copyToOutput": true
         }
       }
+    },
+    "FoursquareVenuesService/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.2",
+      "compile": {
+        "bin/Debug/FoursquareVenuesService.exe": {}
+      },
+      "runtime": {
+        "../packages/Microsoft.Extensions.DependencyInjection.Abstractions.1.0.0/lib/netstandard1.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {},
+        "../packages/Microsoft.Extensions.Options.1.0.0/lib/netstandard1.0/Microsoft.Extensions.Options.dll": {},
+        "../packages/Microsoft.Extensions.Primitives.1.0.0/lib/netstandard1.0/Microsoft.Extensions.Primitives.dll": {},
+        "../packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/System.Reflection.4.1.0/lib/net462/System.Reflection.dll": {},
+        "../packages/System.Runtime.4.1.0/lib/net462/System.Runtime.dll": {},
+        "../packages/System.Runtime.Extensions.4.1.0/lib/net462/System.Runtime.Extensions.dll": {},
+        "bin/Debug/FoursquareVenuesService.exe": {}
+      },
+      "contentFiles": {
+        "bin/Debug/FoursquareVenuesService.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        },
+        "bin/Debug/app.config": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true,
+          "outputPath": "app.config"
+        }
+      }
     }
   }
 }
