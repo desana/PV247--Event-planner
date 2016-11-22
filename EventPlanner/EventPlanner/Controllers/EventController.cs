@@ -8,17 +8,20 @@ namespace EventPlanner.Controllers
 {
     public partial class EventController : Controller
     {
-        // GET: /<controller>/
+        [HttpGet]
         public IActionResult CreateEvent()
         {
             return View();
         }
-        
-        public IActionResult AddPlaces()
+
+        [HttpGet]
+        public async Task<IActionResult> AddPlaces(int eventId)
         {
-            return View(TempData["event"] as EventViewModel);
+            var eventTransferModel = await _eventService.GetSingleEvent(eventId);
+            var eventViewModel = _mapper.Map<EventViewModel>(eventTransferModel);
+            return View(eventViewModel);
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> Results(int id)
         {

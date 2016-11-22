@@ -6,6 +6,7 @@ using EventPlanner.Services.DataTransferModels.Models;
 using EventPlanner.Services.Event;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System;
 
 namespace EventPlanner.Controllers
 {
@@ -26,17 +27,16 @@ namespace EventPlanner.Controllers
         /// </summary>
         /// <param name="newEvent"> <see cref="EventViewModel"/> containing data from user.</param>
         /// <returns>Redirect to <see cref="AddPlaces"/> page. </returns>
+        [HttpPost]
         public async Task<IActionResult> CreateNewEvent(EventViewModel newEvent)
         {
             if (!ModelState.IsValid)
             {
                 return View("CreateEvent");
             }
-
+            
             var savedEvent = await _eventService.AddEvent(_mapper.Map<EventTransferModel>(newEvent));
-            TempData["event"] = _mapper.Map<EventViewModel>(savedEvent);
-
-            return RedirectToAction("AddPlaces");
+            return RedirectToAction("AddPlaces", new { eventId = savedEvent.Id });
         }
 
         /// <summary>
@@ -47,12 +47,11 @@ namespace EventPlanner.Controllers
         public async Task<IActionResult> AddCurrentTime(EventViewModel currentevent)
         {
             if (!ModelState.IsValid)
-            {
+            {   
                 return View("AddPlaces");
             }
 
-            var savedEvent = await _eventService
-               .AddEventTime(_mapper.Map<EventTransferModel>(currentevent), currentevent.CurrentPlaceFoursquareId);
+            var savedEvent = await _eventService.AddEventTime(_mapper.Map<EventTransferModel>(currentevent), currentevent.CurrentPlaceFoursquareId);
 
             TempData["event"] = _mapper.Map<EventViewModel>(savedEvent);
             return RedirectToAction("AddPlaces");
@@ -64,6 +63,7 @@ namespace EventPlanner.Controllers
         /// </summary>
         /// <param name="currentevent">Currently processed event.</param>
         /// <returns>Redirect to <see cref="AddPlaces"/> page with updated data.</returns>
+        [HttpPost]
         public async Task<IActionResult> AddCurrentPlace(EventViewModel currentevent)
         {
             if (!ModelState.IsValid)
@@ -71,11 +71,9 @@ namespace EventPlanner.Controllers
                 return View("AddPlaces");
             }
 
-            var savedEvent = await _eventService
-                .AddEventPlace(_mapper.Map<EventTransferModel>(currentevent), currentevent.CurrentPlaceFoursquareId);
+            var savedEventId = await _eventService.AddEventPlace(_mapper.Map<EventTransferModel>(currentevent), currentevent.CurrentPlaceFoursquareId);
 
-            TempData["event"] = _mapper.Map<EventViewModel>(savedEvent);
-            return RedirectToAction("AddPlaces");
+            return RedirectToAction("AddPlaces", new { eventId = savedEventId });
         }
 
 

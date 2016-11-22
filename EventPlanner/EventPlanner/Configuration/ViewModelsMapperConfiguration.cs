@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using EventPlanner.Models.Mapping;
-using EventPlanner.Services.DataTransferModels.Mappings;
 
 namespace EventPlanner.Configuration
 {
@@ -8,9 +7,7 @@ namespace EventPlanner.Configuration
     {
         public static void InitialializeMappings(IMapperConfigurationExpression cfg)
         {
-            cfg.AddProfile<EventMappingProfile>();
-            cfg.AddProfile<PlaceMappingProfile>();
-            cfg.AddProfile<TimeAtPlaceMappingProfile>();
+            cfg.AddProfile<EventMapping>();
             cfg.AddProfile<VoteMapping>();
         }
     }

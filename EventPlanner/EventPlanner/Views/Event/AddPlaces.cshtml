@@ -13,13 +13,7 @@
     foreach (var item in Model.TimesAtPlaces)
     {
 
-        @Html.DisplayFor(modelItem => item.Place.Name)
-        ;
-
-        foreach (var time in item.Time)
-        {
-            Html.DisplayText(time.ToString(CultureInfo.CurrentCulture));
-        }
+        @Html.DisplayFor(modelItem => item.Place.Name)               
     }
 }
 
@@ -36,11 +30,11 @@
 
     @* Times*@
 
-    <div class="form-group">
+  @*  <div class="form-group">
         <label asp-for="CurrentTime"></label>
         <input class="form-group" asp-for="CurrentTime" type="datetime" />
         <input type="button" value="Add Time" class="btn btn-primary" />
-    </div>
+    </div>*@
 
     @* Submit button *@
 
