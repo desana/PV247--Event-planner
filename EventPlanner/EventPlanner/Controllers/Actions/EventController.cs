@@ -32,7 +32,7 @@ namespace EventPlanner.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("CreateEvent");
+                return RedirectToAction("CreateEvent");
             }
             
             var savedEvent = await _eventService.AddEvent(_mapper.Map<EventTransferModel>(newEvent));
@@ -48,7 +48,7 @@ namespace EventPlanner.Controllers
         {
             if (!ModelState.IsValid)
             {   
-                return View("AddPlaces");
+                return RedirectToAction("AddPlaces");
             }
 
             var savedEvent = await _eventService.AddEventTime(_mapper.Map<EventTransferModel>(currentevent), currentevent.CurrentPlaceFoursquareId);
@@ -61,18 +61,18 @@ namespace EventPlanner.Controllers
         /// Adds instance of <see cref="PlaceViewModel"/> to the database 
         /// and creates corresponding links with <see cref="TimeAtPlaceViewModel"/> and <see cref="EventViewModel"/>.
         /// </summary>
-        /// <param name="currentevent">Currently processed event.</param>
+        /// <param name="eventId">Id of currently processed event.</param>
+        /// <param name="foursquareId"> Foursquare id of place to be added.</param>
         /// <returns>Redirect to <see cref="AddPlaces"/> page with updated data.</returns>
         [HttpPost]
-        public async Task<IActionResult> AddCurrentPlace(EventViewModel currentevent)
+        public async Task<IActionResult> AddSinglePlace(int eventId, string foursquareId)
         {
             if (!ModelState.IsValid)
             {
-                return View("AddPlaces");
+                return RedirectToAction("AddPlaces", new { eventId = eventId });
             }
 
-            var savedEventId = await _eventService.AddEventPlace(_mapper.Map<EventTransferModel>(currentevent), currentevent.CurrentPlaceFoursquareId);
-
+            var savedEventId = await _eventService.AddEventPlace(eventId, foursquareId);
             return RedirectToAction("AddPlaces", new { eventId = savedEventId });
         }
 

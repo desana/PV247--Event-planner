@@ -40,10 +40,10 @@ namespace EventPlanner.Services.Event
         /// Adds place to an event. 
         /// Adds records to <see cref="PlaceTransferModel"/> and <see cref="TimeAtPlaceTransferModel"/> accordingly.
         /// </summary>
-        /// <param name="targetEvent"><see cref="EventTransferModel"/> which will be updated.</param>
+        /// <param name="targetEvent">Id of <see cref="EventTransferModel"/> which will be updated.</param>
         /// <param name="foursquareId">Foursquare ID of the new <see cref="PlaceTransferModel"/>.</param>
         /// <returns>Id of the newly created place.</returns>
-        Task<int> AddEventPlace(EventTransferModel targetEvent, int foursquareId);
+        Task<int> AddEventPlace(int targetEvent, string foursquareId);
 
         /// <summary>
         /// Adds time to <see cref="TimeAtPlaceTransferModel"/>.

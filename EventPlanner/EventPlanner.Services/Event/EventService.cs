@@ -79,29 +79,23 @@ namespace EventPlanner.Services.Event
         /// Adds place to an event. 
         /// Adds records to <see cref="PlaceTransferModel"/> and <see cref="TimeAtPlaceTransferModel"/> accordingly.
         /// </summary>
-        /// <param name="targetEvent"><see cref="EventTransferModel"/> which will be updated.</param>
+        /// <param name="targetEvent">Id of <see cref="EventTransferModel"/> which will be updated.</param>
         /// <param name="foursquareId">Foursquare ID of the new <see cref="PlaceTransferModel"/>.</param>
         /// <returns>Id of the newly created place.</returns>
-        public async Task<int> AddEventPlace(EventTransferModel targetEvent, int foursquareId)
+        public async Task<int> AddEventPlace(int targetEvent, string foursquareId)
         {
-            var atPlaceTransferModel = new TimeAtPlaceTransferModel()
+            var timeAtPlaceTransferModel = new TimeAtPlaceTransferModel()
             {
                 Place = new PlaceTransferModel()
                 {
-                    Id = foursquareId
+                    FourSquareId = foursquareId
                 }
             };
 
             var timeAtPlaceEntity = await _timePlaceRepository
-                .AddTimeAtPlace(_mapper.Map<Entities.TimeAtPlace>(atPlaceTransferModel));
+                .AddTimeAtPlace(_mapper.Map<Entities.TimeAtPlace>(timeAtPlaceTransferModel));
 
-            var timeAtPlaceId = timeAtPlaceEntity.Id;
-
-            // This is ugly
-
-            var wasAdded = await _eventRepository.AddTimeAtPlace(targetEvent.Id, timeAtPlaceId);
-
-            return timeAtPlaceId;
+            return timeAtPlaceEntity.PlaceId;
         }
 
         /// <summary>

@@ -23,8 +23,14 @@ namespace EventPlanner.Models
 
 
         public int CurrentPlaceFoursquareId { get; set; }
+
+        [Display(Name = "City")]
         public string CurrentCity { get; set; }
+
+        [Display(Name = "Place")]
         public string CurrentPlace { get; set; }
+
+        [Display(Name = "Event start")]
         public DateTime CurrentTime { get; set; }
 
 
