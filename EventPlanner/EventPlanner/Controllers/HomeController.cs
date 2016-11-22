@@ -1,9 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using EventPlanner.Services.Event;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EventPlanner.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IEventService _eventService;
+
+        public HomeController(IEventService eventService)
+        {
+            _eventService = eventService;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -26,6 +35,11 @@ namespace EventPlanner.Controllers
         public IActionResult Error()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Vote()
+        {
+            return View(await _eventService.GetAllEvents());
         }
     }
 }

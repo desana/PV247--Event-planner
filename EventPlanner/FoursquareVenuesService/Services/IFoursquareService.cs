@@ -24,5 +24,10 @@ namespace FoursquareVenuesService.Services
         /// <param name="id">Id of venue.</param>
         /// <returns>Venue with given id.</returns>
         Task<Venue> GetVenueAsync(string id);
+
+        /// <summary>
+        /// Gets url of first photo of venue
+        /// </summary>
+        Task<string> GetVenuePhotoUrlAsync(string venueId);
     }
 }

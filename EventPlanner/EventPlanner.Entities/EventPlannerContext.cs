@@ -1,7 +1,6 @@
 ﻿using System.Data.Entity;
-using EventPlanner.Entities;
 
-namespace EventPlanner
+namespace EventPlanner.Entities
 {
     /// <summary>
     /// Database context of event planner. 

@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EventPlanner.Entities
 {
@@ -17,7 +16,14 @@ namespace EventPlanner.Entities
         /// <summary>
         /// Place at which time slot takes place on.
         /// </summary>
-        public Place Place { get; set; }
+        public int PlaceId { get; set; }
+
+        /// <summary>
+        /// Place at which time slot takes place on.
+        /// </summary>
+        [ForeignKey("PlaceId")]
+
+        public virtual Place Place { get; set; }
 
         /// <summary>
         /// Starting time of the time slot.
@@ -32,6 +38,12 @@ namespace EventPlanner.Entities
         /// <summary>
         /// Event which time slot belongs to.
         /// </summary>
-        public Event Event { get; set; }
+        public int EventId { get; set; }
+
+        /// <summary>
+        /// Event which time slot belongs to.
+        /// </summary>
+        [ForeignKey("EventId")]
+        public virtual Event Event { get; set; }
     }
 }
