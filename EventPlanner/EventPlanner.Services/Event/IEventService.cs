@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EventPlanner.Services.DataTransferModels.Models;
 
@@ -48,9 +49,10 @@ namespace EventPlanner.Services.Event
         /// <summary>
         /// Adds time to <see cref="TimeAtPlaceTransferModel"/>.
         /// </summary>
-        /// <param name="targetEvent"><see cref="EventTransferModel"/> which will be updated.</param>
-        /// <param name="targetPlace"><see cref="PlaceTransferModel"/> to which the time belongs to.</param>
-        Task<bool> AddEventTime(EventTransferModel targetEvent, int targetPlace);
+        /// <param name="targetEvent">ID of the<see cref="EventTransferModel"/> which will be updated.</param>
+        /// <param name="foursquareId">The foursquare Id of place to which the time belongs to.</param>
+        /// <param name="time">New timeslot.</param>
+        Task<int> AddEventTime(int targetEvent, string foursquareId, DateTime time);
 
         /// <summary>
         /// Get the name of the event.

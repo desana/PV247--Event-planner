@@ -22,7 +22,7 @@ namespace EventPlanner.Models
         public ICollection<TimeAtPlaceViewModel> TimesAtPlaces { get; set; } = new List<TimeAtPlaceViewModel>();
 
 
-        public int CurrentPlaceFoursquareId { get; set; }
+        public string CurrentPlaceFoursquareId { get; set; }
 
         [Display(Name = "City")]
         public string CurrentCity { get; set; }

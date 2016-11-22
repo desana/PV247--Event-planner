@@ -44,17 +44,16 @@ namespace EventPlanner.Controllers
         /// </summary>
         /// <param name="currentevent">Currently processed event.</param>
         /// <returns>Redirect to <see cref="AddPlaces"/> page with updated data.</returns>
-        public async Task<IActionResult> AddCurrentTime(EventViewModel currentevent)
+        public async Task<IActionResult> AddSingleTime(int eventId, string foursquareId, DateTime time)
         {
             if (!ModelState.IsValid)
             {   
-                return RedirectToAction("AddPlaces");
+                return RedirectToAction("AddPlaces", new { eventId = eventId});
             }
 
-            var savedEvent = await _eventService.AddEventTime(_mapper.Map<EventTransferModel>(currentevent), currentevent.CurrentPlaceFoursquareId);
-
-            TempData["event"] = _mapper.Map<EventViewModel>(savedEvent);
-            return RedirectToAction("AddPlaces");
+            var modifiedEventId = await _eventService.AddEventTime(eventId, foursquareId, time);
+            
+            return RedirectToAction("AddPlaces", new { eventId = modifiedEventId, foursquareId = foursquareId });
         }
 
         /// <summary>
@@ -72,8 +71,8 @@ namespace EventPlanner.Controllers
                 return RedirectToAction("AddPlaces", new { eventId = eventId });
             }
 
-            var savedEventId = await _eventService.AddEventPlace(eventId, foursquareId);
-            return RedirectToAction("AddPlaces", new { eventId = savedEventId });
+            var currentTimeAtPlaceId = await _eventService.AddEventPlace(eventId, foursquareId);
+            return RedirectToAction("AddPlaces", new { eventId = eventId, place = currentTimeAtPlaceId });
         }
 
 

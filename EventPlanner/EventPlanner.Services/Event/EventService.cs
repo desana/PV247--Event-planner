@@ -98,25 +98,7 @@ namespace EventPlanner.Services.Event
             return timeAtPlaceEntity.PlaceId;
         }
 
-        /// <summary>
-        /// Adds time to <see cref="TimeAtPlaceTransferModel"/>.
-        /// </summary>
-        /// <param name="targetEvent"><see cref="EventTransferModel"/> which will be updated.</param>
-        /// <param name="targetPlace"><see cref="PlaceTransferModel"/> to which the time belongs to.</param>
-        public async Task<bool> AddEventTime(EventTransferModel targetEvent, int targetPlace)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<string> GetEventName(int id)
-        {
-            var foundEvent = await _eventRepository.GetSingleEvent(id);
-
-            return foundEvent?.Name;
-
-        }
-
-        public async Task<IEnumerable<TimeAtPlaceTransferModel>> GetVotesForEvent(int id)
+              public async Task<IEnumerable<TimeAtPlaceTransferModel>> GetVotesForEvent(int id)
         {
             var votes = await _eventRepository.GetAllVotesForEvent(id);
             return _mapper.Map<IEnumerable<Entities.TimeAtPlace>, IEnumerable<TimeAtPlaceTransferModel>>(votes);
@@ -127,5 +109,19 @@ namespace EventPlanner.Services.Event
             var timeAtPlaces = await _eventRepository.GetTimeAtPlacesForEvent(id);
             return _mapper.Map<IEnumerable<Entities.TimeAtPlace>, IEnumerable<TimeAtPlaceTransferModel>>(timeAtPlaces);
         }
+       
+        public async Task<int> AddEventTime(int targetEvent, string foursquareId, DateTime time)
+        {
+            throw new NotSupportedException();
+        }
+
+        public async Task<string> GetEventName(int id)
+        {
+            var foundEvent = await _eventRepository.GetSingleEvent(id);
+
+            return foundEvent?.Name;
+
+        }
     }
+    
 }

@@ -15,10 +15,12 @@ namespace EventPlanner.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddPlaces(int eventId)
+        public async Task<IActionResult> AddPlaces(int eventId, string place = "")
         {
             var eventTransferModel = await _eventService.GetSingleEvent(eventId);
             var eventViewModel = _mapper.Map<EventViewModel>(eventTransferModel);
+            eventViewModel.CurrentPlaceFoursquareId = place;
+
             return View(eventViewModel);
         }
 

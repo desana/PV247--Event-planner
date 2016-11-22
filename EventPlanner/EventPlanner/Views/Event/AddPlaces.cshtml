@@ -28,7 +28,7 @@
     <input id ="foursquareId" class="form-group" asp-for="CurrentPlaceFoursquareId" type="number" hidden="True"  value="4c2e168a987f20a13d7f4aaa"/>
 
 
-    <input type="button" value="Add Place" class="btn btn-primary" onclick="location.href='@Url.Action("AddSinglePlace", "Event", new { eventId = Model.EventId, foursquareId = Model.CurrentPlaceFoursquareId })'" />
+    <input type="button" value="Add Place" class="btn btn-primary" onclick="@Url.Action("AddSinglePlace", "Event", new { eventId = Model.EventId, foursquareId = "4c2e168a987f20a13d7f4aaa" })" />
 
     @* Times*@
 
