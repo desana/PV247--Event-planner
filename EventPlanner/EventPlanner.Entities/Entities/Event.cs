@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace EventPlanner.Entities
+namespace EventPlanner.Entities.Entities
 {
     /// <summary>
     /// Represents one event.
     /// </summary>
-    public class Event
+    internal class Event
     {
         /// <summary>
         /// Primary key of the event.
@@ -32,8 +32,8 @@ namespace EventPlanner.Entities
         public string Link { get; set; }
 
         /// <summary>
-        /// Collection of all possible times at concrete places for this event.
+        /// Collection of all possible locations and times.
         /// </summary>
-        public ICollection<TimeAtPlace> TimesAtPlaces { get; set; } = new List<TimeAtPlace>();
+        public ICollection<Place> Places { get; set; } = new List<Place>();
     }
 }

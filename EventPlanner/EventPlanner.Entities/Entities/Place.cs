@@ -1,14 +1,22 @@
-﻿namespace EventPlanner.Entities
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EventPlanner.Entities.Entities
 {
     /// <summary>
     /// Represents FourSquare location.
     /// </summary>
-    public class Place
+    internal class Place
     {
         /// <summary>
         /// Primary key of place.
         /// </summary>
         public int Id { get; set; }
+
+        [ForeignKey("Event")]
+        public int EventId { get; set; }
+
+        public virtual Event Event { get; set; }
 
         /// <summary>
         /// Display name of the location.
@@ -24,5 +32,10 @@
         /// Link to FourSquare location.
         /// </summary>
         public string FourSquareLink { get; set; }
+
+        /// <summary>
+        /// Collection of all possible times.
+        /// </summary>
+        public ICollection<TimeAtPlace> Times { get; set; } = new List<TimeAtPlace>();
     }
 }

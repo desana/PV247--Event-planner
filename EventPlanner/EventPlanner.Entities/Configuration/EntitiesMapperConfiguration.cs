@@ -1,15 +1,18 @@
 ﻿using AutoMapper;
-using EventPlanner.Services.DataTransferModels.Mappings;
+using EventPlanner.Entities.Entities.Mapping;
 
-namespace EventPlanner.Services.Configuration
+namespace EventPlanner.Entities.Configuration
 {
-    public static class ServicesMapperConfiguration
+    public static class EntitiesMapperConfiguration
     {
         public static void InitialializeMappings(IMapperConfigurationExpression configuration)
         {
+            configuration.AddProfile<EventListItemMappingProfile>();
             configuration.AddProfile<EventMappingProfile>();
             configuration.AddProfile<PlaceMappingProfile>();
             configuration.AddProfile<TimeAtPlaceMappingProfile>();
+            configuration.AddProfile<VoteSessionMappingProfile>();
+            configuration.AddProfile<VoteMappingProfile>();
         }
     }
 }

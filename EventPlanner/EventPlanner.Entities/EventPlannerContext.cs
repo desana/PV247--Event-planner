@@ -1,11 +1,12 @@
 ﻿using System.Data.Entity;
+using EventPlanner.Entities.Entities;
 
 namespace EventPlanner.Entities
 {
     /// <summary>
     /// Database context of event planner. 
     /// </summary>
-    public class EventPlannerContext : DbContext
+    internal class EventPlannerContext : DbContext
     {
         public EventPlannerContext() : base("EventPlannerContext")
         {
@@ -31,5 +32,9 @@ namespace EventPlanner.Entities
         /// Active events.
         /// </summary>
         public virtual DbSet<Event> Events { get; set; }
+
+        public virtual DbSet<Vote> Votes { get; set; }
+
+        public virtual DbSet<VoteSession> VoteSessions { get; set; }
     }
 }

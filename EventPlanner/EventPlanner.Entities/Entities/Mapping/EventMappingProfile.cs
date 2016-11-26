@@ -1,25 +1,24 @@
 ﻿using AutoMapper;
-using EventPlanner.Services.DataTransferModels.Models;
 
-namespace EventPlanner.Services.DataTransferModels.Mappings
+namespace EventPlanner.Entities.Entities.Mapping
 {
     public class EventMappingProfile : Profile
     {
         public EventMappingProfile()
         {
-            CreateMap<Entities.Event, EventTransferModel>()
+            CreateMap<Event, DTO.Event.Event>()
                 .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dst => dst.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dst => dst.Link, opt => opt.MapFrom(src => src.Link))
-                .ForMember(dst => dst.TimesAtPlaces, opt => opt.MapFrom(src => src.TimesAtPlaces))
-                .ForAllOtherMembers(dst => dst.Ignore());
+                .ForMember(dst => dst.Places, opt => opt.MapFrom(src => src.Places));
 
-            CreateMap<EventTransferModel, Entities.Event>()
+            CreateMap<DTO.Event.Event, Event>()
+                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dst => dst.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dst => dst.Link, opt => opt.MapFrom(src => src.Link))
-                .ForAllOtherMembers(dst => dst.Ignore());
+                .ForMember(dst => dst.Places, opt => opt.MapFrom(src => src.Places));
         }
     }
 }

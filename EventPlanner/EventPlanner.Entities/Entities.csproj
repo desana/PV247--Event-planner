@@ -83,7 +83,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ConnectionOptions.cs" />
+    <Compile Include="Configuration\EntitiesMapperConfiguration.cs" />
     <Compile Include="Entities\Event.cs" />
+    <Compile Include="Entities\Mapping\EventListItemMappingProfile.cs" />
+    <Compile Include="Entities\Mapping\EventMappingProfile.cs" />
+    <Compile Include="Entities\Mapping\PlaceMappingProfile.cs" />
+    <Compile Include="Entities\Mapping\TimeAtPlaceMappingProfile.cs" />
+    <Compile Include="Entities\Mapping\VoteMappingProfile.cs" />
+    <Compile Include="Entities\Mapping\VoteSessionMappingProfile.cs" />
+    <Compile Include="Entities\Vote.cs" />
+    <Compile Include="Entities\VoteSession.cs" />
     <Compile Include="EventPlannerContext.cs" />
     <Compile Include="Entities\Place.cs" />
     <Compile Include="Entities\TimeAtPlace.cs" />
@@ -96,12 +105,16 @@
     <Compile Include="Migrations\201611211946574_Votes.Designer.cs">
       <DependentUpon>201611211946574_Votes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611261545030_VoteSessions.cs" />
+    <Compile Include="Migrations\201611261545030_VoteSessions.Designer.cs">
+      <DependentUpon>201611261545030_VoteSessions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EventsRepository.cs" />
     <Compile Include="Repositories\IEventsRepository.cs" />
-    <Compile Include="Repositories\ITimeAtPlaceRepository.cs" />
-    <Compile Include="Repositories\TimeAtPlaceRepository.cs" />
+    <Compile Include="Repositories\IVoteRepository.cs" />
+    <Compile Include="Repositories\VoteRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -118,6 +131,15 @@
     <EmbeddedResource Include="Migrations\201611211946574_Votes.resx">
       <DependentUpon>201611211946574_Votes.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611261545030_VoteSessions.resx">
+      <DependentUpon>201611261545030_VoteSessions.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DTO\DTO.csproj">
+      <Project>{7adbef1e-4386-4852-ae9e-941e89d1f33b}</Project>
+      <Name>DTO</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

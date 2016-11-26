@@ -1,6 +1,23 @@
 {
   "version": 2,
   "exports": {
+    "DTO/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.2",
+      "compile": {
+        "bin/Debug/EventPlanner.DTO.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/EventPlanner.DTO.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/EventPlanner.DTO.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
     "Entities/1.0.0": {
       "type": "project",
       "framework": ".NETFramework,Version=v4.6.2",

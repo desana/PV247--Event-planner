@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EventPlanner.Services.DataTransferModels.Models;
+
 
 namespace EventPlanner.Services.Event
 {
@@ -10,25 +10,25 @@ namespace EventPlanner.Services.Event
         /// <summary>
         /// Returns all events from the database.
         /// </summary>
-        Task<IEnumerable<EventTransferModel>> GetAllEvents();
+        Task<IList<DTO.Event.EventListItem>> GetAllEvents();
 
         /// <summary>
         /// Adds event to the database.
         /// </summary>
         /// <param name="newEvent">Event to be added.</param>
-        Task<EventTransferModel> AddEvent(EventTransferModel newEvent);
+        Task<DTO.Event.Event> AddEvent(DTO.Event.Event newEvent);
 
         /// <summary>
         /// Returns single event from the database.
         /// </summary>
         /// <param name="name">Name of requested event.</param>
-        Task<EventTransferModel> GetSingleEvent(string name);
+        Task<DTO.Event.Event> GetSingleEvent(string name);
 
         /// <summary>
         /// Returns single event from the database.
         /// </summary>
         /// <param name="id">Id of requested event.</param>
-        Task<EventTransferModel> GetSingleEvent(int id);
+        Task<DTO.Event.Event> GetSingleEvent(int id);
 
         /// <summary>
         /// Removed event from the database.
@@ -39,20 +39,20 @@ namespace EventPlanner.Services.Event
 
         /// <summary>
         /// Adds place to an event. 
-        /// Adds records to <see cref="PlaceTransferModel"/> and <see cref="TimeAtPlaceTransferModel"/> accordingly.
+        /// Adds records to <see cref="DTO.Event.Place"/> and <see cref="DTO.Event.TimeAtPlace"/> accordingly.
         /// </summary>
-        /// <param name="targetEvent">Id of <see cref="EventTransferModel"/> which will be updated.</param>
-        /// <param name="foursquareId">Foursquare ID of the new <see cref="PlaceTransferModel"/>.</param>
+        /// <param name="eventId">Id of <see cref="Event"/> which will be updated.</param>
+        /// <param name="foursquareId">Foursquare ID of the new <see cref="DTO.Event.Place"/>.</param>
         /// <returns>Id of the newly created place.</returns>
-        Task<int> AddEventPlace(int targetEvent, string foursquareId);
+        Task<DTO.Event.Event> AddEventPlace(int eventId, string foursquareId);
 
         /// <summary>
-        /// Adds time to <see cref="TimeAtPlaceTransferModel"/>.
+        /// Adds time to <see cref="DTO.Event.TimeAtPlace"/>.
         /// </summary>
-        /// <param name="targetEvent">ID of the<see cref="EventTransferModel"/> which will be updated.</param>
+        /// <param name="targetEvent">ID of the<see cref="Event"/> which will be updated.</param>
         /// <param name="foursquareId">The foursquare Id of place to which the time belongs to.</param>
         /// <param name="time">New timeslot.</param>
-        Task<int> AddEventTime(int targetEvent, string foursquareId, DateTime time);
+        Task<DTO.Event.Event> AddEventTime(int targetEvent, string foursquareId, DateTime time);
 
         /// <summary>
         /// Get the name of the event.
@@ -60,12 +60,5 @@ namespace EventPlanner.Services.Event
         /// <param name="id">Id of event.</param>
         /// <returns>Event name.</returns>
         Task<string> GetEventName(int id);
-
-        /// <summary>
-        /// Gets all timeAtPlaces for given event from the database.
-        /// </summary>
-        /// <param name="id">Id of the event.</param>
-        /// <returns>All timeAtPlaces for the event.</returns>
-        Task<IEnumerable<TimeAtPlaceTransferModel>> GetTimeAtPlacesForEvent(int id);
     }
 }

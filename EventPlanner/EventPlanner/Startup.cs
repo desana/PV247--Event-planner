@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using EventPlanner.Configuration;
+using EventPlanner.Entities.Configuration;
 using EventPlanner.Entities.Repositories;
-using EventPlanner.Repositories;
-using EventPlanner.Services.Configuration;
 using EventPlanner.Services.Event;
+using EventPlanner.Services.Vote;
 using FoursquareVenuesService;
 using FoursquareVenuesService.Services;
 using Microsoft.AspNetCore.Builder;
@@ -49,7 +49,7 @@ namespace EventPlanner
             var mapper = new MapperConfiguration(cfg =>
             {
                 ViewModelsMapperConfiguration.InitialializeMappings(cfg);
-                ServicesMapperConfiguration.InitialializeMappings(cfg);
+                EntitiesMapperConfiguration.InitialializeMappings(cfg);
 
             }).CreateMapper();
 
@@ -65,19 +65,17 @@ namespace EventPlanner
 
             // Scoped - For every request within an implicitly or explicitly defined scope.
             services
-                .AddScoped<IEventService, EventService>();
+                .AddScoped<IEventService, EventService>()
+                .AddScoped<IVoteService, VoteService>()
+                .AddScoped<IEventsRepository, EventsRepository>()
+                .AddScoped<IVoteRepository, VoteRepository>();
 
             // Transient - A new instance of the service type will be created each time the service is requested from the container. If multiple consumers depend on the service within the same graph, each consumer will get its own new instance of the given service.
-            services
-                .AddTransient<IEventsRepository, EventsRepository>()
-                .AddTransient<ITimeAtPlaceRepository, TimeAtPlaceRepository>();
 
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
             
             services.AddMvc();
-            services.AddDistributedMemoryCache();
-            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,7 +99,6 @@ namespace EventPlanner
             app.UseApplicationInsightsExceptionTelemetry();
             app.UseStaticFiles();
 
-            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

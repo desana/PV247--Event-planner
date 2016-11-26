@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using AutoMapper;
+using EventPlanner.Entities.Configuration;
+using EventPlanner.Entities.Entities;
 using EventPlanner.Entities.Repositories;
-using EventPlanner.Repositories;
 using Xunit;
 using Moq;
 
@@ -16,11 +18,27 @@ namespace EventPlanner.Entities.UnitTests
 
         public EventsRepositoryTests()
         {
-            var testPlace1 = new Place { Id = 1, FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93", Name = "U Karla" };
-            var testPlace2 = new Place { Id = 2, FourSquareLink = "https://foursquare.com/v/burger-inn/55a93496498e49f11b0a9532", Name = "Burger Inn" };
-            var testTime1 = new TimeAtPlace { Place = testPlace1, Time = DateTime.Now , Id = 1 };
-            var testTime2 = new TimeAtPlace { Place = testPlace1, Time = DateTime.Now , Id = 2 };
-            var testTime3 = new TimeAtPlace { Place = testPlace2, Time = DateTime.Now, Id = 3 };
+            var testPlace1 = new Place
+            {
+                Id = 1,
+                FourSquareLink = "https://foursquare.com/v/u-karla/4c1f3003b4e62d7fb244df93",
+                Name = "U Karla",
+                Times = new List<TimeAtPlace>
+                {
+                    new TimeAtPlace { Time = DateTime.Now , Id = 1 },
+                    new TimeAtPlace { Time = DateTime.Now , Id = 2 }
+                }
+            };
+            var testPlace2 = new Place
+            {
+                Id = 2,
+                FourSquareLink = "https://foursquare.com/v/burger-inn/55a93496498e49f11b0a9532",
+                Name = "Burger Inn", 
+                Times = new List<TimeAtPlace>
+                {
+                    new TimeAtPlace { Time = DateTime.Now, Id = 3 }
+                }
+            };
 
             // Seed data
             var data = new List<Event>
@@ -30,14 +48,14 @@ namespace EventPlanner.Entities.UnitTests
                     Id = 1,
                     Name = "Sraz",
                     Description = "Sraz členů spolku",
-                    TimesAtPlaces = new List<TimeAtPlace> { testTime1, testTime2 }
+                    Places = new List<Place> { testPlace1 }
                 },
                new Event
                 {
                     Id = 2,
                     Name = "Sraz 2",
                     Description = "Sraz členů jiného spolku",
-                    TimesAtPlaces = new List<TimeAtPlace> { testTime3 }
+                    Places = new List<Place> { testPlace2 }
                 }
             }.AsQueryable();
 
@@ -55,7 +73,13 @@ namespace EventPlanner.Entities.UnitTests
             var mockContext = new Mock<EventPlannerContext>();
             mockContext.Setup(c => c.Events).Returns(mockSet.Object);
 
-            _eventsRepository = new EventsRepository(mockContext.Object);
+            var mapper = new MapperConfiguration(cfg =>
+            {
+                EntitiesMapperConfiguration.InitialializeMappings(cfg);
+
+            }).CreateMapper();
+
+            _eventsRepository = new EventsRepository(mockContext.Object, mapper);
         }
 
         [Fact]
@@ -77,24 +101,8 @@ namespace EventPlanner.Entities.UnitTests
             var singleEvent = await _eventsRepository.GetSingleEvent(2);
 
             Assert.Equal("Sraz 2", singleEvent.Name);
-            Assert.Equal(1, singleEvent.TimesAtPlaces.Count);
-
-            var timesAtPlaces = singleEvent.TimesAtPlaces.ToList();
-            Assert.NotNull(timesAtPlaces[0].Place);
-            Assert.Equal("Burger Inn", timesAtPlaces[0].Place.Name);
-        }
-
-        [Fact]
-        public async void GetSingleEvent2_Async()
-        {
-            var singleEvent = await _eventsRepository.GetSingleEvent("Sraz 2");
-
-            Assert.Equal("Sraz 2", singleEvent.Name);
-            Assert.Equal(1, singleEvent.TimesAtPlaces.Count);
-
-            var timesAtPlaces = singleEvent.TimesAtPlaces.ToList();
-            Assert.NotNull(timesAtPlaces[0].Place);
-            Assert.Equal("Burger Inn", timesAtPlaces[0].Place.Name);
+            Assert.Equal("Burger Inn", singleEvent.Places.Single().Name);
+            Assert.Equal(1, singleEvent.Places.Single().Times.Count);
         }
 
         [Fact]
