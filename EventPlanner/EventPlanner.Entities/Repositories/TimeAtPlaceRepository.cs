@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using EventPlanner.Entities;
 using Microsoft.Extensions.Options;
-using System.Data.Entity;
 
 namespace EventPlanner.Repositories
 {
@@ -28,25 +27,14 @@ namespace EventPlanner.Repositories
             throw new System.NotImplementedException();
         }
 
-        public async Task<IEnumerable<TimeAtPlace>> GetAllTimeAtPlaces()
+        public Task<IEnumerable<TimeAtPlace>> GetAllTimeAtPlaces()
         {
-            return await _context
-                .TimesAtPlaces
-                .ToArrayAsync();
+            throw new System.NotImplementedException();
         }
 
-        public async Task<TimeAtPlace> AddTimeAtPlace(TimeAtPlace timeSlot)
+        public Task<TimeAtPlace> AddTimeAtPlace(TimeAtPlace timeSlot)
         {
-            _context
-                .Places
-                .Add(timeSlot.Place);
-
-            var addedTimeAtPlace =  _context
-                .TimesAtPlaces
-                .Add(timeSlot);
-
-            await _context.SaveChangesAsync();
-            return addedTimeAtPlace;
+            throw new System.NotImplementedException();
         }
 
         public Task<bool> DeleteTimeAtPlace(int id)

@@ -86,7 +86,6 @@ namespace EventPlanner.Services.Event
         {
             var timeAtPlaceTransferModel = new TimeAtPlaceTransferModel()
             {
-                EventId = targetEvent,
                 Place = new PlaceTransferModel()
                 {
                     FourSquareId = foursquareId
@@ -96,7 +95,6 @@ namespace EventPlanner.Services.Event
             var timeAtPlaceEntity = await _timePlaceRepository
                 .AddTimeAtPlace(_mapper.Map<Entities.TimeAtPlace>(timeAtPlaceTransferModel));
 
-            await _eventRepository.AddTimeAtPlace(targetEvent, timeAtPlaceEntity.Id);
             return timeAtPlaceEntity.PlaceId;
         }
 

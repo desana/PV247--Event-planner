@@ -28,7 +28,7 @@ namespace EventPlanner.Entities
         /// <summary>
         /// Starting time of the time slot.
         /// </summary>
-        public Nullable<DateTime> Time { get; set; }
+        public DateTime Time { get; set; }
 
         /// <summary>
         /// Number of votes for this timeslot.

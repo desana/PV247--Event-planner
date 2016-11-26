@@ -25,6 +25,6 @@
         /// <summary>
         /// Event to which this belongs to.
         /// </summary>
-        public int EventId { get; set; }
+        public EventTransferModel Event { get; set; }
     }
 }
