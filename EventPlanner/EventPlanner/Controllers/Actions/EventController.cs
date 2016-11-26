@@ -42,39 +42,41 @@ namespace EventPlanner.Controllers
         /// <summary>
         /// Adds <c>DateTime</c> value to <see cref="TimeAtPlaceViewModel"/> of corresponding <see cref="EventViewModel"/>.
         /// </summary>
-        /// <param name="currentevent">Currently processed event.</param>
+        /// <param name="targetEvent">Currently processed event.</param>
         /// <returns>Redirect to <see cref="AddPlaces"/> page with updated data.</returns>
-        public async Task<IActionResult> AddSingleTime(int eventId, string foursquareId, DateTime time)
+        [HttpPost]
+        public async Task<IActionResult> AddSingleTime(EventViewModel targetEvent)
         {
-            if (!ModelState.IsValid)
-            {   
-                return RedirectToAction("AddPlaces", new { eventId = eventId});
-            }
+            // TODO
+            //if (!ModelState.IsValid)
+            //{   
+            //    return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId});
+            //}
 
-            var modifiedEventId = await _eventService.AddEventTime(eventId, foursquareId, time);
-            
-            return RedirectToAction("AddPlaces", new { eventId = modifiedEventId, foursquareId = foursquareId });
+            var currentTimeAtPlaceId = await _eventService.AddEventTime(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId, targetEvent.CurrentTime);
+            return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId, place = currentTimeAtPlaceId });
         }
+
 
         /// <summary>
         /// Adds instance of <see cref="PlaceViewModel"/> to the database 
         /// and creates corresponding links with <see cref="TimeAtPlaceViewModel"/> and <see cref="EventViewModel"/>.
         /// </summary>
-        /// <param name="eventId">Id of currently processed event.</param>
-        /// <param name="foursquareId"> Foursquare id of place to be added.</param>
+        /// <param name="targetEvent">Currently processed event.</param>
         /// <returns>Redirect to <see cref="AddPlaces"/> page with updated data.</returns>
         [HttpPost]
-        public async Task<IActionResult> AddSinglePlace(int eventId, string foursquareId)
+        public async Task<IActionResult> AddSinglePlace(EventViewModel targetEvent)
         {
-            if (!ModelState.IsValid)
+            // TODO
+            /* if (!ModelState.IsValid)
             {
-                return RedirectToAction("AddPlaces", new { eventId = eventId });
+                return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId });
             }
+            */
 
-            var currentTimeAtPlaceId = await _eventService.AddEventPlace(eventId, foursquareId);
-            return RedirectToAction("AddPlaces", new { eventId = eventId, place = currentTimeAtPlaceId });
+            var tralala = await _eventService.AddEventPlace(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId);
+            return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId, place = targetEvent.CurrentPlaceFoursquareId });
         }
-
 
         /// <summary>
         /// Gets json object that will be used for rendering charts.
