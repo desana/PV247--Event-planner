@@ -36,6 +36,11 @@ namespace EventPlanner.Services.Event
             return await _eventRepository.AddEvent(newEvent);
         }
 
+        public async Task<DTO.Event.Event> SaveEvent(DTO.Event.Event @event)
+        {
+            return await _eventRepository.SaveEvent(@event);
+        }
+
         /// <summary>
         /// Returns single event from the database.
         /// </summary>
