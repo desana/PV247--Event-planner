@@ -8,7 +8,7 @@ namespace EventPlanner.Repositories
     {
         /// <summary>
         /// Returns single event from the database.
-        /// </summary>
+        /// </summary>x
         /// <param name="id">Id of requested event.</param>
         Task<Event> GetSingleEvent(int id);
 

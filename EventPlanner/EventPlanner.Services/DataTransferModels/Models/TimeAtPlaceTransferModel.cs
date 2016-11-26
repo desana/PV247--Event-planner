@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace EventPlanner.Services.DataTransferModels.Models
 {
@@ -13,12 +12,12 @@ namespace EventPlanner.Services.DataTransferModels.Models
         /// <summary>
         /// Place at which time slot takes place on.
         /// </summary>
-        public PlaceTransferModel Place { get; set; }
+        public PlaceTransferModel  Place { get; set; }
 
         /// <summary>
         /// Starting time of the time slot.
         /// </summary>
-        public DateTime Time { get; set; }
+        public DateTime? Time { get; set; }
 
         /// <summary>
         /// Event to which this belongs to.
