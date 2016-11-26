@@ -51,8 +51,7 @@ namespace EventPlanner.Controllers
                 return RedirectToAction("AddPlaces", new { eventId = eventId});
             }
 
-            var modifiedEventId = await _eventService.AddEventTime(eventId, foursquareId, time);
-            
+            var modifiedEventId = await _eventService.AddEventTime(eventId, foursquareId, time);            
             return RedirectToAction("AddPlaces", new { eventId = modifiedEventId, foursquareId = foursquareId });
         }
 
@@ -64,15 +63,17 @@ namespace EventPlanner.Controllers
         /// <param name="foursquareId"> Foursquare id of place to be added.</param>
         /// <returns>Redirect to <see cref="AddPlaces"/> page with updated data.</returns>
         [HttpPost]
-        public async Task<IActionResult> AddSinglePlace(int eventId, string foursquareId)
+        public async Task<IActionResult> AddSinglePlace(EventViewModel targetEvent)
         {
-            if (!ModelState.IsValid)
+            // TODO
+            /* if (!ModelState.IsValid)
             {
-                return RedirectToAction("AddPlaces", new { eventId = eventId });
+                return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId });
             }
+            */
 
-            var currentTimeAtPlaceId = await _eventService.AddEventPlace(eventId, foursquareId);
-            return RedirectToAction("AddPlaces", new { eventId = eventId, place = currentTimeAtPlaceId });
+            var currentTimeAtPlaceId = await _eventService.AddEventPlace(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId);
+            return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId, place = currentTimeAtPlaceId });
         }
 
 

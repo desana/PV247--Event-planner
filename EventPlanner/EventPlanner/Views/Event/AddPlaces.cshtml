@@ -4,6 +4,7 @@
 @model EventViewModel
 
 @{
+
     if (Model == null)
     {
         @Url.Action("Index", "Home", new { CurrentEvent = Model })
@@ -13,34 +14,44 @@
     foreach (var item in Model.TimesAtPlaces)
     {
 
-        @Html.DisplayFor(modelItem => item.Place.Name)               
+        @Html.DisplayFor(modelItem => item.Place.PlaceId)               
     }
 }
 
-<form>
+
+@* Times*@
+
+    @*  <form asp-action="AddSingleTime">
+    <div class="form-group">
+            <label asp-for="CurrentTime"></label>
+            <input class="form-group" asp-for="CurrentTime" type="datetime" />
+            <input type="button" value="Add Time" class="btn btn-primary" />
+
+         <input class="form-group" asp-for="CurrentPlace" type="text" hidden="True"/>
+        </div>     <input type="submit" value="Next" class="btn btn-primary" />
+
+    </form>
+
 
     @* Place *@
+    <form asp-action="AddSinglePlace">
 
-    <label asp-for="CurrentCity"></label>
-    <input class="form-group" asp-for="CurrentCity" type="text" />
-    <label asp-for="CurrentPlace"></label>
-    <input class="form-group" asp-for="CurrentPlace" type="text" />
-    <input id ="foursquareId" class="form-group" asp-for="CurrentPlaceFoursquareId" type="number" hidden="True"  value="4c2e168a987f20a13d7f4aaa"/>
+        <label asp-for="CurrentCity"></label>
+        <input class="form-group" asp-for="CurrentCity" type="text" />
 
+        <label asp-for="CurrentPlace"></label>
+        <input class="form-group" asp-for="CurrentPlace" type="text" />
 
-    <input type="button" value="Add Place" class="btn btn-primary" onclick="@Url.Action("AddSinglePlace", "Event", new { eventId = Model.EventId, foursquareId = "4c2e168a987f20a13d7f4aaa" })" />
+        @* Hidden fields *@
 
-    @* Times*@
+        <input id="foursquareId" class="form-group" asp-for="CurrentPlaceFoursquareId" type="text" hidden="True" />
+        <input id="eventId" class="form-group" asp-for="EventId" type="number" hidden="True" />
 
-  @*  <div class="form-group">
-        <label asp-for="CurrentTime"></label>
-        <input class="form-group" asp-for="CurrentTime" type="datetime" />
-        <input type="button" value="Add Time" class="btn btn-primary" />
-    </div>
+        @* Add place *@
+
+        <input type="submit" value="Next" class="btn btn-primary" />
+
+    </form>
 
     @* Submit button *@
 
-    <div class="form-group">
-        <input type="submit" value="Next" class="btn btn-primary" />
-    </div>
-</form>

@@ -8,6 +8,8 @@
         
         public string FourSquareLink { get; set; }
 
-        public EventViewModel Event { get; set; }
+        public int EventId { get; set; }
+
+        public string FourSquareId { get; set; }
     }
 }

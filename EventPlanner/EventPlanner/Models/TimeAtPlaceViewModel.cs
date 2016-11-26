@@ -10,7 +10,7 @@ namespace EventPlanner.Models
         
         public DateTime Time { get; set; }
         
-        public EventViewModel Event { get; set; }
+        public int EventId { get; set; }
 
         public int Votes { get; set; }
     }
