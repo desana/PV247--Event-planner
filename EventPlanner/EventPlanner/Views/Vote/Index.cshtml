@@ -1,33 +1,36 @@
 ﻿
-@model VoteCollectionViewModel
+@model VoteViewModel
 
 @{
     ViewBag.Title = "Vote";
-    var i = 0;
 }
 
 <h2>Vote for @Model.EventName</h2>
-@foreach (var item in Model.VoteItems)
+@foreach (var item in Model.Places)
 {
-    if (i % 3 == 0)
-    {
-        @Html.Raw("<div class=\"row\">")
-    }
+    <div class="row">
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="@item.PlacePhotoUrl">
+                <div class="caption">
+                    <h3>@item.Place.Name</h3>
 
-    <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-            <img src="@item.PlacePhotoUrl">
-            <div class="caption">
-                <h3>@item.Place.Name</h3>
-                <p>@item.Time</p>
-                <p><a href="#" class="btn btn-primary" role="button">Vote</a></p>
+                    @foreach (var timeItem in item.Place.Times)
+                    {
+                        <p>
+                            @timeItem.Time
+                            <a asp-controller="Vote"
+                               asp-action="TestVote"
+                               asp-route-id="@Model.EventId"
+                               asp-route-placeAtTimeId="@timeItem.Id"
+                               class="btn btn-primary"
+                               role="button">
+                                Vote
+                            </a>
+                        </p>
+                    }
+                </div>
             </div>
         </div>
     </div>
-
-    if (i % 3 == 2)
-    {
-        @Html.Raw("</div>")
-    }
-    i++;
 }

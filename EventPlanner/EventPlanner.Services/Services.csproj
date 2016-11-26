@@ -44,28 +44,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\ServicesMapperConfiguration.cs" />
-    <Compile Include="DataTransferModels\Models\EventTransferModel.cs" />
     <Compile Include="DataTransferModels\Generators\UniqueLinkGenerator.cs" />
-    <Compile Include="DataTransferModels\Mappings\EventMappingProfile.cs" />
-    <Compile Include="DataTransferModels\Mappings\PlaceMappingProfile.cs" />
-    <Compile Include="DataTransferModels\Mappings\TimeAtPlaceMappingProfile.cs" />
-    <Compile Include="DataTransferModels\Models\PlaceTransferModel.cs" />
-    <Compile Include="DataTransferModels\Models\TimeAtPlaceTransferModel.cs" />
     <Compile Include="Event\EventService.cs" />
     <Compile Include="Event\IEventService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vote\IVoteService.cs" />
+    <Compile Include="Vote\VoteService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DTO\DTO.csproj">
+      <Project>{7adbef1e-4386-4852-ae9e-941e89d1f33b}</Project>
+      <Name>DTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EventPlanner.Entities\Entities.csproj">
       <Project>{c09000f1-4e7b-4a6f-a8b5-a9751fbc0725}</Project>
       <Name>Entities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DataTransferModels\Mappings\" />
+    <Folder Include="DataTransferModels\Models\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

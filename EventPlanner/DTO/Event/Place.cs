@@ -1,6 +1,8 @@
-﻿namespace EventPlanner.Services.DataTransferModels.Models
+﻿using System.Collections.Generic;
+
+namespace EventPlanner.DTO.Event
 {
-    public class PlaceTransferModel
+    public class Place
     {
         /// <summary>
         /// Primary key of place.
@@ -22,9 +24,6 @@
         /// </summary>
         public string FourSquareLink { get; set; }
 
-        /// <summary>
-        /// Event to which this belongs to.
-        /// </summary>
-        public EventTransferModel Event { get; set; }
+        public ICollection<TimeAtPlace> Times { get; set; } = new List<TimeAtPlace>();
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EventPlanner.Entities
+namespace EventPlanner.Entities.Entities
 {
     /// <summary>
     /// Represents one time slot at specified place.  
     /// </summary>
-    public class TimeAtPlace
+    internal class TimeAtPlace
     {
         /// <summary>
         /// Primary key of the time slot.
@@ -29,21 +29,5 @@ namespace EventPlanner.Entities
         /// Starting time of the time slot.
         /// </summary>
         public DateTime Time { get; set; }
-
-        /// <summary>
-        /// Number of votes for this timeslot.
-        /// </summary>
-        public int Votes { get; set; }
-
-        /// <summary>
-        /// Event which time slot belongs to.
-        /// </summary>
-        public int EventId { get; set; }
-
-        /// <summary>
-        /// Event which time slot belongs to.
-        /// </summary>
-        [ForeignKey("EventId")]
-        public virtual Event Event { get; set; }
     }
 }

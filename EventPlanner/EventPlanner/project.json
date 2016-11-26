@@ -32,6 +32,9 @@
   "frameworks": {
     "net462": {
       "dependencies": {
+        "DTO": {
+          "target": "project"
+        },
         "Entities": {
           "target": "project"
         },

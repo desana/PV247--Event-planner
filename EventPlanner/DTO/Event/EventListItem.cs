@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace EventPlanner.Services.DataTransferModels.Models
+﻿namespace EventPlanner.DTO.Event
 {
-    public class EventTransferModel
+    public class EventListItem
     {
         /// <summary>
         /// Primary key of the event.
@@ -23,12 +21,5 @@ namespace EventPlanner.Services.DataTransferModels.Models
         /// Link to vote.
         /// </summary>
         public string Link { get; set; }
-
-        /// <summary>
-        /// Collection of all possible times at concrete places for this event.
-        /// </summary>
-        public ICollection<TimeAtPlaceTransferModel> TimesAtPlaces { get; set; } = new List<TimeAtPlaceTransferModel>();
-
     }
 }
-

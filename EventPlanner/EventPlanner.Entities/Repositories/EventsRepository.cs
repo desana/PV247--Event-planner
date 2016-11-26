@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using EventPlanner.Configuration;
-using EventPlanner.Repositories;
+using EventPlanner.Entities.Entities;
 using Microsoft.Extensions.Options;
 
 namespace EventPlanner.Entities.Repositories
@@ -12,17 +14,19 @@ namespace EventPlanner.Entities.Repositories
     public class EventsRepository : IEventsRepository
     {
         private readonly EventPlannerContext _context;
+        private readonly IMapper _mapper;
 
-        public EventsRepository(EventPlannerContext context)
+        internal EventsRepository(EventPlannerContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         /// <summary>
         /// Default repository constructor that uses connection string provided by top most level configuration
         /// </summary>
-        public EventsRepository(IOptions<ConnectionOptions> options)
-            : this(new EventPlannerContext(options.Value.ConnectionString))
+        public EventsRepository(IOptions<ConnectionOptions> options, IMapper mapper)
+            : this(new EventPlannerContext(options.Value.ConnectionString), mapper)
         {
         }
 
@@ -30,52 +34,53 @@ namespace EventPlanner.Entities.Repositories
         /// Returns single event from the database.
         /// </summary>
         /// <param name="id">Id of requested event.</param>
-        public async Task<Event> GetSingleEvent(int id)
+        public async Task<DTO.Event.Event> GetSingleEvent(int id)
         {
             var plannedEvent = await _context
                 .Events
                 .Where(ev => ev.Id == id)
-                .Include(ev => ev.TimesAtPlaces)
+                .Include(ev => ev.Places)
+                .Include(ev => ev.Places.Select(p => p.Times))
                 .SingleOrDefaultAsync();
 
-            return plannedEvent;
+            return _mapper.Map<DTO.Event.Event>(plannedEvent);
         }
 
         /// <summary>
         /// Returns single event from the database.
         /// </summary>
         /// <param name="name">Name of requested event.</param>
-        public async Task<Event> GetSingleEvent(string name)
+        public async Task<DTO.Event.Event> GetSingleEvent(string name)
         {
             var plannedEvent = await _context
                 .Events
                 .Where(ev => ev.Name == name)
                 .SingleOrDefaultAsync();
 
-            return plannedEvent;
+            return _mapper.Map<DTO.Event.Event>(plannedEvent);
         }
 
         /// <summary>
         /// Returns all events from the database.
         /// </summary>
-        public async Task<IEnumerable<Event>> GetAllEvents()
+        public async Task<IList<DTO.Event.EventListItem>> GetAllEvents()
         {
-            var allEvents = await _context.Events.ToArrayAsync();
-            return allEvents;
+            var allEvents = await _context.Events.ToListAsync();
+            return _mapper.Map<IList<DTO.Event.EventListItem>>(allEvents);
         }
 
         /// <summary>
         /// Adds event to the database.
         /// </summary>
         /// <param name="plannedEvent">Event to be added.</param>
-        public async Task<Event> AddEvent(Event plannedEvent)
+        public async Task<DTO.Event.Event> AddEvent(DTO.Event.Event plannedEvent)
         {
             if (plannedEvent == null)
                 throw new ArgumentNullException(nameof(plannedEvent));
 
-            var addedEvent = _context.Events.Add(plannedEvent);
+            var addedEvent = _context.Events.Add(_mapper.Map<Event>(plannedEvent));
             await _context.SaveChangesAsync();
-            return addedEvent;
+            return _mapper.Map<DTO.Event.Event>(addedEvent);
         }
 
         /// <summary>
@@ -98,45 +103,16 @@ namespace EventPlanner.Entities.Repositories
             return true;
         }
 
-        /// <summary>
-        /// Adds <see cref="TimeAtPlace"/> to the event.
-        /// </summary>
-        /// <param name="eventId">Id of the event.</param>
-        /// <param name="timeAtPlaceId"><see cref="TimeAtPlace"/> to add.</param>
-        /// <returns><c>True</c> if operation was succesfull.</returns>
-        public async Task<bool> AddTimeAtPlace(int eventId, int timeAtPlaceId)
+        public async Task<DTO.Event.Event> SaveEvent(DTO.Event.Event @event)
         {
-            var foundEvent = _context
-                .Events
-                .FirstOrDefault(ev => ev.Id == eventId);
+            if (@event == null)
+                throw new ArgumentNullException(nameof(@event));
 
-            if (foundEvent == null)
-                return false;
-
-            var timeAtPlaceToAdd = _context
-                .TimesAtPlaces
-                .FirstOrDefault(tp => tp.Id == timeAtPlaceId);
-
-            foundEvent.TimesAtPlaces.Add(timeAtPlaceToAdd);
+            var entity = _mapper.Map<Event>(@event);
+            _context.Events.AddOrUpdate(entity);
             await _context.SaveChangesAsync();
 
-            return true;
-        }
-
-        public async Task<IEnumerable<TimeAtPlace>> GetTimeAtPlacesForEvent(int id)
-        {
-            var timesAtPlaces = await _context.TimesAtPlaces
-               .Where(tp => tp.Event.Id == id)
-               .Include(tp => tp.Place)
-               .ToListAsync();
-            return timesAtPlaces;
-        }
-
-        public async Task<IEnumerable<TimeAtPlace>> GetAllVotesForEvent(int id)
-        {
-            var votes = await _context.TimesAtPlaces
-                .Where(v => v.Event.Id == id).ToListAsync();
-            return votes;
+            return _mapper.Map<DTO.Event.Event>(entity);
         }
     }
 }

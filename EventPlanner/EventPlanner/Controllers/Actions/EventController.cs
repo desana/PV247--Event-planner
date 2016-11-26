@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using EventPlanner.Models;
-using EventPlanner.Services.DataTransferModels.Models;
 using EventPlanner.Services.Event;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System;
+using EventPlanner.DTO.Event;
 
 namespace EventPlanner.Controllers
 {
@@ -35,7 +35,7 @@ namespace EventPlanner.Controllers
                 return RedirectToAction("CreateEvent");
             }
             
-            var savedEvent = await _eventService.AddEvent(_mapper.Map<EventTransferModel>(newEvent));
+            var savedEvent = await _eventService.AddEvent(_mapper.Map<Event>(newEvent));
             return RedirectToAction("AddPlaces", new { eventId = savedEvent.Id });
         }
 
@@ -85,7 +85,9 @@ namespace EventPlanner.Controllers
         {
             var chartModel = new ChartModel();
             // NOTE: we do not display places and times witch zero votes
-            var votes = _mapper.Map<IEnumerable<TimeAtPlaceViewModel>>(await _eventService.GetTimeAtPlacesForEvent(id));
+            var @event = await _eventService.GetSingleEvent(id);
+            // TODO Use vote service to read votes
+            var votes = _mapper.Map<IEnumerable<TimeAtPlaceViewModel>>(null);
             var data = votes.ToDictionary(
                 vote => vote.Place.Name + " - " + vote.Time.ToString("dd/MM/yyyy H:mm"),
                 vote => vote.Votes).OrderBy(k => k.Key);
