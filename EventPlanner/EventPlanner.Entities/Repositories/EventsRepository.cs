@@ -55,6 +55,8 @@ namespace EventPlanner.Entities.Repositories
             var plannedEvent = await _context
                 .Events
                 .Where(ev => ev.Name == name)
+                .Include(ev => ev.Places)
+                .Include(ev => ev.Places.Select(p => p.Times))
                 .SingleOrDefaultAsync();
 
             return _mapper.Map<DTO.Event.Event>(plannedEvent);
