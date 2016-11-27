@@ -44,7 +44,11 @@ namespace EventPlanner.Entities.Repositories
 
         public async Task<DTO.Vote.VoteSession> GetVoteSession(Guid sessionId)
         {
-            var entity = await _context.VoteSessions.Where(s => s.VoteSessionId == sessionId).FirstOrDefaultAsync();
+            var entity = await _context.VoteSessions
+                .Where(s => s.VoteSessionId == sessionId)
+                .Include(s => s.Votes)
+                .FirstOrDefaultAsync();
+
             if (entity == null)
                 return null;
 
@@ -53,7 +57,11 @@ namespace EventPlanner.Entities.Repositories
 
         public async Task<IList<DTO.Vote.VoteSession>> GetVoteSessions(int eventId)
         {
-            var entity = await _context.VoteSessions.Where(s => s.EventId == eventId).ToListAsync();
+            var entity = await _context.VoteSessions
+                .Where(s => s.EventId == eventId)
+                .Include(s => s.Votes)
+                .ToListAsync();
+
             return _mapper.Map<IList<DTO.Vote.VoteSession>>(entity);
         }
 
