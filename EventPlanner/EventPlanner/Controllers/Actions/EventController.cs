@@ -107,7 +107,7 @@ namespace EventPlanner.Controllers
 
             var sortedData = data.OrderBy(k => k.Key);
 
-            foreach (var pair in data)
+            foreach (var pair in sortedData)
             {
                 chartModel.Categories.Add(pair.Key);
                 chartModel.Data.Add(pair.Value);
