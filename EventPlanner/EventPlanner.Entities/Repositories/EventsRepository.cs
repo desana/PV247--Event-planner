@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -111,10 +110,73 @@ namespace EventPlanner.Entities.Repositories
                 throw new ArgumentNullException(nameof(@event));
 
             var entity = _mapper.Map<Event>(@event);
-            _context.Events.AddOrUpdate(entity);
+            var existing = await _context.Events.Where(e => e.Id == @event.Id)
+                .Include(ev => ev.Places)
+                .Include(ev => ev.Places.Select(p => p.Times))
+                .FirstOrDefaultAsync();
+
+            if (existing == null)
+                return null;
+
+            _context.Entry(existing).CurrentValues.SetValues(entity);
+            TrackPlacesChanges(existing, entity);
+
             await _context.SaveChangesAsync();
 
             return _mapper.Map<DTO.Event.Event>(entity);
+        }
+
+        private void TrackPlacesChanges(Event existingEvent, Event newEvent)
+        {
+            // Remove
+            var placesToRemove = existingEvent.Places
+                .Where(existingEventPlace => newEvent.Places.All(p => p.Id != existingEventPlace.Id))
+                .ToList();
+
+            placesToRemove.ForEach(p => _context.Places.Remove(p));
+
+            foreach (var newEventPlace in newEvent.Places)
+            {
+                var existingPlace = existingEvent.Places.FirstOrDefault(p => p.Id == newEventPlace.Id);
+                if (existingPlace == null)
+                {
+                    // Insert
+                    existingEvent.Places.Add(newEventPlace);
+                }
+                else
+                {
+                    // Update
+                    newEventPlace.EventId = existingPlace.EventId;
+                    _context.Entry(existingPlace).CurrentValues.SetValues(newEventPlace);
+                    TrackTimeChanges(existingPlace, newEventPlace);
+                }
+            }
+        }
+
+        private void TrackTimeChanges(Place existingPlace, Place newPlace)
+        {
+            // Remove
+            var timesToRemove = existingPlace.Times
+                .Where(existingPlaceTime => newPlace.Times.All(t => t.Id != existingPlaceTime.Id))
+                .ToList();
+
+            timesToRemove.ForEach(t => _context.TimesAtPlaces.Remove(t));
+
+            foreach (var newPlaceTime in newPlace.Times)
+            {
+                var existingTime = existingPlace.Times.FirstOrDefault(t => t.Id == newPlaceTime.Id);
+                if (existingTime == null)
+                {
+                    // Insert
+                    existingPlace.Times.Add(newPlaceTime);
+                }
+                else
+                {
+                    // Update
+                    newPlaceTime.PlaceId = existingTime.PlaceId;
+                    _context.Entry(existingTime).CurrentValues.SetValues(newPlaceTime);
+                }
+            }
         }
     }
 }

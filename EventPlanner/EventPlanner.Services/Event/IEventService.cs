@@ -60,5 +60,7 @@ namespace EventPlanner.Services.Event
         /// <param name="id">Id of event.</param>
         /// <returns>Event name.</returns>
         Task<string> GetEventName(int id);
+
+        Task<DTO.Event.Event> SaveEvent(DTO.Event.Event @event);
     }
 }
