@@ -9,6 +9,7 @@ namespace EventPlanner.Configuration
         {
             cfg.AddProfile<EventMapping>();
             cfg.AddProfile<PlaceMapping>();
+            cfg.AddProfile<TimeAtPlaceMapping>();
             cfg.AddProfile<VoteMapping>();
         }
     }

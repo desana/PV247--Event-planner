@@ -1,59 +1,79 @@
 ﻿@using System.Globalization
 @using System.Threading.Tasks
 @using EventPlanner.Models
+@using FoursquareVenuesService
+
 @model EventViewModel
-@{
 
-    if (Model == null)
-    {
-        @Url.Action("Index", "Home", new { CurrentEvent = Model })
-        ;
-    }
+@if (Model == null)
+{
+    @Url.Action("Index", "Home", new { CurrentEvent = Model })
 
-    foreach (var item in Model.Places)
-    {
-
-        @Html.DisplayFor(modelItem => item.PlaceId)
-    }
 }
 
-@* New time*@
+<ul>
+    @foreach (var place in Model.Places)
+    {
+        <li>
+            @Html.DisplayFor(modelItem => place.PlaceId)
 
-@if (Model.CurrentPlaceFoursquareId != "")
-{
-    <form asp-action="AddSingleTime">
-  
-            <label asp-for="CurrentTime"></label>
-            <input class="form-group" asp-for="CurrentTime" type="datetime" />
+            <ul>
+                @foreach (var time in place.Times)
+                {
+                    <li>
+                        @Html.DisplayFor(modelItem => time.Time)
+                    </li>
+                }
 
-            <input id="foursquareId" class="form-group" asp-for="CurrentPlace" type="text" hidden="True" />
+                @*  @if (Model.CurrentPlaceFoursquareId != "" && place.FourSquareId == Model.CurrentPlaceFoursquareId)*@
+                {
+                <li>
+                    @* New time*@
+                    <form asp-action="AddSingleTime">
+
+                        <label asp-for="CurrentTime"></label>
+                        <input class="form-group" asp-for="CurrentTime" type="datetime2" />
+
+                        @* Hidden fields *@
+
+                        <input id="foursquareId" class="form-group" asp-for="CurrentPlaceFoursquareId" type="text" hidden="True" />
+                        <input id="eventId" class="form-group" asp-for="EventId" type="number" hidden="True" />
+
+                        @* Add time *@
+
+                        <input type="submit" value="Add time" class="btn btn-primary" />
+
+                    </form>
+                </li>
+                }
+            </ul>
+
+        </li>
+    }
+
+    <li>
+        @* New Place *@
+        <form asp-action="AddSinglePlace">
+
+            <label asp-for="CurrentCity"></label>
+            <input class="form-group" asp-for="CurrentCity" type="text" />
+
+            <label asp-for="CurrentPlace"></label>
+            <input class="form-group" asp-for="CurrentPlace" type="text" />
+
+            @* Hidden fields *@
+
+            <input id="foursquareId" class="form-group" asp-for="CurrentPlaceFoursquareId" type="text" hidden="True" />
             <input id="eventId" class="form-group" asp-for="EventId" type="number" hidden="True" />
 
-           <input type="submit" value="Add time" class="btn btn-primary" />
+            @* Add place *@
 
-    </form>
-}
+            <input type="submit" value="Add place" class="btn btn-primary" />
+
+        </form>
+    </li>
+</ul>
 
 
-    @* New Place *@
-    <form asp-action="AddSinglePlace">
-
-        <label asp-for="CurrentCity"></label>
-        <input class="form-group" asp-for="CurrentCity" type="text" />
-
-        <label asp-for="CurrentPlace"></label>
-        <input class="form-group" asp-for="CurrentPlace" type="text" />
-
-        @* Hidden fields *@
-
-        <input id="foursquareId" class="form-group" asp-for="CurrentPlaceFoursquareId" type="text" hidden="True" />
-        <input id="eventId" class="form-group" asp-for="EventId" type="number" hidden="True" />
-
-        @* Add place *@
-
-        <input type="submit" value="Add place" class="btn btn-primary" />
-
-    </form>
-
-    @* Submit button *@
+@* Submit button *@
 

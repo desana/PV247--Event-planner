@@ -68,6 +68,7 @@ namespace EventPlanner.Controllers
             await _voteService.SaveVoteSession(testVoteSession);
 
             return Content("Voted");
-        }
+        }      
+
     }
 }

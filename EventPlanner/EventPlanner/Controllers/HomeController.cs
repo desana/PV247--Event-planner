@@ -88,5 +88,10 @@ namespace EventPlanner.Controllers
 
             return Content("Event created");
         }
+
+        public IActionResult TestFourSquare()
+        {
+            return View();
+        }
     }
 }
