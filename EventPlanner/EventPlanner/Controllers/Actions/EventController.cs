@@ -7,18 +7,22 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System;
 using EventPlanner.DTO.Event;
+using EventPlanner.DTO.Vote;
+using EventPlanner.Services.Vote;
 
 namespace EventPlanner.Controllers
 {
     public partial class EventController
     {
         private readonly IEventService _eventService;
+        private readonly IVoteService _voteService;
         private readonly IMapper _mapper;
 
-        public EventController(IMapper mapper, IEventService eventService)
+        public EventController(IMapper mapper, IEventService eventService, IVoteService voteService)
         {
             _mapper = mapper;
             _eventService = eventService;
+            _voteService = voteService;
         }
 
         /// <summary>
@@ -89,10 +93,19 @@ namespace EventPlanner.Controllers
             // NOTE: we do not display places and times witch zero votes
             var @event = await _eventService.GetSingleEvent(id);
             // TODO Use vote service to read votes
-            var votes = _mapper.Map<IEnumerable<TimeAtPlaceViewModel>>(null);
-            var data = votes.ToDictionary(
-                vote => vote.Place.Name + " - " + vote.Time.ToString("dd/MM/yyyy H:mm"),
-                vote => vote.Votes).OrderBy(k => k.Key);
+            var voteSessions = await _voteService.GetVoteSessions(@event.Id);
+            var data = new Dictionary<string, int>();
+            foreach (var place in @event.Places)
+            {
+                foreach (var time in place.Times)
+                {
+                    var value = voteSessions.SelectMany(voteSession => voteSession.Votes)
+                        .Count(vote => vote.TimeAtPlaceId == time.Id && vote.Value == VoteValueEnum.Accept);
+                    data.Add(place.Name + " - " + time.Time.ToString("dd/MM/yyyy H:mm"), value);
+                }
+            }
+
+            var sortedData = data.OrderBy(k => k.Key);
 
             foreach (var pair in data)
             {
@@ -104,3 +117,4 @@ namespace EventPlanner.Controllers
         }
     }
 }
+
