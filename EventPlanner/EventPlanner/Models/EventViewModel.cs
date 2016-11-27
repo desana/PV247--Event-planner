@@ -19,9 +19,6 @@ namespace EventPlanner.Models
 
         public ICollection<PlaceViewModel> Places { get; set; } = new List<PlaceViewModel>();
 
-        public ICollection<TimeAtPlaceViewModel> TimesAtPlaces { get; set; } = new List<TimeAtPlaceViewModel>();
-
-
         public string CurrentPlaceFoursquareId { get; set; }
 
         [Display(Name = "City")]

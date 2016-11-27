@@ -10,10 +10,10 @@
         ;
     }
 
-    foreach (var item in Model.TimesAtPlaces)
+    foreach (var item in Model.Places)
     {
 
-        @Html.DisplayFor(modelItem => item.Place.PlaceId)
+        @Html.DisplayFor(modelItem => item.PlaceId)
     }
 }
 
