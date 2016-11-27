@@ -7,18 +7,22 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System;
 using EventPlanner.DTO.Event;
+using EventPlanner.DTO.Vote;
+using EventPlanner.Services.Vote;
 
 namespace EventPlanner.Controllers
 {
     public partial class EventController
     {
         private readonly IEventService _eventService;
+        private readonly IVoteService _voteService;
         private readonly IMapper _mapper;
 
-        public EventController(IMapper mapper, IEventService eventService)
+        public EventController(IMapper mapper, IEventService eventService, IVoteService voteService)
         {
             _mapper = mapper;
             _eventService = eventService;
+            _voteService = voteService;
         }
 
         /// <summary>
@@ -42,39 +46,41 @@ namespace EventPlanner.Controllers
         /// <summary>
         /// Adds <c>DateTime</c> value to <see cref="TimeAtPlaceViewModel"/> of corresponding <see cref="EventViewModel"/>.
         /// </summary>
-        /// <param name="currentevent">Currently processed event.</param>
+        /// <param name="targetEvent">Currently processed event.</param>
         /// <returns>Redirect to <see cref="AddPlaces"/> page with updated data.</returns>
-        public async Task<IActionResult> AddSingleTime(int eventId, string foursquareId, DateTime time)
+        [HttpPost]
+        public async Task<IActionResult> AddSingleTime(EventViewModel targetEvent)
         {
-            if (!ModelState.IsValid)
-            {   
-                return RedirectToAction("AddPlaces", new { eventId = eventId});
-            }
+            // TODO
+            //if (!ModelState.IsValid)
+            //{   
+            //    return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId});
+            //}
 
-            var modifiedEventId = await _eventService.AddEventTime(eventId, foursquareId, time);
-            
-            return RedirectToAction("AddPlaces", new { eventId = modifiedEventId, foursquareId = foursquareId });
+            var currentTimeAtPlaceId = await _eventService.AddEventTime(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId, targetEvent.CurrentTime);
+            return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId, place = currentTimeAtPlaceId });
         }
+
 
         /// <summary>
         /// Adds instance of <see cref="PlaceViewModel"/> to the database 
         /// and creates corresponding links with <see cref="TimeAtPlaceViewModel"/> and <see cref="EventViewModel"/>.
         /// </summary>
-        /// <param name="eventId">Id of currently processed event.</param>
-        /// <param name="foursquareId"> Foursquare id of place to be added.</param>
+        /// <param name="targetEvent">Currently processed event.</param>
         /// <returns>Redirect to <see cref="AddPlaces"/> page with updated data.</returns>
         [HttpPost]
-        public async Task<IActionResult> AddSinglePlace(int eventId, string foursquareId)
+        public async Task<IActionResult> AddSinglePlace(EventViewModel targetEvent)
         {
-            if (!ModelState.IsValid)
+            // TODO
+            /* if (!ModelState.IsValid)
             {
-                return RedirectToAction("AddPlaces", new { eventId = eventId });
+                return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId });
             }
+            */
 
-            var currentTimeAtPlaceId = await _eventService.AddEventPlace(eventId, foursquareId);
-            return RedirectToAction("AddPlaces", new { eventId = eventId, place = currentTimeAtPlaceId });
+            var tralala = await _eventService.AddEventPlace(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId);
+            return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId, place = targetEvent.CurrentPlaceFoursquareId });
         }
-
 
         /// <summary>
         /// Gets json object that will be used for rendering charts.
@@ -87,12 +93,21 @@ namespace EventPlanner.Controllers
             // NOTE: we do not display places and times witch zero votes
             var @event = await _eventService.GetSingleEvent(id);
             // TODO Use vote service to read votes
-            var votes = _mapper.Map<IEnumerable<TimeAtPlaceViewModel>>(null);
-            var data = votes.ToDictionary(
-                vote => vote.Place.Name + " - " + vote.Time.ToString("dd/MM/yyyy H:mm"),
-                vote => vote.Votes).OrderBy(k => k.Key);
+            var voteSessions = await _voteService.GetVoteSessions(@event.Id);
+            var data = new Dictionary<string, int>();
+            foreach (var place in @event.Places)
+            {
+                foreach (var time in place.Times)
+                {
+                    var value = voteSessions.SelectMany(voteSession => voteSession.Votes)
+                        .Count(vote => vote.TimeAtPlaceId == time.Id && vote.Value == VoteValueEnum.Accept);
+                    data.Add(place.Name + " - " + time.Time.ToString("dd/MM/yyyy H:mm"), value);
+                }
+            }
 
-            foreach (var pair in data)
+            var sortedData = data.OrderBy(k => k.Key);
+
+            foreach (var pair in sortedData)
             {
                 chartModel.Categories.Add(pair.Key);
                 chartModel.Data.Add(pair.Value);
@@ -102,3 +117,4 @@ namespace EventPlanner.Controllers
         }
     }
 }
+
