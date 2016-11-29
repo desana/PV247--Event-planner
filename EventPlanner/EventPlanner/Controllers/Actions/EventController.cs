@@ -63,7 +63,7 @@ namespace EventPlanner.Controllers
             //}
 
             var currentTimeAtPlaceId = await _eventService.AddEventTime(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId, targetEvent.CurrentTime);
-            return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId, place = currentTimeAtPlaceId });
+            return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId, place = targetEvent.CurrentPlaceFoursquareId });
         }
 
         /// <summary>

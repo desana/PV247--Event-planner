@@ -19,7 +19,7 @@
     @foreach (var place in Model.Places)
     {
         <li>
-            @Html.DisplayFor(modelItem => place.PlaceId)
+            @Html.DisplayFor(modelItem => place.Name)
 
             <ul>
                 @foreach (var time in place.Times)
@@ -29,60 +29,59 @@
                     </li>
                 }
 
-                @*  @if (Model.CurrentPlaceFoursquareId != "" && place.FourSquareId == Model.CurrentPlaceFoursquareId)*@
+                @if (Model.CurrentPlaceFoursquareId != "" && place.FourSquareId == Model.CurrentPlaceFoursquareId)
                 {
-                <li>
-                    @* New time*@
-                    <form asp-action="AddSingleTime">
+                    <li>
+                        @* New time*@
+                        <form asp-action="AddSingleTime">
 
-                        <label asp-for="CurrentTime"></label>
-                        <input class="form-group" asp-for="CurrentTime" type="datetime2" />
+                            <label asp-for="CurrentTime"></label>
+                            <input class="form-group" asp-for="CurrentTime" type="datetime2" />
 
-                        @* Hidden fields *@
+                            @* Hidden fields *@
 
-                        <input id="foursquareId" class="form-group" asp-for="CurrentPlaceFoursquareId" type="text" hidden="True" />
-                        <input id="eventId" class="form-group" asp-for="EventId" type="number" hidden="True" />
+                            <input id="foursquareId" class="form-group" asp-for="CurrentPlaceFoursquareId" type="text" hidden />
+                            <input id="eventId" class="form-group" asp-for="EventId" type="number" hidden />
 
-                        @* Add time *@
+                            @* Add time *@
 
-                        <input type="submit" value="Add time" class="btn btn-primary" />
+                            <input type="submit" value="Add time" class="btn btn-primary" />
 
-                    </form>
-                </li>
+                        </form>
+                    </li>
                 }
             </ul>
 
         </li>
     }
-
-    <li>
-        @* New Place *@
-        <form class="form-inline">
-            <div class="form-group">
-                <label asp-for="CurrentCity"></label>
-                <input class="form-control" id="PlaceCity" asp-for="CurrentCity" />
-            </div>
-            <div class="form-group">
-                <label asp-for="CurrentPlace"></label>
-                <input class="form-control" id="PlaceName" asp-for="CurrentPlace" type="text" />
-            </div>
-            <div class="form-group">
-                <select class="form-control" id="ddlplaces" name="ddlplaces" style="width: 200px"></select>
-            </div>
-
-            @* Hidden fields *@
-            <input id="foursquareId" asp-for="CurrentPlaceFoursquareId" type="text" hidden="True" />
-            <input id="eventId" asp-for="EventId" type="number" hidden="True" />
-            
-            @* Submit button *@
-            <input type="submit" value="Add place" class="btn btn-primary" />
-        </form>
-        <div class="form-group">
-            
-
-        </div>
-    </li>
 </ul>
+
+@* New Place *@
+<form asp-action="AddSinglePlace" form class="form-inline" id="lol">
+
+    <div class="form-group">
+        <label>City: </label>
+        <input class="form-control" id="PlaceCity" />
+    </div>
+
+    <div class="form-group">
+        <label>Place:</label>
+        <input class="form-control" id="PlaceName" type="text" />
+    </div>
+
+    <div class="form-group">
+        <select id="ddlplaces" class="form-control" name="CurrentPlaceFoursquareId" style="width: 200px" ></select>
+    </div>
+
+    @* Hidden fields *@
+    <input id="eventId" asp-for="EventId" type="number" hidden />
+
+    @* Submit button *@
+    <input type="submit" value="Add place" class="btn btn-primary" />
+
+</form>
+
+
 
 <script>
     function GetPlaces(placename, placecity) {

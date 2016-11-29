@@ -5,16 +5,19 @@ using System.Threading.Tasks;
 using EventPlanner.DTO.Event;
 using EventPlanner.Entities.Repositories;
 using EventPlanner.Services.DataTransferModels.Generators;
+using FoursquareVenuesService.Services;
 
 namespace EventPlanner.Services.Event
 {
     public class EventService : IEventService
     {
         private readonly IEventsRepository _eventRepository;
+        private readonly IFoursquareService _foursquareService;
 
-        public EventService(IEventsRepository eventRepository)
+        public EventService(IEventsRepository eventRepository, IFoursquareService foursquareService)
         {
             _eventRepository = eventRepository;
+            _foursquareService = foursquareService;
         }
 
         /// <summary>
@@ -81,11 +84,15 @@ namespace EventPlanner.Services.Event
         {
             var @event = await _eventRepository.GetSingleEvent(eventId);
             if (@event == null)
+            {
                 return null;
+            }                
 
+            var fsVenue = await _foursquareService.GetVenueAsync(foursquareId);
             @event.Places.Add(new Place
             {
-                FourSquareId = foursquareId
+                FourSquareId = foursquareId,
+                Name = fsVenue.Name
             });
 
             @event = await _eventRepository.SaveEvent(@event);
