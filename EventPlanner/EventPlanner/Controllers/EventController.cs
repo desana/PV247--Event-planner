@@ -23,6 +23,15 @@ namespace EventPlanner.Controllers
 
             return View(eventViewModel);
         }
+        
+        [HttpGet]
+        public async Task<IActionResult> ShowCreatedEvent(EventViewModel eventViewModel)
+        {
+            var eventTransferModel = await _eventService.GetSingleEvent(eventViewModel.EventId);
+            var completeEventViewModel = _mapper.Map<EventViewModel>(eventTransferModel);
+
+            return View(completeEventViewModel);
+        }
 
         [HttpGet]
         public async Task<IActionResult> Results(int id)

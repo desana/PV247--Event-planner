@@ -1,0 +1,23 @@
+﻿
+@model EventViewModel
+
+@if (Model == null)
+{
+    Url.Action("Index", "Home", new { CurrentEvent = Model });
+}
+
+
+<div align="center">
+    <h2>@Model.EventName</h2>
+    <br />
+    <p>
+        @Model.EventDescription
+    </p>
+</div>
+
+<div align="center">
+    <h1>Congratulations! You have successfuly created an event and can now start voting.</h1>
+    <br />
+    <br />
+    <h3>You can use <a href=@Model.EventLink> this link </a> to vote!s</h3>
+</div>
