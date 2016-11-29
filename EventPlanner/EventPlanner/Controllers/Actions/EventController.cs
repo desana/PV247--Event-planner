@@ -9,6 +9,9 @@ using System;
 using EventPlanner.DTO.Event;
 using EventPlanner.DTO.Vote;
 using EventPlanner.Services.Vote;
+using FoursquareVenuesService.Services;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace EventPlanner.Controllers
 {
@@ -17,12 +20,14 @@ namespace EventPlanner.Controllers
         private readonly IEventService _eventService;
         private readonly IVoteService _voteService;
         private readonly IMapper _mapper;
+        private readonly IFoursquareService _fsService;
 
-        public EventController(IMapper mapper, IEventService eventService, IVoteService voteService)
+        public EventController(IMapper mapper, IEventService eventService, IVoteService voteService, IFoursquareService foursquareService)
         {
             _mapper = mapper;
             _eventService = eventService;
             _voteService = voteService;
+            _fsService = foursquareService;
         }
 
         /// <summary>
@@ -61,6 +66,20 @@ namespace EventPlanner.Controllers
             return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId, place = currentTimeAtPlaceId });
         }
 
+        /// <summary>
+        /// Action result for ajax call to populate drop down list with places.
+        /// </summary>
+        /// <param name="placeName">Name of the place.</param>
+        /// <param name="placeCity">City of the place.</param>
+        /// <returns>Json object with places.</returns>
+        [HttpPost]
+        public async Task<IActionResult> GetPlaces(string placeName, string placeCity)
+        {
+            var places = await _fsService.SearchVenuesAsync(placeName, placeCity, 10);  //TODO how many results do we want?          
+            var placesSelectList = new SelectList(places, "Id", "Name", 0);
+            return Json(placesSelectList);
+        }
+
 
         /// <summary>
         /// Adds instance of <see cref="PlaceViewModel"/> to the database 
@@ -86,7 +105,7 @@ namespace EventPlanner.Controllers
         /// Gets json object that will be used for rendering charts.
         /// </summary>
         /// <param name="id">Event id.</param>
-        /// <returns>Json object.</returns>
+        /// <returns>Chart model.</returns>
         private async Task<ChartModel> GetChartModel(int id)
         {
             var chartModel = new ChartModel();

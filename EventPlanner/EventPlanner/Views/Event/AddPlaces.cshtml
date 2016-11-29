@@ -11,6 +11,10 @@
 
 }
 
+<script src="../../lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
+
+<h3>Add places and times</h3>
+
 <ul>
     @foreach (var place in Model.Places)
     {
@@ -53,14 +57,15 @@
 
     <li>
         @* New Place *@
-        <form asp-action="AddSinglePlace">
-
+        <div class="form-group">
             <label asp-for="CurrentCity"></label>
-            <input class="form-group" asp-for="CurrentCity" type="text" />
-
+            <input class="form-group" id="PlaceCity" asp-for="CurrentCity" />
+            
             <label asp-for="CurrentPlace"></label>
-            <input class="form-group" asp-for="CurrentPlace" type="text" />
+            <input class="form-group" id="PlaceName" asp-for="CurrentPlace" type="text" />
 
+            <select id="ddlplaces" name="ddlplaces" style="width: 200px"></select>
+            
             @* Hidden fields *@
 
             <input id="foursquareId" class="form-group" asp-for="CurrentPlaceFoursquareId" type="text" hidden="True" />
@@ -69,11 +74,48 @@
             @* Add place *@
 
             <input type="submit" value="Add place" class="btn btn-primary" />
-
-        </form>
+        </div>
     </li>
 </ul>
 
+<script>
+    function GetPlaces(placename, placecity) {
+        var procemessage = "<option value='0'> Please wait...</option>";
+        $("#ddlplaces").html(procemessage).show();
+        var url = "/Event/GetPlaces/";
 
-@* Submit button *@
+        $.ajax({
+            url: url,
+            data: { placeName: placename, placeCity: placecity },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                var markup = "<option value='0'>Select Place</option>";
+                for (var x = 0; x < data.length; x++) {
+                    console.log(data[x].text);
+                    markup += "<option value=" + data[x].value + ">" + data[x].text + "</option>";
+                }
+                $("#ddlplaces").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+    }
+
+    $(document).ready(function () {
+        $('#PlaceName').change(function () {
+            if ($('#PlaceCity').val() && $('#PlaceName').val()) {
+                GetPlaces($('#PlaceName').val(), $('#PlaceCity').val());
+            }
+        });
+        $('#PlaceCity').change(function () {
+            if ($('#PlaceCity').val() && $('#PlaceName').val()) {
+                GetPlaces($('#PlaceName').val(), $('#PlaceCity').val());
+            }
+        });
+    });
+</script>
 
