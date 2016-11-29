@@ -21,15 +21,8 @@ namespace EventPlanner.Models
 
         public string CurrentPlaceFoursquareId { get; set; }
 
-        [Display(Name = "City")]
-        public string CurrentCity { get; set; }
-
-        [Display(Name = "Place")]
-        public string CurrentPlace { get; set; }
-
         [Display(Name = "Event start")]
         public DateTime CurrentTime { get; set; }
-
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -38,24 +31,5 @@ namespace EventPlanner.Models
                 yield return new ValidationResult("No event title was added.");
             }
         }
-        
-        //public Dictionary<PlaceViewModel, List<DateTime>> GetTimesWithCoupledPlaces()
-        //{
-        //    Dictionary<PlaceViewModel, List<DateTime>> results = new Dictionary<PlaceViewModel, List<DateTime>>  ();
-
-            
-        //    foreach (var record in TimesAtPlaces)
-        //    {
-        //        if (results[record.Place] == null)
-        //        {
-        //            results[record.Place] = new List<DateTime>();
-        //        }
-                
-        //        results[record.Place].Add(record.Time);
-        //    }
-
-        //    return results;
-        //}
-
     }
 }

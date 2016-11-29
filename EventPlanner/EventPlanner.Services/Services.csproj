@@ -64,6 +64,10 @@
       <Project>{c09000f1-4e7b-4a6f-a8b5-a9751fbc0725}</Project>
       <Name>Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FoursquareVenuesService\FoursquareVenuesService.csproj">
+      <Project>{CBF55C00-1BD1-4838-85FB-2F769536F0A0}</Project>
+      <Name>FoursquareVenuesService</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataTransferModels\Mappings\" />
