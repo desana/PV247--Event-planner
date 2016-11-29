@@ -12,6 +12,7 @@
 
 <script src="../../lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
 <script src="../../js/GetPlaces.js" type="text/javascript"></script>
+
 <h3>Add places and times</h3>
 
 <ul>
@@ -19,31 +20,34 @@
     {
         <li>
             <div class="form-group">
+
+                @* Display place name *@
                 @Html.DisplayFor(modelItem => place.Name)
 
                 <ul>
                     @foreach (var time in place.Times)
-                {
+                    {
                         <li>
+                            @* Display time for the place*@
                             @Html.DisplayFor(modelItem => time.Time)
                         </li>
                     }
 
                     @if (Model.CurrentPlaceFoursquareId != "" && place.FourSquareId == Model.CurrentPlaceFoursquareId)
-                {
+                    {
                         <li>
                             @* New time*@
                             <form asp-action="AddSingleTime">
-                                
+
                                 <label asp-for="CurrentTime"></label>
                                 <input class="form-group" asp-for="CurrentTime" type="datetime2" />
-                                
+
                                 @* Hidden fields *@
                                 <input id="foursquareId" asp-for="CurrentPlaceFoursquareId" type="text" hidden />
                                 <input id="eventId" asp-for="EventId" type="number" hidden />
 
                                 @* Add time *@
-                                <input type="submit" value="Add time" class="btn btn-primary" />                                
+                                <input type="submit" value="Add time" class="btn btn-primary" />
                             </form>
                         </li>
                     }
@@ -80,14 +84,17 @@
 </form>
 
 @* Submit form and create the event *@
-<form asp-action="ShowCreatedEvent" form class="form-horizontal">
+@if (Model.CurrentPlaceFoursquareId != "")
+{
+    <form asp-action="ShowCreatedEvent" form class="form-horizontal">
 
-    @* Hidden field *@
-    <input id="eventId" asp-for="EventId" type="number" hidden />
+        @* Hidden field *@
+        <input id="eventId" asp-for="EventId" type="number" hidden />
 
-    @* Submit button *@
-    <input type="submit" value="Finish" class="btn btn-primary" />
+        @* Submit button *@
+        <input type="submit" value="Finish" class="btn btn-primary" />
 
-</form>
+    </form>
+}
 
 

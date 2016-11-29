@@ -24,7 +24,7 @@ namespace EventPlanner.Controllers
             return View(eventViewModel);
         }
         
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> ShowCreatedEvent(EventViewModel eventViewModel)
         {
             var eventTransferModel = await _eventService.GetSingleEvent(eventViewModel.EventId);
