@@ -10,8 +10,9 @@
     Url.Action("Index", "Home", new { CurrentEvent = Model });
 }
 
-<script src="../../lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
-<script src="../../js/GetPlaces.js" type="text/javascript"></script>
+<script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="~/js/GetPlaces.js" type="text/javascript"></script>
+<script src="~/js/DatePicker.js" type="text/javascript"></script>
 
 <h3>Add places and times</h3>
 
@@ -38,10 +39,15 @@
                         <li>
                             @* New time*@
                             <form asp-action="AddSingleTime">
-                                                                
-                                <label asp-for="CurrentTime"></label>
-                                <input class="form-group" asp-for="CurrentTime" type="datetime2" />
 
+                                <label asp-for="CurrentTime"></label>                                
+                                <div class='input-group date' id='CurrentTime'>
+                                    <input type='text' class="form-control" asp-for="CurrentTime" name="CurrentTime" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                               
                                 @* Hidden fields *@
                                 <input id="foursquareId" asp-for="CurrentPlaceFoursquareId" type="text" hidden />
                                 <input id="eventId" asp-for="EventId" type="number" hidden />
@@ -49,6 +55,7 @@
                                 @* Add time *@
                                 <input type="submit" value="Add time" class="btn btn-primary" />
                             </form>
+
                         </li>
                     }
                 </ul>
