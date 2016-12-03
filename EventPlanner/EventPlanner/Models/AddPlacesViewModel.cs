@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,9 +12,11 @@ namespace EventPlanner.Models
 
         public ICollection<PlaceViewModel> Places { get; set; } = new List<PlaceViewModel>();
 
+        [Remote("IsCurrentPlaceUnique", "EventController")]
         public string CurrentPlaceFoursquareId { get; set; }
 
         [Display(Name = "Event start")]
+        [Remote("IsCurrentTimeUnique", "EventController")]
         public DateTime CurrentTime { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
