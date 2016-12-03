@@ -10,6 +10,7 @@ using FoursquareVenuesService.Services;
 using System.Linq;
 using EventPlanner.DTO.Event;
 using EventPlanner.DTO.Vote;
+using System;
 
 namespace EventPlanner.Controllers
 {
@@ -169,6 +170,19 @@ namespace EventPlanner.Controllers
             }
 
             return chartModel;
+        }
+        
+        public async Task<bool> IsCurrentTimeUnique(int eventId, string foursquareId, DateTime time)
+        {
+            var currentEvent = await _eventService.GetSingleEvent(eventId);
+            var place = currentEvent
+                .Places
+                .ToList()
+                .First(p => p.FourSquareId.Equals(foursquareId));
+
+           return !place
+                .Times
+                .Any(timeslot => timeslot.Time.Equals(time));
         }
     }
 }
