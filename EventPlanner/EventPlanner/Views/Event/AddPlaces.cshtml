@@ -10,6 +10,10 @@
     Url.Action("Index", "Home", new { CurrentEvent = Model });
 }
 
+@section AddToHead{
+    <link href="@Url.Content("~/css/dropdown.css")" rel="stylesheet" type="text/css" />
+}
+
 <h3>Add places and times</h3>
 
 <ul>
@@ -64,16 +68,12 @@
     </div>
 
     <div class="form-group">
-        <label>Place: </label>
-        <input class="form-control" id="PlaceName" type="text" />
-    </div>
-
-    <div class="form-group">
-        <select id="ddlplaces" class="js-data-example-ajax">
+        <select id="ddlplaces" name="CurrentPlaceFoursquareId" class="js-data-ddl-ajax">
             <option value="3620194" selected="selected" style="width: 400px">Search places...</option>
         </select>
     </div>
-    
+   
+
     @* Hidden field *@
     <input id="eventId" asp-for="EventId" type="number" hidden />
 

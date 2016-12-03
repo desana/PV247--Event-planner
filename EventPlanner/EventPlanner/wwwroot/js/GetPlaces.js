@@ -1,98 +1,51 @@
-﻿function GetPlaces(placename, placecity) {
-    var procemessage = "<option value='0'> Please wait...</option>";
-    $("#ddlplaces2").html(procemessage).show();
-    var url = "/Event/GetPlaces/";
+﻿function formatPlace(place) {
+    if (place.loading) return place.text;
 
-    $.ajax({
-        url: url,
-        data: { placeName: placename, placeCity: placecity },
-        cache: false,
-        type: "POST",
-        success: function (data) {
-            console.log(data);
-            var markup = "<option value='0'>Select Place</option>";
-            for (var x = 0; x < data.length; x++) {
-                console.log(data[x].text);
-                markup += "<option value=" + data[x].value + ">" + data[x].text + "</option>";
-            }
-            $("#ddlplaces2").html(markup).show();
-        },
-        error: function (reponse) {
-            alert("error : " + reponse);
-        }
-    });
+    var markup = "<div class='select2-result-place clearfix'>";
+    if (place.photoUrl) {
+        markup += "<div class='select2-result-place_image'><img src='" + place.photoUrl + "' /></div>";
+    }
+    markup += "<div class='select2-result-place_meta'>" +
+        "<div class='select2-result-place_title'>" + place.name + "</div>";
 
-}
-
-function formatRepo(repo) {
-    if (repo.loading) return repo.text;
-
-    var markup = "<div class='select2-result-repository clearfix'>" +
-      "<div class='select2-result-repository__avatar'><img src='" + repo.owner.avatar_url + "' /></div>" +
-      "<div class='select2-result-repository__meta'>" +
-        "<div class='select2-result-repository__title'>" + repo.full_name + "</div>";
-
-    if (repo.description) {
-        markup += "<div class='select2-result-repository__description'>" + repo.description + "</div>";
+    if (place.location.address) {
+        markup += "<div class='select2-result-place_description'>" + place.location.address + "</div>";
     }
 
-    markup += "<div class='select2-result-repository__statistics'>" +
-      "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> " + repo.forks_count + " Forks</div>" +
-      "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> " + repo.stargazers_count + " Stars</div>" +
-      "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> " + repo.watchers_count + " Watchers</div>" +
-    "</div>" +
-    "</div></div>";
+    markup += "</div></div>";
 
     return markup;
 }
 
-function formatRepoSelection(repo) {
-    return repo.full_name || repo.text;
+function formatPlaceSelection(place) {
+    return place.name;
 }
 
-
 $(document).ready(function () {
-    $(".js-data-example-ajax").select2({
-        ajax: {
-            url: "https://api.github.com/search/repositories",
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                return {
-                    q: params.term, // search term
-                    page: params.page
-                };
-            },
-            processResults: function (data, params) {
-                // parse the results into the format expected by Select2
-                // since we are using custom formatting functions we do not need to
-                // alter the remote JSON data, except to indicate that infinite
-                // scrolling can be used
-                params.page = params.page || 1;
 
-                return {
-                    results: data.items,
-                    pagination: {
-                        more: (params.page * 30) < data.total_count
-                    }
-                };
-            },
-            cache: true
-        },
-        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-        minimumInputLength: 1,
-        templateResult: formatRepo, // omitted for brevity, see the source of this page
-        templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-    });
+    $("#ddlplaces")
+       .select2({
+           ajax: {
+               url: "/Event/GetPlaces/",
+               dataType: "json",
+               type: "POST",
+               delay: 250,
+               data: function (params) {
+                   return {
+                       placeName: params.term, placeCity: $("#PlaceCity").val()
+                   };
+               },
+               processResults: function (data) {
+                   return {
+                       results: data
+                   };
+               },
+               cache: true
+           },
+           escapeMarkup: function (markup) { return markup; },
+           minimumInputLength: 1,
+           templateResult: formatPlace,
+           templateSelection: formatPlaceSelection 
+       });
 
-    $('#PlaceName').change(function () {
-        if ($('#PlaceCity').val() && $('#PlaceName').val()) {
-            GetPlaces($('#PlaceName').val(), $('#PlaceCity').val());
-        }
-    });
-    $('#PlaceCity').change(function () {
-        if ($('#PlaceCity').val() && $('#PlaceName').val()) {
-            GetPlaces($('#PlaceName').val(), $('#PlaceCity').val());
-        }
-    });
 });

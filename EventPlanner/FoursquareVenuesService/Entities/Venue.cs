@@ -40,5 +40,10 @@ namespace FoursquareVenuesService.Entities
         /// Photos url.
         /// </summary>
         public string PhotoUrl { get; set; }
+
+        /// <summary>
+        /// Text.
+        /// </summary>
+        public string Text { get; set; }
     }
 }
