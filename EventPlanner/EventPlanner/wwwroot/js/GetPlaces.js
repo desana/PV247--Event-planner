@@ -1,38 +1,51 @@
-﻿function GetPlaces(placename, placecity) {
-    var procemessage = "<option value='0'> Please wait...</option>";
-    $("#ddlplaces").html(procemessage).show();
-    var url = "/Event/GetPlaces/";
+﻿function formatPlace(place) {
+    if (place.loading) return place.text;
 
-    $.ajax({
-        url: url,
-        data: { placeName: placename, placeCity: placecity },
-        cache: false,
-        type: "POST",
-        success: function (data) {
-            console.log(data);
-            var markup = "<option value='0'>Select Place</option>";
-            for (var x = 0; x < data.length; x++) {
-                console.log(data[x].text);
-                markup += "<option value=" + data[x].value + ">" + data[x].text + "</option>";
-            }
-            $("#ddlplaces").html(markup).show();
-        },
-        error: function (reponse) {
-            alert("error : " + reponse);
-        }
-    });
+    var markup = "<div class='select2-result-place clearfix'>";
+    if (place.photoUrl) {
+        markup += "<div class='select2-result-place_image'><img src='" + place.photoUrl + "' /></div>";
+    }
+    markup += "<div class='select2-result-place_meta'>" +
+        "<div class='select2-result-place_title'>" + place.name + "</div>";
 
+    if (place.location.address) {
+        markup += "<div class='select2-result-place_description'>" + place.location.address + "</div>";
+    }
+
+    markup += "</div></div>";
+
+    return markup;
+}
+
+function formatPlaceSelection(place) {
+    return place.name;
 }
 
 $(document).ready(function () {
-    $('#PlaceName').change(function () {
-        if ($('#PlaceCity').val() && $('#PlaceName').val()) {
-            GetPlaces($('#PlaceName').val(), $('#PlaceCity').val());
-        }
-    });
-    $('#PlaceCity').change(function () {
-        if ($('#PlaceCity').val() && $('#PlaceName').val()) {
-            GetPlaces($('#PlaceName').val(), $('#PlaceCity').val());
-        }
-    });
+
+    $("#ddlplaces")
+       .select2({
+           ajax: {
+               url: "/Event/GetPlaces/",
+               dataType: "json",
+               type: "POST",
+               delay: 250,
+               data: function (params) {
+                   return {
+                       placeName: params.term, placeCity: $("#PlaceCity").val()
+                   };
+               },
+               processResults: function (data) {
+                   return {
+                       results: data
+                   };
+               },
+               cache: true
+           },
+           escapeMarkup: function (markup) { return markup; },
+           minimumInputLength: 1,
+           templateResult: formatPlace,
+           templateSelection: formatPlaceSelection 
+       });
+
 });
