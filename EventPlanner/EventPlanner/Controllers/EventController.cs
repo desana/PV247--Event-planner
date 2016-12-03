@@ -18,7 +18,7 @@ namespace EventPlanner.Controllers
         public async Task<IActionResult> AddPlaces(int eventId, string place = "")
         {
             var eventTransferModel = await _eventService.GetSingleEvent(eventId);
-            var eventViewModel = _mapper.Map<EventViewModel>(eventTransferModel);
+            var eventViewModel = _mapper.Map<AddPlacesViewModel>(eventTransferModel);
             eventViewModel.CurrentPlaceFoursquareId = place;
 
             return View(eventViewModel);

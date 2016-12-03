@@ -3,7 +3,7 @@
 @using EventPlanner.Models
 @using FoursquareVenuesService
 
-@model EventViewModel
+@model AddPlacesViewModel
 
 @if (Model == null)
 {
@@ -38,7 +38,7 @@
                         <li>
                             @* New time*@
                             <form asp-action="AddSingleTime">
-
+                                                                
                                 <label asp-for="CurrentTime"></label>
                                 <input class="form-group" asp-for="CurrentTime" type="datetime2" />
 

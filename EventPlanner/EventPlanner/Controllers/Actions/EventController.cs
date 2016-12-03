@@ -31,13 +31,12 @@ namespace EventPlanner.Controllers
         }
 
         /// <summary>
-        /// Creates new event and sets <see cref="EventViewModel.EventName"/> and <see cref="EventViewModel.EventDescription"/>.
-        /// It also generates unique <see cref="EventViewModel.EventLink"/>.
+        /// Creates new event and sets <see cref="CreateEventViewModel.EventName"/> and <see cref="CreateEventViewModel.EventDescription"/>.
         /// </summary>
         /// <param name="newEvent"> <see cref="EventViewModel"/> containing data from user.</param>
         /// <returns>Redirect to <see cref="AddPlaces"/> page. </returns>
         [HttpPost]
-        public async Task<IActionResult> CreateNewEvent(EventViewModel newEvent)
+        public async Task<IActionResult> CreateNewEvent(CreateEventViewModel newEvent)
         {
             if (!ModelState.IsValid)
             {
@@ -49,18 +48,17 @@ namespace EventPlanner.Controllers
         }
 
         /// <summary>
-        /// Adds <c>DateTime</c> value to <see cref="TimeAtPlaceViewModel"/> of corresponding <see cref="EventViewModel"/>.
+        /// Adds <c>DateTime</c> value to <see cref="TimeAtPlaceViewModel"/> of corresponding <see cref="AddPlacesViewModel"/>.
         /// </summary>
         /// <param name="targetEvent">Currently processed event.</param>
         /// <returns>Redirect to <see cref="AddPlaces"/> page with updated data.</returns>
         [HttpPost]
-        public async Task<IActionResult> AddSingleTime(EventViewModel targetEvent)
+        public async Task<IActionResult> AddSingleTime(AddPlacesViewModel targetEvent)
         {
-            // TODO
-            //if (!ModelState.IsValid)
-            //{   
-            //    return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId});
-            //}
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId });
+            }
 
             var currentTimeAtPlaceId = await _eventService.AddEventTime(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId, targetEvent.CurrentTime);
             return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId, place = targetEvent.CurrentPlaceFoursquareId });
@@ -83,21 +81,19 @@ namespace EventPlanner.Controllers
 
         /// <summary>
         /// Adds instance of <see cref="PlaceViewModel"/> to the database 
-        /// and creates corresponding links with <see cref="TimeAtPlaceViewModel"/> and <see cref="EventViewModel"/>.
+        /// and creates corresponding links with <see cref="TimeAtPlaceViewModel"/> and <see cref="AddPlacesViewModel"/>.
         /// </summary>
         /// <param name="targetEvent">Currently processed event.</param>
         /// <returns>Redirect to <see cref="AddPlaces"/> page with updated data.</returns>
         [HttpPost]
-        public async Task<IActionResult> AddSinglePlace(EventViewModel targetEvent)
+        public async Task<IActionResult> AddSinglePlace(AddPlacesViewModel targetEvent)
         {
-            // TODO
-            /* if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId });
-            }
-            */
+            }            
 
-            var tralala = await _eventService.AddEventPlace(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId);
+            await _eventService.AddEventPlace(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId);
             return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId, place = targetEvent.CurrentPlaceFoursquareId });
         }
 
