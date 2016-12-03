@@ -75,9 +75,12 @@ namespace EventPlanner.Controllers
         [HttpPost]
         public async Task<IActionResult> GetPlaces(string placeName, string placeCity)
         {
-            var places = await _fsService.SearchVenuesAsync(placeName, placeCity, 10);  //TODO how many results do we want?          
-            var placesSelectList = new SelectList(places, "Id", "Name", 0);
-            return Json(placesSelectList);
+            var places = await _fsService.SearchVenuesAsync(placeName, placeCity, 10);  //TODO how many results do we want?  
+            foreach (var place in places)
+            {
+                place.PhotoUrl = await _fsService.GetVenuePhotoUrlAsync(place.Id, "36x36");
+            }        
+            return Json(places);
         }
 
 
