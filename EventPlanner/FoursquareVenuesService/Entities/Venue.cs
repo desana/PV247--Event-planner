@@ -35,5 +35,15 @@ namespace FoursquareVenuesService.Entities
         /// Opening hours.
         /// </summary>
         public Hours Hours { get; set; }
+
+        /// <summary>
+        /// Photos url.
+        /// </summary>
+        public string PhotoUrl { get; set; }
+
+        /// <summary>
+        /// Text.
+        /// </summary>
+        public string Text { get; set; }
     }
 }

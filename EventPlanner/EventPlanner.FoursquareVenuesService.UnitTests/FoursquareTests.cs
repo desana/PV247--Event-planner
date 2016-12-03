@@ -71,7 +71,7 @@ namespace EventPlanner.FoursquareVenuesService.UnitTests
             var id = result[0].Id;
 
             // Test GetVenuePhotoUrlAsync
-            var task2 = _fsService.GetVenuePhotoUrlAsync(id);
+            var task2 = _fsService.GetVenuePhotoUrlAsync(id, "200x200");
             task2.Wait();
             var photo = task2.Result;
 

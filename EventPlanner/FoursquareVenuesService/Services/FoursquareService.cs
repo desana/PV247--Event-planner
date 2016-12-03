@@ -39,7 +39,7 @@ namespace FoursquareVenuesService.Services
         /// <summary>
         /// Gets url of first photo of venue
         /// </summary>
-        public async Task<string> GetVenuePhotoUrlAsync(string venueId)
+        public async Task<string> GetVenuePhotoUrlAsync(string venueId, string size)
         {
             var uri = string.Format($"{F_URL}/{venueId}/photos?limit=1&{_authQueryString}");
             var responseType = new {response = new {photos = new {count = 0, items = new Photo[0]}}};
@@ -47,7 +47,7 @@ namespace FoursquareVenuesService.Services
 
             if (result?.response?.photos?.count == 1)
             {
-                return $"{result.response.photos.items[0].Prefix}200x200{result.response.photos.items[0].Suffix}";
+                return $"{result.response.photos.items[0].Prefix}{size}{result.response.photos.items[0].Suffix}";
             }
 
             return null;

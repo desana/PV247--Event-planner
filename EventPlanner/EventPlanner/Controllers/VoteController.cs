@@ -38,7 +38,7 @@ namespace EventPlanner.Controllers
             var photos = new Dictionary<string, string>();
             foreach (var venueId in viewModel.Places.Select(i => i.Place.FourSquareId).Distinct())
             {
-                photos[venueId] = await _foursquareService.GetVenuePhotoUrlAsync(venueId);
+                photos[venueId] = await _foursquareService.GetVenuePhotoUrlAsync(venueId, "200x200");
             }
 
             foreach (var item in viewModel.Places)
