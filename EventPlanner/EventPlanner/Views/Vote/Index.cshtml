@@ -5,7 +5,15 @@
     ViewBag.Title = "Vote";
 }
 
-<h2  style="padding-bottom: 30px">Vote for @Model.EventName</h2>
+<h2>Vote for @Model.EventName</h2>
+
+
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-sm-12" id="mapContainer" style="height: 300px;">
+        
+    </div>
+</div>
+
 <div class="row" style="padding-bottom: 20px">
     <div class="col-sm-12">
         <form class="form-inline" asp-controller="Vote" asp-action="ChangeName" asp-route-id="@Model.EventId" method="post">
@@ -19,34 +27,95 @@
     </div>
 </div>
 
-@foreach (var item in Model.Places)
-{
-    <div class="row">
-        <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-                <img src="@item.PlacePhotoUrl">
-                <div class="caption">
-                    <h3>@item.Place.Name</h3>
-                    @foreach (var timeItem in item.Place.Times)
-                    {
-                        var vote = @Model.VoteSession.Votes.First(v => v.TimeAtPlaceId == timeItem.Id);
-                        <form asp-controller="Vote" asp-action="Vote" asp-route-id="@Model.EventId" method="post">
-                            <input type="hidden" name="voteSessionId" value="@Model.VoteSession.VoteSessionId"/>
-                            <input type="hidden" name="timeAtPlaceId" value="@vote.TimeAtPlaceId" />
-                            <input type="hidden" name="value" value="@(vote.Value == VoteValueEnum.Accept ? VoteValueEnum.Decline : VoteValueEnum.Accept)" />
-                            <div class="checkbox">
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        checked="@(vote.Value == VoteValueEnum.Accept)"
-                                        onclick="this.form.submit();">
-                                    @timeItem.Time
-                                </label>
-                            </div>
-                        </form>
-                    }
-                </div>
+<div class="row">
+    @foreach (var item in Model.Places)
+    {
+        <div class="col-sm-4 col-md-3">
+            <img src="@item.PlacePhotoUrl" class="img-rounded">
+            <div class="caption">
+                <h3>@item.Place.Name</h3>
+                @foreach (var timeItem in item.Place.Times)
+                {
+                    var vote = @Model.VoteSession.Votes.First(v => v.TimeAtPlaceId == timeItem.Id);
+                    <form asp-controller="Vote" asp-action="Vote" asp-route-id="@Model.EventId" method="post">
+                        <input type="hidden" name="voteSessionId" value="@Model.VoteSession.VoteSessionId"/>
+                        <input type="hidden" name="timeAtPlaceId" value="@vote.TimeAtPlaceId"/>
+                        <input type="hidden" name="value" value="@(vote.Value == VoteValueEnum.Accept ? VoteValueEnum.Decline : VoteValueEnum.Accept)"/>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"
+                                       checked="@(vote.Value == VoteValueEnum.Accept)"
+                                       onclick="this.form.submit();">
+                                @timeItem.Time
+                            </label>
+                        </div>
+                    </form>
+                }
             </div>
         </div>
-    </div>
+    }
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&key=AIzaSyCqWB-0ha09wN6lefiRkvvbP4eoFAOpVaM"></script>
+    <environment names="Development">
+        <script type="text/javascript" src="~/lib/gmaps/gmaps.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script type="text/javascript" src="~/lib/gmaps/gmaps.min.js"></script>
+    </environment>
+    <script>
+        (function() {
+            @{
+                var places = Model.Places
+                    .Where(p => p.Location != null)
+                    .Select(p => new
+                    {
+                        name = p.Place.Name,
+                        lat = p.Location.Lat,
+                        lng = p.Location.Lng,
+                        info = p.Place.Times.Aggregate($"<p><strong>{p.Place.Name}</strong><p>", (s, t) => s + $"<p>{t.Time}<p>")
+                    });
+
+                @Html.Raw($"var places = {Newtonsoft.Json.JsonConvert.SerializeObject(places)};")
+            };
+
+            var lat = places[0] ? places[0].lat : 49.191326;
+            var lng = places[0] ? places[0].lng : 16.611281;
+
+            var map = new GMaps({
+                el: '#mapContainer',
+                lat: lat,
+                lng: lng,
+                zoomControl: true,
+                zoomControlOpt: {
+                    style: 'SMALL',
+                    position: 'TOP_LEFT'
+                },
+                panControl: false,
+                streetViewControl: false,
+                mapTypeControl: false,
+                overviewMapControl: false
+            });
+
+            var bounds = new google.maps.LatLngBounds();
+
+            for (var i = 0; i < places.length; i++) {
+                var place = places[i];
+                var marker = map.addMarker({
+                    lat: place.lat,
+                    lng: place.lng,
+                    title: place.name,
+                    infoWindow: {
+                        content: place.info
+                    }
+                });
+
+                bounds.extend(marker.position);
+            }
+
+            map.fitBounds(bounds);
+        })();
+    </script>
 }

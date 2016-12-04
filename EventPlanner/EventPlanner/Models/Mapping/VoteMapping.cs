@@ -16,7 +16,8 @@ namespace EventPlanner.Models.Mapping
 
             CreateMap<Place, VotePlaceViewModel>()
                 .ForMember(dst => dst.Place, opt => opt.MapFrom(src => src))
-                .ForMember(dst => dst.PlacePhotoUrl, opt => opt.Ignore());
+                .ForMember(dst => dst.PlacePhotoUrl, opt => opt.Ignore())
+                .ForMember(dst => dst.Location, opt => opt.Ignore());
         }
     }
 }

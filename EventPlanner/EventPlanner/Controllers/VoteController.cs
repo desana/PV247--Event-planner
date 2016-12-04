@@ -43,7 +43,7 @@ namespace EventPlanner.Controllers
             }
 
             var viewModel = _mapper.Map<VoteViewModel>(@event);
-            await InitPlacePhotos(viewModel);
+            await DecorateWithFoursquareData(viewModel);
 
             var session = voteSessionId.HasValue ? await _voteService.GetVoteSession(voteSessionId.Value) : null;
             viewModel.VoteSession = session ?? _voteService.InitializeVoteSession(@event);
@@ -51,12 +51,15 @@ namespace EventPlanner.Controllers
             return View(viewModel);
         }
 
-        private async Task InitPlacePhotos(VoteViewModel viewModel)
+        private async Task DecorateWithFoursquareData(VoteViewModel viewModel)
         {
             foreach (var votePlaceViewModel in viewModel.Places)
             {
                 try
                 {
+                    var venue = await _foursquareService.GetVenueAsync(votePlaceViewModel.Place.FourSquareId);
+                    votePlaceViewModel.Location = venue?.Location;
+
                     var photoUrl =
                         await _foursquareService.GetVenuePhotoUrlAsync(votePlaceViewModel.Place.FourSquareId, "200x200");
                     votePlaceViewModel.PlacePhotoUrl = photoUrl;

@@ -1,4 +1,5 @@
 ﻿using EventPlanner.DTO.Event;
+using FoursquareVenuesService.Entities;
 
 namespace EventPlanner.Models.Vote
 {
@@ -7,5 +8,7 @@ namespace EventPlanner.Models.Vote
         public Place Place { get; set; }
 
         public string PlacePhotoUrl { get; set; }
+
+        public Location Location { get; set; }
     }
 }
