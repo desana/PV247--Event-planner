@@ -78,6 +78,8 @@
     <Compile Include="Entities\Hours.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\Photo.cs" />
+    <Compile Include="Entities\Time.cs" />
+    <Compile Include="Entities\Timeframe.cs" />
     <Compile Include="Entities\Venue.cs" />
     <Compile Include="Entities\VenueSearchResponse.cs" />
     <Compile Include="Entities\VenueWrapper.cs" />
