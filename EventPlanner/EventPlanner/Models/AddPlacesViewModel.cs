@@ -18,5 +18,7 @@ namespace EventPlanner.Models
         public string CurrentTime { get; set; }
 
         public string PlaceErrorMessage { get; set; }
+
+        public string TimeErrorMessage { get; set; }
     }
 }

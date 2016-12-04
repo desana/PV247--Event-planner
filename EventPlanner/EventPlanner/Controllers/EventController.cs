@@ -35,12 +35,13 @@ namespace EventPlanner.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddPlaces(int eventId, string place = "", string err = "")
+        public async Task<IActionResult> AddPlaces(int eventId, string foursquareId = "", string errTime = "", string errPlace = "")
         {
             var eventTransferModel = await _eventService.GetSingleEvent(eventId);
             var eventViewModel = _mapper.Map<AddPlacesViewModel>(eventTransferModel);
-            eventViewModel.CurrentPlaceFoursquareId = place;
-            eventViewModel.PlaceErrorMessage = err;
+            eventViewModel.CurrentPlaceFoursquareId = foursquareId;
+            eventViewModel.PlaceErrorMessage = errPlace;
+            eventViewModel.TimeErrorMessage = errTime;
 
             return View(eventViewModel);
         }
@@ -96,14 +97,20 @@ namespace EventPlanner.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSingleTime(AddPlacesViewModel targetEvent)
         {
-            var isTimeUnique = await IsCurrentTimeUnique(targetEvent);
-            if (!ModelState.IsValid || !isTimeUnique)
+            var errorMessage = await ValidateTime(targetEvent);
+            if (errorMessage != null)
             {
-                return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId, foursquareId = targetEvent.CurrentPlaceFoursquareId });
+                return RedirectToAction("AddPlaces", new {
+                    eventId = targetEvent.EventId,
+                    foursquareId = targetEvent.CurrentPlaceFoursquareId,
+                    errTime =  errorMessage
+                });
             }
 
             var currentTimeAtPlaceId = await _eventService.AddEventTime(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId, Convert.ToDateTime(targetEvent.CurrentTime));
-            return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId, place = targetEvent.CurrentPlaceFoursquareId });
+            return RedirectToAction("AddPlaces", new {
+                eventId = targetEvent.EventId,
+                foursquareId = targetEvent.CurrentPlaceFoursquareId });
         }
 
         /// <summary>
@@ -143,14 +150,14 @@ namespace EventPlanner.Controllers
                 return RedirectToAction("AddPlaces", new {
                     eventId = targetEvent.EventId,
                     // TODO add last valid place ?!
-                    err = errorMessage
+                    errPlace = errorMessage
                 });
             }
 
             await _eventService.AddEventPlace(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId);
             return RedirectToAction("AddPlaces", new {
                 eventId = targetEvent.EventId,
-                place = targetEvent.CurrentPlaceFoursquareId
+                foursquareId = targetEvent.CurrentPlaceFoursquareId
             });
         }
 
@@ -189,6 +196,31 @@ namespace EventPlanner.Controllers
         }
 
         #region Validation methods
+
+        public async Task<string> ValidateTime(AddPlacesViewModel targetEvent)
+        {
+            if (String.IsNullOrWhiteSpace(targetEvent.CurrentTime))
+            {
+                return "You can not add empty time.";
+            }
+
+            try
+            {
+                Convert.ToDateTime(targetEvent.CurrentTime);
+            }
+            catch
+            {
+                return "Inserted value is not valid time.";
+            }
+
+            if (!(await IsCurrentTimeUnique(targetEvent)))
+            {
+                return "This time was already added.";
+            }
+
+            return null;
+        }
+
 
         /// <summary>
         /// Validates new place. 
