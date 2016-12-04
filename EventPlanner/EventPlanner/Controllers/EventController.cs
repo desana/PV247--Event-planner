@@ -29,9 +29,14 @@ namespace EventPlanner.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateEvent()
+        public IActionResult CreateEvent(string err = "")
         {
-            return View();
+            var model = new CreateEventViewModel
+            {
+                Error = err
+            };
+
+            return View(model);
         }
 
         [HttpGet]
@@ -39,6 +44,7 @@ namespace EventPlanner.Controllers
         {
             var eventTransferModel = await _eventService.GetSingleEvent(eventId);
             var eventViewModel = _mapper.Map<AddPlacesViewModel>(eventTransferModel);
+
             eventViewModel.CurrentPlaceFoursquareId = foursquareId;
             eventViewModel.PlaceErrorMessage = errPlace;
             eventViewModel.TimeErrorMessage = errTime;
@@ -80,13 +86,17 @@ namespace EventPlanner.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNewEvent(CreateEventViewModel newEvent)
         {
-            if (!ModelState.IsValid)
+            if (String.IsNullOrEmpty(newEvent.EventName))
             {
-                return RedirectToAction("CreateEvent");
+                return RedirectToAction("CreateEvent", new {
+                    err = "Add event title."
+                });
             }
 
             var savedEvent = await _eventService.AddEvent(_mapper.Map<Event>(newEvent));
-            return RedirectToAction("AddPlaces", new { eventId = savedEvent.Id });
+            return RedirectToAction("AddPlaces", new {
+                eventId = savedEvent.Id
+            });
         }
 
         /// <summary>
@@ -218,6 +228,11 @@ namespace EventPlanner.Controllers
                 return "This time was already added.";
             }
 
+            if (!(await IsVenueOpen(targetEvent)))
+            {
+                return "Venue is not open at this time";
+            }
+
             return null;
         }
 
@@ -277,7 +292,7 @@ namespace EventPlanner.Controllers
         }
 
         /// <summary>
-        /// Chceks if place to be inserted has unique value.
+        /// Checks if place to be inserted has unique value.
         /// </summary>
         /// <param name="targetEvent">Model of the event to be checked.</param>
         /// <returns>True if value is unique.</returns>
@@ -290,6 +305,18 @@ namespace EventPlanner.Controllers
                 .Any(p => p.FourSquareId.Equals(targetEvent.CurrentPlaceFoursquareId));
         }
 
+        /// <summary>
+        /// Checks if venue is open at given time.
+        /// </summary>
+        /// <param name="targetEvent">Model of the event to be checked.</param>
+        /// <returns>True if venue is open.</returns>
+        private async Task<bool> IsVenueOpen(AddPlacesViewModel targetEvent)
+        {
+            var venue = await _fsService.GetVenueAsync(targetEvent.CurrentPlaceFoursquareId);
+            //! TODO
+            return true;
+        }
+        
         #endregion
     }
 }

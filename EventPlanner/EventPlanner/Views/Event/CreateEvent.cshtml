@@ -6,6 +6,13 @@
 
 <div class="row">
     <form asp-action="CreateNewEvent" class="col-md-4">
+       
+       @if (Model.Error != "")
+       {
+        <div>
+            @Model.Error
+        </div>
+       }
 
         @* Event title *@
         <div class="form-group">

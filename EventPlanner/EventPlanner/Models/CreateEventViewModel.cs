@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EventPlanner.Models
 {
-    public class CreateEventViewModel : IValidatableObject
+    public class CreateEventViewModel
     {
         [Required]
         [Display(Name = "Title")]
@@ -13,12 +11,6 @@ namespace EventPlanner.Models
         [Display(Name = "Description")]
         public string EventDescription { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            if (String.IsNullOrWhiteSpace(EventName))
-            {
-                yield return new ValidationResult("No event title was added.");
-            }
-        }
+        public string Error { get; set; }
     }
 }
