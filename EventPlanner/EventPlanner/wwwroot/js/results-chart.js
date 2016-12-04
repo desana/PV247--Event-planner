@@ -20,3 +20,7 @@
         }]
     });
 });
+
+$("#click-to-toggle").click(function () {
+    $("#toggle-div").toggle();
+});
