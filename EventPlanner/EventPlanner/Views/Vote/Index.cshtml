@@ -1,11 +1,24 @@
-﻿
+﻿@using EventPlanner.DTO.Vote
 @model VoteViewModel
 
 @{
     ViewBag.Title = "Vote";
 }
 
-<h2>Vote for @Model.EventName</h2>
+<h2  style="padding-bottom: 30px">Vote for @Model.EventName</h2>
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-sm-12">
+        <form class="form-inline" asp-controller="Vote" asp-action="ChangeName" asp-route-id="@Model.EventId" method="post">
+            <input type="hidden" name="voteSessionId" value="@Model.VoteSession.VoteSessionId" />
+            <div class="form-group">
+                <label for="name">Your name:</label>
+                <input type="text" class="form-control" id="name" name="name" value="@Model.VoteSession.VoterName" placeholder="Type your name">
+            </div>
+            <button type="submit" class="btn btn-default">Change</button>
+        </form>
+    </div>
+</div>
+
 @foreach (var item in Model.Places)
 {
     <div class="row">
@@ -14,20 +27,23 @@
                 <img src="@item.PlacePhotoUrl">
                 <div class="caption">
                     <h3>@item.Place.Name</h3>
-
                     @foreach (var timeItem in item.Place.Times)
                     {
-                        <p>
-                            @timeItem.Time
-                            <a asp-controller="Vote"
-                               asp-action="TestVote"
-                               asp-route-id="@Model.EventId"
-                               asp-route-placeAtTimeId="@timeItem.Id"
-                               class="btn btn-primary"
-                               role="button">
-                                Vote
-                            </a>
-                        </p>
+                        var vote = @Model.VoteSession.Votes.First(v => v.TimeAtPlaceId == timeItem.Id);
+                        <form asp-controller="Vote" asp-action="Vote" asp-route-id="@Model.EventId" method="post">
+                            <input type="hidden" name="voteSessionId" value="@Model.VoteSession.VoteSessionId"/>
+                            <input type="hidden" name="timeAtPlaceId" value="@vote.TimeAtPlaceId" />
+                            <input type="hidden" name="value" value="@(vote.Value == VoteValueEnum.Accept ? VoteValueEnum.Decline : VoteValueEnum.Accept)" />
+                            <div class="checkbox">
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        checked="@(vote.Value == VoteValueEnum.Accept)"
+                                        onclick="this.form.submit();">
+                                    @timeItem.Time
+                                </label>
+                            </div>
+                        </form>
                     }
                 </div>
             </div>

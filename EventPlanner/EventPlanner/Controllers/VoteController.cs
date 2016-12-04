@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,6 +8,7 @@ using EventPlanner.Services.Event;
 using EventPlanner.Services.Vote;
 using FoursquareVenuesService.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace EventPlanner.Controllers
 {
@@ -17,16 +18,23 @@ namespace EventPlanner.Controllers
         private readonly IFoursquareService _foursquareService;
         private readonly IMapper _mapper;
         private readonly IVoteService _voteService;
+        private readonly ILogger<VoteController> _logger;
 
-        public VoteController(IEventService eventService, IFoursquareService foursquareService, IMapper mapper, IVoteService voteService)
+        public VoteController(
+            IEventService eventService, 
+            IFoursquareService foursquareService, 
+            IMapper mapper, 
+            IVoteService voteService,
+            ILogger<VoteController> logger)
         {
             _eventService = eventService;
             _foursquareService = foursquareService;
             _mapper = mapper;
             _voteService = voteService;
+            _logger = logger;
         }
 
-        public async Task<IActionResult> Index([FromRoute(Name = "id")]int eventId)
+        public async Task<IActionResult> Index([FromRoute(Name = "id")]int eventId, [FromQuery(Name = "session")]Guid? voteSessionId)
         {
             var @event = await _eventService.GetSingleEvent(eventId);
             if (@event == null)
@@ -35,40 +43,67 @@ namespace EventPlanner.Controllers
             }
 
             var viewModel = _mapper.Map<VoteViewModel>(@event);
-            var photos = new Dictionary<string, string>();
-            foreach (var venueId in viewModel.Places.Select(i => i.Place.FourSquareId).Distinct())
-            {
-                photos[venueId] = await _foursquareService.GetVenuePhotoUrlAsync(venueId, "200x200");
-            }
+            await InitPlacePhotos(viewModel);
 
-            foreach (var item in viewModel.Places)
-            {
-                item.PlacePhotoUrl = photos[item.Place.FourSquareId];
-            }
+            var session = voteSessionId.HasValue ? await _voteService.GetVoteSession(voteSessionId.Value) : null;
+            viewModel.VoteSession = session ?? _voteService.InitializeVoteSession(@event);
 
             return View(viewModel);
         }
 
-        public async Task<IActionResult> TestVote([FromRoute(Name = "id")]int eventId, int placeAtTimeId)
+        private async Task InitPlacePhotos(VoteViewModel viewModel)
+        {
+            foreach (var votePlaceViewModel in viewModel.Places)
+            {
+                try
+                {
+                    var photoUrl =
+                        await _foursquareService.GetVenuePhotoUrlAsync(votePlaceViewModel.Place.FourSquareId, "200x200");
+                    votePlaceViewModel.PlacePhotoUrl = photoUrl;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(1, ex, ex.Message);
+                }
+            }
+        }
+
+        public async Task<IActionResult> Vote([FromRoute(Name = "id")]int eventId, Guid? voteSessionId, int timeAtPlaceId, string value)
         {
             var @event = await _eventService.GetSingleEvent(eventId);
-            var votes = @event.Places.SelectMany(p => p.Times).Select(time => new Vote
-            {
-                TimeAtPlaceId = time.Id,
-                Value = placeAtTimeId == time.Id ? VoteValueEnum.Accept : VoteValueEnum.Decline,
-            }).ToList();
+            if (@event == null)
+                return NotFound();
 
-            var testVoteSession = new VoteSession
-            {
-                EventId = eventId,
-                VoterName = "Jana Morozova",
-                Votes = votes,
-            };
+            var session = voteSessionId.HasValue ? await _voteService.GetVoteSession(voteSessionId.Value) : null;
+            session = session ?? _voteService.InitializeVoteSession(@event);
 
-            await _voteService.SaveVoteSession(testVoteSession);
+            var vote = session.Votes.FirstOrDefault(v => v.TimeAtPlaceId == timeAtPlaceId);
+            if (vote == null)
+                return NotFound();
 
-            return Content("Voted");
-        }      
+            VoteValueEnum enumValue = VoteValueEnum.Decline;
+            Enum.TryParse(value, true, out enumValue);
+            vote.Value = enumValue;
 
+            session = await _voteService.SaveVoteSession(session);
+
+            return RedirectToAction("Index", new {id = eventId, session = session.VoteSessionId});
+        }
+
+        public async Task<IActionResult> ChangeName([FromRoute(Name = "id")]int eventId, Guid? voteSessionId, string name)
+        {
+            var @event = await _eventService.GetSingleEvent(eventId);
+            if (@event == null)
+                return NotFound();
+
+            var session = voteSessionId.HasValue ? await _voteService.GetVoteSession(voteSessionId.Value) : null;
+            session = session ?? _voteService.InitializeVoteSession(@event);
+
+            session.VoterName = name;
+
+            session = await _voteService.SaveVoteSession(session);
+
+            return RedirectToAction("Index", new { id = eventId, session = session.VoteSessionId });
+        }
     }
 }

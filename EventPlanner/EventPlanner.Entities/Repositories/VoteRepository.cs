@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -36,7 +35,20 @@ namespace EventPlanner.Entities.Repositories
                 throw new ArgumentNullException(nameof(session));
 
             var entity = _mapper.Map<VoteSession>(session);
-            _context.VoteSessions.AddOrUpdate(entity);
+            var existing = await _context.VoteSessions
+                .Include(s => s.Votes)
+                .FirstOrDefaultAsync(s => s.VoteSessionId == entity.VoteSessionId);
+
+            if (existing != null)
+            {
+                _context.Entry(existing).CurrentValues.SetValues(entity);
+                TrackVoteChanges(existing, entity);
+            }
+            else
+            {
+                _context.VoteSessions.Add(entity);
+            }
+
             await _context.SaveChangesAsync();
 
             return _mapper.Map<DTO.Vote.VoteSession>(entity);
@@ -70,6 +82,31 @@ namespace EventPlanner.Entities.Repositories
             var query = from vote in _context.Votes where timeAtPlaceIds.Contains(vote.TimeAtPlaceId) select vote;
             var entity = await query.ToListAsync();
             return _mapper.Map<IList<DTO.Vote.Vote>>(entity);
+        }
+
+        private void TrackVoteChanges(VoteSession existingSession, VoteSession newSession)
+        {
+            // Remove
+            var votesToRemove = existingSession.Votes
+                .Where(existingSessionVote => newSession.Votes.All(v => v.VoteId != existingSessionVote.VoteId))
+                .ToList();
+
+            votesToRemove.ForEach(p => _context.Votes.Remove(p));
+
+            foreach (var newSessionVote in newSession.Votes)
+            {
+                var existingVote = existingSession.Votes.FirstOrDefault(v => v.VoteId == newSessionVote.VoteId);
+                if (existingVote == null)
+                {
+                    // Insert
+                    existingSession.Votes.Add(newSessionVote);
+                }
+                else
+                {
+                    // Update
+                    _context.Entry(existingVote).CurrentValues.SetValues(newSessionVote);
+                }
+            }
         }
     }
 }

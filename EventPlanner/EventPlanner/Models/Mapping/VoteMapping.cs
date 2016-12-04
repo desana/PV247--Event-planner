@@ -11,7 +11,8 @@ namespace EventPlanner.Models.Mapping
             CreateMap<Event, VoteViewModel>()
                 .ForMember(dst => dst.EventId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dst => dst.EventName, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dst => dst.Places, opt => opt.MapFrom(src => src.Places));
+                .ForMember(dst => dst.Places, opt => opt.MapFrom(src => src.Places))
+                .ForMember(dst => dst.VoteSession, opt => opt.Ignore());
 
             CreateMap<Place, VotePlaceViewModel>()
                 .ForMember(dst => dst.Place, opt => opt.MapFrom(src => src))

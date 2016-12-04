@@ -10,6 +10,7 @@ namespace EventPlanner.Services.Vote
         Task<VoteSession> SaveVoteSession(VoteSession session);
         Task<VoteSession> GetVoteSession(Guid sessionId);
         Task<IList<VoteSession>> GetVoteSessions(int eventId);
+        VoteSession InitializeVoteSession(DTO.Event.Event @event);
         Task<IList<DTO.Vote.Vote>> GetVotes(int timeAtPlaceId);
 
         /// <summary>
