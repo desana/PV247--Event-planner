@@ -9,8 +9,6 @@
     Url.Action("Index", "Home", new { CurrentEvent = Model });
 }
 
-
-
 @section AddToHead{
     <link href="@Url.Content("~/lib/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/dropdown.css")" rel="stylesheet" type="text/css" />
@@ -41,6 +39,7 @@
                     {
                         <li class="col-sm-4">
                             @* New time*@
+
                             <form asp-action="AddSingleTime">                                
                                 <div class="form-group">
                                     <label asp-for="CurrentTime"></label>
@@ -51,16 +50,22 @@
                                         </span>
                                     </div>
                                 </div>                                
-
+                               
                                 @* Hidden fields *@
                                 <input id="foursquareId" asp-for="CurrentPlaceFoursquareId" type="text" hidden/>
                                 <input id="eventId" asp-for="EventId" type="number" hidden/>
 
                                 @* Add time *@
-                                <input type="submit" value="Add time" class="btn btn-primary"/>
-                            </form>
 
-                        </li>
+                                <input type="submit" value="Add time" class="btn btn-primary" />
+                                @if (Model.TimeErrorMessage != null)
+                                {
+                                    <div>
+                                        @Model.TimeErrorMessage
+                                    </div>
+                                }
+                            </form>
+                        </li>        
                     }
                 </ul>
             </div>
@@ -71,7 +76,7 @@
 
 @* New Place *@
 <form asp-action="AddSinglePlace" form class="form-inline">
-
+        
     <div class="form-group">
         <label>City: </label>
         <input class="form-control" id="PlaceCity" />
@@ -79,7 +84,7 @@
 
     <div class="form-group">
         <select id="ddlplaces" name="CurrentPlaceFoursquareId" class="js-data-ddl-ajax">
-            <option value="3620194" selected="selected" style="width: 400px">Search places...</option>
+            <option selected="selected" style="width: 400px">Search places...</option>
         </select>
     </div>
    
@@ -89,6 +94,13 @@
 
     @* Submit button *@
     <input type="submit" value="Add place" class="btn btn-primary" />
+
+    @if (Model.PlaceErrorMessage != null)
+    {
+        <div>
+            @Model.PlaceErrorMessage
+        </div>
+    }
 
 </form>
 
