@@ -4,23 +4,25 @@
 
 <h3>Create new event</h3>
 
-<form asp-action="CreateNewEvent">
+<div class="row">
+    <form asp-action="CreateNewEvent" class="col-md-4">
 
-    @* Event title *@
-    <div class="form-group">
-        <label asp-for="EventName"></label>
-        <input class="form-control" asp-for="EventName"/>
-        <span asp-validation-for="EventName" class="text-danger"></span>
-    </div>
+        @* Event title *@
+        <div class="form-group">
+            <label asp-for="EventName"></label>
+            <input class="form-control" asp-for="EventName"/>
+            <span asp-validation-for="EventName" class="text-danger"></span>
+        </div>
 
-    @* Event description *@
-    <div class="form-group">
-        <label asp-for="EventDescription"></label>
-        <input class="form-control" asp-for="EventDescription"/>
-    </div>
+        @* Event description *@
+        <div class="form-group">
+            <label asp-for="EventDescription"></label>
+            <input class="form-control" asp-for="EventDescription"/>
+        </div>
 
-    @* Submit button *@
-    <div class="form-group">
-        <input type="submit" value="Next" class="btn btn-primary"/>
-    </div>
-</form>
+        @* Submit button *@
+        <div class="form-group">
+            <input type="submit" value="Next" class="btn btn-primary"/>
+        </div>
+    </form>
+</div>

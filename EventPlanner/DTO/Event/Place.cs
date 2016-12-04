@@ -24,6 +24,9 @@ namespace EventPlanner.DTO.Event
         /// </summary>
         public string FourSquareLink { get; set; }
 
+        /// <summary>
+        /// Associated timeslots.
+        /// </summary>
         public ICollection<TimeAtPlace> Times { get; set; } = new List<TimeAtPlace>();
     }
 }

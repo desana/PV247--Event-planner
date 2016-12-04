@@ -17,7 +17,7 @@ namespace EventPlanner.Models
 
         [Display(Name = "Event start")]
         [Remote("IsCurrentTimeUnique", "EventController")]
-        public DateTime CurrentTime { get; set; }
+        public string CurrentTime { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
