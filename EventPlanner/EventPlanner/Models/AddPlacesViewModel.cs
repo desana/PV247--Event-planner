@@ -1,12 +1,10 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace EventPlanner.Models
 {
-    public class AddPlacesViewModel : IValidatableObject
+    public class AddPlacesViewModel
     {
         public int EventId { get; set; }
 
@@ -19,22 +17,8 @@ namespace EventPlanner.Models
         [Remote("IsCurrentTimeUnique", "EventController")]
         public string CurrentTime { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            if (String.IsNullOrWhiteSpace(CurrentPlaceFoursquareId))
-            {
-                yield return new ValidationResult("No event title was added.");
-            }
-            else if (CurrentTime == null)
-            {
-                
-                // check if event does not contain this fsId
-            }
+        public string PlaceErrorMessage { get; set; }
 
-            if (CurrentTime != null)
-            {
-                // check opening hours and if time is already there
-            }
-        }
+        public string TimeErrorMessage { get; set; }
     }
 }
