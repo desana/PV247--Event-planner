@@ -18,7 +18,7 @@
 }
 
 function formatPlaceSelection(place) {
-    return place.name;
+    return place.name || "Search places...";
 }
 
 $(document).ready(function () {
