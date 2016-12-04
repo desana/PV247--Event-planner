@@ -11,7 +11,8 @@ namespace EventPlanner.Models.Mapping
 
             CreateMap<Event, CreateEventViewModel>()
                 .ForMember(dst => dst.EventName, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dst => dst.EventDescription, opt => opt.MapFrom(src => src.Description));                
+                .ForMember(dst => dst.EventDescription, opt => opt.MapFrom(src => src.Description))
+                .ForAllOtherMembers(opt => opt.Ignore());
 
             CreateMap<CreateEventViewModel, Event>()
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.EventName))

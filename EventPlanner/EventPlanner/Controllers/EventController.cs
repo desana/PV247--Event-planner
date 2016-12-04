@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using EventPlanner.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using AutoMapper;
 using EventPlanner.Services.Event;
 using EventPlanner.Services.Vote;
@@ -31,17 +30,25 @@ namespace EventPlanner.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateEvent()
+        public IActionResult CreateEvent(string err = "")
         {
-            return View();
+            var model = new CreateEventViewModel
+            {
+                Error = err
+            };
+
+            return View(model);
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddPlaces(int eventId, string place = "")
+        public async Task<IActionResult> AddPlaces(int eventId, string foursquareId = "", string errTime = "", string errPlace = "")
         {
             var eventTransferModel = await _eventService.GetSingleEvent(eventId);
             var eventViewModel = _mapper.Map<AddPlacesViewModel>(eventTransferModel);
-            eventViewModel.CurrentPlaceFoursquareId = place;
+
+            eventViewModel.CurrentPlaceFoursquareId = foursquareId;
+            eventViewModel.PlaceErrorMessage = errPlace;
+            eventViewModel.TimeErrorMessage = errTime;
 
             return View(eventViewModel);
         }
@@ -80,13 +87,17 @@ namespace EventPlanner.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNewEvent(CreateEventViewModel newEvent)
         {
-            if (!ModelState.IsValid)
+            if (String.IsNullOrEmpty(newEvent.EventName))
             {
-                return RedirectToAction("CreateEvent");
+                return RedirectToAction("CreateEvent", new {
+                    err = "Add event title."
+                });
             }
 
             var savedEvent = await _eventService.AddEvent(_mapper.Map<Event>(newEvent));
-            return RedirectToAction("AddPlaces", new { eventId = savedEvent.Id });
+            return RedirectToAction("AddPlaces", new {
+                eventId = savedEvent.Id
+            });
         }
 
         /// <summary>
@@ -97,13 +108,20 @@ namespace EventPlanner.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSingleTime(AddPlacesViewModel targetEvent)
         {
-            if (!ModelState.IsValid)
+            var errorMessage = await ValidateTime(targetEvent);
+            if (errorMessage != null)
             {
-                return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId });
+                return RedirectToAction("AddPlaces", new {
+                    eventId = targetEvent.EventId,
+                    foursquareId = targetEvent.CurrentPlaceFoursquareId,
+                    errTime =  errorMessage
+                });
             }
 
             var currentTimeAtPlaceId = await _eventService.AddEventTime(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId, Convert.ToDateTime(targetEvent.CurrentTime));
-            return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId, place = targetEvent.CurrentPlaceFoursquareId });
+            return RedirectToAction("AddPlaces", new {
+                eventId = targetEvent.EventId,
+                foursquareId = targetEvent.CurrentPlaceFoursquareId });
         }
 
         /// <summary>
@@ -137,13 +155,21 @@ namespace EventPlanner.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSinglePlace(AddPlacesViewModel targetEvent)
         {
-            if (!ModelState.IsValid)
+            var errorMessage = await ValidatePlace(targetEvent);
+            if (errorMessage != null)
             {
-                return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId });
+                return RedirectToAction("AddPlaces", new {
+                    eventId = targetEvent.EventId,
+                    // TODO add last valid place ?!
+                    errPlace = errorMessage
+                });
             }
 
             await _eventService.AddEventPlace(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId);
-            return RedirectToAction("AddPlaces", new { eventId = targetEvent.EventId, place = targetEvent.CurrentPlaceFoursquareId });
+            return RedirectToAction("AddPlaces", new {
+                eventId = targetEvent.EventId,
+                foursquareId = targetEvent.CurrentPlaceFoursquareId
+            });
         }
 
         /// <summary>
@@ -179,19 +205,120 @@ namespace EventPlanner.Controllers
 
             return chartModel;
         }
-        
-        public async Task<bool> IsCurrentTimeUnique(int eventId, string foursquareId, DateTime time)
+
+        #region Validation methods
+
+        public async Task<string> ValidateTime(AddPlacesViewModel targetEvent)
         {
-            var currentEvent = await _eventService.GetSingleEvent(eventId);
+            if (String.IsNullOrWhiteSpace(targetEvent.CurrentTime))
+            {
+                return "You can not add empty time.";
+            }
+
+            try
+            {
+                Convert.ToDateTime(targetEvent.CurrentTime);
+            }
+            catch
+            {
+                return "Inserted value is not valid time.";
+            }
+
+            if (!(await IsCurrentTimeUnique(targetEvent)))
+            {
+                return "This time was already added.";
+            }
+
+            if (!(await IsVenueOpen(targetEvent)))
+            {
+                return "Venue is not open at this time";
+            }
+
+            return null;
+        }
+
+
+        /// <summary>
+        /// Validates new place. 
+        /// </summary>
+        /// <param name="targetEvent">View model to be validated.</param>
+        /// <returns>Error message if problem was found, null otherwise.</returns>
+        public async Task<string> ValidatePlace(AddPlacesViewModel targetEvent)
+        {
+            if (String.IsNullOrWhiteSpace(targetEvent.CurrentPlaceFoursquareId) || targetEvent.CurrentPlaceFoursquareId.Equals("Search places..."))
+            {
+                return "You can not add empty place.";
+            }
+
+            if (!(await DoesVenueExist(targetEvent.CurrentPlaceFoursquareId)))
+            {
+                return "Selected foursquare venue does not exist";
+            }
+
+            if (!(await IsCurrentPlaceUnique(targetEvent)))
+            {
+                return "This place was already added. Please check previous places.";
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Checks if foursquare venue exists.
+        /// </summary>
+        /// <param name="id">Id of the venue.</param>
+        /// <returns>True if venue exists.</returns>
+        private async Task<bool> DoesVenueExist(string id)
+        {
+            var venue = await _fsService.GetVenueAsync(id);
+            return venue != null;
+        }
+        
+        /// <summary>
+        /// Checks if time to be inserted has unique value.
+        /// </summary>
+        /// <param name="targetEvent">Model of the event to be checked.</param>
+        /// <returns>True if value is unique.</returns>
+        private async Task<bool> IsCurrentTimeUnique(AddPlacesViewModel targetEvent)
+        {
+            var currentEvent = await _eventService.GetSingleEvent(targetEvent.EventId);
             var place = currentEvent
                 .Places
                 .ToList()
-                .First(p => p.FourSquareId.Equals(foursquareId));
+                .First(p => p.FourSquareId.Equals(targetEvent.CurrentPlaceFoursquareId));
 
-           return !place
-                .Times
-                .Any(timeslot => timeslot.Time.Equals(time));
+            return !place
+                 .Times
+                 .Any(timeslot => timeslot.Time.Equals(Convert.ToDateTime(targetEvent.CurrentTime)));
         }
+
+        /// <summary>
+        /// Checks if place to be inserted has unique value.
+        /// </summary>
+        /// <param name="targetEvent">Model of the event to be checked.</param>
+        /// <returns>True if value is unique.</returns>
+        private async Task<bool> IsCurrentPlaceUnique(AddPlacesViewModel targetEvent)
+        {
+            var currentEvent = await _eventService.GetSingleEvent(targetEvent.EventId);
+            return !currentEvent
+                .Places
+                .ToList()
+                .Any(p => p.FourSquareId.Equals(targetEvent.CurrentPlaceFoursquareId));
+        }
+
+        /// <summary>
+        /// Checks if venue is open at given time.
+        /// </summary>
+        /// <param name="targetEvent">Model of the event to be checked.</param>
+        /// <returns>True if venue is open.</returns>
+        private async Task<bool> IsVenueOpen(AddPlacesViewModel targetEvent)
+        {
+            var venue = await _fsService.GetVenueAsync(targetEvent.CurrentPlaceFoursquareId);
+            //! TODO
+            return true;
+        }
+        
+        #endregion
     }
 }
 
