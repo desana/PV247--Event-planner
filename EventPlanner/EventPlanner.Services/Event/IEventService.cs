@@ -21,8 +21,8 @@ namespace EventPlanner.Services.Event
         /// <summary>
         /// Returns single event from the database.
         /// </summary>
-        /// <param name="name">Name of requested event.</param>
-        Task<DTO.Event.Event> GetSingleEvent(string name);
+        /// <param name="token">Token of requested event.</param>
+        Task<DTO.Event.Event> GetSingleEvent(string token);
 
         /// <summary>
         /// Returns single event from the database.

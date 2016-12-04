@@ -48,12 +48,12 @@ namespace EventPlanner.Entities.Repositories
         /// <summary>
         /// Returns single event from the database.
         /// </summary>
-        /// <param name="name">Name of requested event.</param>
-        public async Task<DTO.Event.Event> GetSingleEvent(string name)
+        /// <param name="token">Token of requested event.</param>
+        public async Task<DTO.Event.Event> GetSingleEvent(string token)
         {
             var plannedEvent = await _context
                 .Events
-                .Where(ev => ev.Name == name)
+                .Where(ev => ev.Link == token)
                 .Include(ev => ev.Places)
                 .Include(ev => ev.Places.Select(p => p.Times))
                 .SingleOrDefaultAsync();

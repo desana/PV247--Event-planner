@@ -47,10 +47,10 @@ namespace EventPlanner.Services.Event
         /// <summary>
         /// Returns single event from the database.
         /// </summary>
-        /// <param name="name">Name of requested event.</param>
-        public async Task<DTO.Event.Event> GetSingleEvent(string name)
+        /// <param name="token">Token of requested event.</param>
+        public async Task<DTO.Event.Event> GetSingleEvent(string token)
         {
-            return await _eventRepository.GetSingleEvent(name);
+            return await _eventRepository.GetSingleEvent(token);
         }
 
         /// <summary>

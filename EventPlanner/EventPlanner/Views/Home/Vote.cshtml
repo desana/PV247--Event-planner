@@ -10,6 +10,6 @@
 <div class="list-group">
     @foreach (var eventItem in Model)
     {
-        <a asp-controller="Vote" asp-action="Index" asp-route-id="@eventItem.Id" class="list-group-item">@eventItem.Name</a>
+        <a asp-controller="Vote" asp-action="Index" asp-route-token="@eventItem.Link" class="list-group-item">@eventItem.Name</a>
     }
 </div>

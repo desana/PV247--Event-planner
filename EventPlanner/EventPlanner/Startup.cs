@@ -102,6 +102,11 @@ namespace EventPlanner
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "vote",
+                    defaults: new { controller = "Vote", action = "Index" },
+                    template: "Vote/{token}");
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });

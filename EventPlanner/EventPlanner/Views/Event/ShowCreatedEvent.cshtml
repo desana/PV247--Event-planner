@@ -19,5 +19,5 @@
     <h1>Congratulations! You have successfuly created an event and can now start voting.</h1>
     <br />
     <br />
-    <h3>You can use <a href=@Model.EventLink> this link </a> to vote!</h3>
+    <h3>You can use <a asp-controller="Vote" asp-action="Index" asp-route-token="@Model.EventLink">this link</a> to vote!</h3>
 </div>

@@ -34,9 +34,9 @@ namespace EventPlanner.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index([FromRoute(Name = "id")]int eventId, [FromQuery(Name = "session")]Guid? voteSessionId)
+        public async Task<IActionResult> Index([FromRoute(Name = "token")]string eventToken, [FromQuery(Name = "session")]Guid? voteSessionId)
         {
-            var @event = await _eventService.GetSingleEvent(eventId);
+            var @event = await _eventService.GetSingleEvent(eventToken);
             if (@event == null)
             {
                 return NotFound();
@@ -71,6 +71,7 @@ namespace EventPlanner.Controllers
             }
         }
 
+        [HttpPost]
         public async Task<IActionResult> Vote([FromRoute(Name = "id")]int eventId, Guid? voteSessionId, int timeAtPlaceId, string value)
         {
             var @event = await _eventService.GetSingleEvent(eventId);
@@ -90,9 +91,10 @@ namespace EventPlanner.Controllers
 
             session = await _voteService.SaveVoteSession(session);
 
-            return RedirectToAction("Index", new {id = eventId, session = session.VoteSessionId});
+            return RedirectToAction("Index", new { token = @event.Link, session = session.VoteSessionId});
         }
 
+        [HttpPost]
         public async Task<IActionResult> ChangeName([FromRoute(Name = "id")]int eventId, Guid? voteSessionId, string name)
         {
             var @event = await _eventService.GetSingleEvent(eventId);
@@ -106,7 +108,7 @@ namespace EventPlanner.Controllers
 
             session = await _voteService.SaveVoteSession(session);
 
-            return RedirectToAction("Index", new { id = eventId, session = session.VoteSessionId });
+            return RedirectToAction("Index", new { token = @event.Link, session = session.VoteSessionId });
         }
     }
 }
