@@ -1,6 +1,7 @@
 ﻿@using System.Globalization
 @using System.Threading.Tasks
 @using EventPlanner.Models
+@using FoursquareVenuesService
 
 @model AddPlacesViewModel
 
@@ -9,13 +10,15 @@
     Url.Action("Index", "Home", new { CurrentEvent = Model });
 }
 
-
+<script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="~/js/GetPlaces.js" type="text/javascript"></script>
+<script src="~/js/DatePicker.js" type="text/javascript"></script>
 
 @section AddToHead{
     <link href="@Url.Content("~/lib/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/dropdown.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css")" rel="stylesheet"/>
 }
+
 
 <h3>Add places and times</h3>
 
@@ -28,7 +31,7 @@
                 @* Display place name *@
                 @Html.DisplayFor(modelItem => place.Name)
 
-                <ul class="row">
+                <ul>
                     @foreach (var time in place.Times)
                     {
                         <li>
@@ -39,25 +42,24 @@
 
                     @if (Model.CurrentPlaceFoursquareId != "" && place.FourSquareId == Model.CurrentPlaceFoursquareId)
                     {
-                        <li class="col-sm-4">
+                        <li>
                             @* New time*@
-                            <form asp-action="AddSingleTime">                                
-                                <div class="form-group">
-                                    <label asp-for="CurrentTime"></label>
-                                    <div class='input-group date' id='CurrentTime'>
-                                        <input type='text' class="form-control" asp-for="CurrentTime" name="CurrentTime" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
-                                </div>                                
+                            <form asp-action="AddSingleTime">
 
+                                <label asp-for="CurrentTime"></label>                                
+                                <div class='input-group date' id='CurrentTime'>
+                                    <input type='text' class="form-control" asp-for="CurrentTime" name="CurrentTime" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                               
                                 @* Hidden fields *@
-                                <input id="foursquareId" asp-for="CurrentPlaceFoursquareId" type="text" hidden/>
-                                <input id="eventId" asp-for="EventId" type="number" hidden/>
+                                <input id="foursquareId" asp-for="CurrentPlaceFoursquareId" type="text" hidden />
+                                <input id="eventId" asp-for="EventId" type="number" hidden />
 
                                 @* Add time *@
-                                <input type="submit" value="Add time" class="btn btn-primary"/>
+                                <input type="submit" value="Add time" class="btn btn-primary" />
                             </form>
 
                         </li>
@@ -72,6 +74,13 @@
 @* New Place *@
 <form asp-action="AddSinglePlace" form class="form-inline">
 
+    @if (Model.PlaceErrorMessage != null)
+    {
+        <div>
+            <h1> @Model.PlaceErrorMessage </h1>
+        </div>
+    }
+
     <div class="form-group">
         <label>City: </label>
         <input class="form-control" id="PlaceCity" />
@@ -79,7 +88,7 @@
 
     <div class="form-group">
         <select id="ddlplaces" name="CurrentPlaceFoursquareId" class="js-data-ddl-ajax">
-            <option value="3620194" selected="selected" style="width: 400px">Search places...</option>
+            <option selected="selected" style="width: 400px">Search places...</option>
         </select>
     </div>
    
@@ -105,3 +114,5 @@
 
     </form>
 }
+
+
