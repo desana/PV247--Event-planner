@@ -73,10 +73,12 @@ namespace EventPlanner.Controllers
             }
 
             ViewData["EventName"] = requestedEventName;
+            var resultsViewModel = new ResultsViewModel();
             var chartModel = await GetChartModel(id);
             chartModel.EventName = requestedEventName;
+            resultsViewModel.ChartData = chartModel;
 
-            return View(chartModel);
+            return View(resultsViewModel);
         }
 
         /// <summary>

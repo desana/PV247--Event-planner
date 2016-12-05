@@ -1,6 +1,6 @@
 ﻿@using System.Threading.Tasks
 @using EventPlanner.Models
-@model ChartModel
+@model ResultsViewModel
 
 <script src="../../lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
 <script src="../../lib/highcharts/highcharts.js" type="text/javascript"></script>
@@ -9,7 +9,7 @@
     <link href="@Url.Content("~/css/resultspage.css")" rel="stylesheet" type="text/css" />
 }
 
-<h2>Results for @Model.EventName</h2>
+<h2>Results for @Model.ChartData.EventName</h2>
 
 <div class="panel panel-primary">
     <div class="panel-heading toggle-diagram">
@@ -40,5 +40,5 @@
     </table>
 </div>
  
-<script>var dataJson = @(Json.Serialize(Model));</script>
+<script>var dataJson = @(Json.Serialize(Model.ChartData));</script>
 <script src ="../../js/results-chart.js"></script>
