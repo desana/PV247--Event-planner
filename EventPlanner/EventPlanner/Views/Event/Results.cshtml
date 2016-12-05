@@ -1,4 +1,5 @@
 ﻿@using System.Threading.Tasks
+@using EventPlanner.DTO.Vote
 @using EventPlanner.Models
 @model ResultsViewModel
 
@@ -11,7 +12,7 @@
 
 <h2>Results for @Model.ChartData.EventName</h2>
 
-<div class="panel panel-primary">
+<div class="panel panel-default">
     <div class="panel-heading toggle-diagram">
         <h3 class="panel-title">
             <span id="arrow" class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>
@@ -26,22 +27,32 @@
 <div class="panel panel-default table-panel">
     <table class="table table-hover">
         <tr>
-            <th>Name</th>
+            <th class="bg-primary">Name</th>
             @foreach (var place in Model.TimesAtPlaces.OrderBy(k=>k.Value))
             {
-                <th class="votes" id="@place.Key">@place.Value</th>
+                <th class="votes bg-primary">@place.Value</th>
             }
         </tr>
-
-       <tr>
-            <td>Jill</td>
-            <td class="votes"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-       </tr>
         
-        <tr>
-            <td>Eve</td>
-            <td class="votes"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-        </tr>
+        @foreach (var session in Model.VoteSessions)
+        {
+            <tr>
+                <td>@session.VoterName</td>
+                @foreach (var place in Model.TimesAtPlaces.OrderBy(k => k.Value))
+                {
+                    if (session.Votes.First(v => v.TimeAtPlaceId == place.Key).Value == VoteValueEnum.Accept)
+                    {
+                        <td class="votes"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                    }
+                    else
+                    {
+                        <td class="votes"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+                    }
+                }
+                
+            </tr>
+        }
+       
     </table>
 </div>
  

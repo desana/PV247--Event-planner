@@ -2,6 +2,6 @@
   overflow-x:scroll;
 }
 
-th .votes, td .votes{
+.votes{
     text-align: center;
 }
