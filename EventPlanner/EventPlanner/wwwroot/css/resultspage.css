@@ -1,0 +1,7 @@
+﻿.table-panel{
+  overflow-x:scroll;
+}
+
+th .votes, td .votes{
+    text-align: center;
+}
