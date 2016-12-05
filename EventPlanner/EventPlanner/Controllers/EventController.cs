@@ -73,10 +73,8 @@ namespace EventPlanner.Controllers
             }
 
             ViewData["EventName"] = requestedEventName;
-            var resultsViewModel = new ResultsViewModel();
-            var chartModel = await GetChartModel(id);
-            chartModel.EventName = requestedEventName;
-            resultsViewModel.ChartData = chartModel;
+            var resultsViewModel = await GetResultsViewModel(id);
+            resultsViewModel.ChartData.EventName = requestedEventName;
 
             return View(resultsViewModel);
         }
@@ -175,17 +173,19 @@ namespace EventPlanner.Controllers
         }
 
         /// <summary>
-        /// Gets json object that will be used for rendering charts.
+        /// Gets model that will be used for rendering charts and tables with votes.
         /// </summary>
         /// <param name="id">Event id.</param>
-        /// <returns>Chart model.</returns>
-        private async Task<ChartModel> GetChartModel(int id)
+        /// <returns>Results view model.</returns>
+        private async Task<ResultsViewModel> GetResultsViewModel(int id)
         {
+            var resultViewModel = new ResultsViewModel();
+
             var chartModel = new ChartModel();
             // NOTE: we do not display places and times witch zero votes
             var @event = await _eventService.GetSingleEvent(id);
-            // TODO Use vote service to read votes
             var voteSessions = await _voteService.GetVoteSessions(@event.Id);
+            resultViewModel.VoteSessions = voteSessions;
             var data = new Dictionary<string, int>();
             foreach (var place in @event.Places)
             {
@@ -193,7 +193,9 @@ namespace EventPlanner.Controllers
                 {
                     var value = voteSessions.SelectMany(voteSession => voteSession.Votes)
                         .Count(vote => vote.TimeAtPlaceId == time.Id && vote.Value == VoteValueEnum.Accept);
-                    data.Add(place.Name + " - " + time.Time.ToString("dd/MM/yyyy H:mm"), value);
+                    string placeAndTime = place.Name + " - " + time.Time.ToString("dd/MM/yyyy H:mm");
+                    data.Add(placeAndTime, value);
+                    resultViewModel.TimesAtPlaces.Add(time.Id, placeAndTime);
                 }
             }
 
@@ -205,7 +207,9 @@ namespace EventPlanner.Controllers
                 chartModel.Data.Add(pair.Value);
             }
 
-            return chartModel;
+            resultViewModel.ChartData = chartModel;
+
+            return resultViewModel;
         }
 
         #region Validation methods

@@ -12,6 +12,6 @@ namespace EventPlanner.Models
 
         public ICollection<VoteSession> VoteSessions { get; set; } = new List<VoteSession>();
 
-        public ICollection<TimeAtPlaceViewModel> TimesAtPlaces { get; set; } = new List<TimeAtPlaceViewModel>();
+        public IDictionary<int, string> TimesAtPlaces { get; set; } = new Dictionary<int, string>();
     }
 }

@@ -27,12 +27,17 @@
     <table class="table table-hover">
         <tr>
             <th>Name</th>
-            <th class="votes">Place + time</th>
+            @foreach (var place in Model.TimesAtPlaces.OrderBy(k=>k.Value))
+            {
+                <th class="votes" id="@place.Key">@place.Value</th>
+            }
         </tr>
-        <tr>
+
+       <tr>
             <td>Jill</td>
             <td class="votes"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-        </tr>
+       </tr>
+        
         <tr>
             <td>Eve</td>
             <td class="votes"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
