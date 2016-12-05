@@ -195,7 +195,7 @@ namespace EventPlanner.Controllers
                 }
             }
 
-            var sortedData = data.OrderBy(k => k.Key);
+            var sortedData = data.OrderByDescending(k => k.Value);
 
             foreach (var pair in sortedData)
             {

@@ -6,7 +6,7 @@ namespace EventPlanner.Models
     {
         public string EventName { get; set; }
 
-        public ICollection<string> Categories { get; set; } = new SortedSet<string>();
+        public ICollection<string> Categories { get; set; } = new List<string>();
 
         public ICollection<int> Data { get; set; } = new List<int>();
     }
