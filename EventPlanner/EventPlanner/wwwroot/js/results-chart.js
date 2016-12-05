@@ -21,6 +21,13 @@
     });
 });
 
-$("#click-to-toggle").click(function () {
+$("#toggle").click(function () {
     $("#toggle-div").toggle();
 });
+
+$(".toggle-diagram")
+    .click(function() {
+        $("#toggle-div").toggle();
+        $("#arrow").toggleClass('glyphicon-menu-up');
+        $("#arrow").toggleClass('glyphicon-menu-down');
+    });
