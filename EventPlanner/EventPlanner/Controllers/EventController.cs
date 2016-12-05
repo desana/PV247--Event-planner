@@ -184,6 +184,7 @@ namespace EventPlanner.Controllers
             var chartModel = new ChartModel();
             // NOTE: we do not display places and times witch zero votes
             var @event = await _eventService.GetSingleEvent(id);
+            resultViewModel.EventLink = @event.Link;
             var voteSessions = await _voteService.GetVoteSessions(@event.Id);
             resultViewModel.VoteSessions = voteSessions;
             var data = new Dictionary<string, int>();
@@ -193,7 +194,7 @@ namespace EventPlanner.Controllers
                 {
                     var value = voteSessions.SelectMany(voteSession => voteSession.Votes)
                         .Count(vote => vote.TimeAtPlaceId == time.Id && vote.Value == VoteValueEnum.Accept);
-                    string placeAndTime = place.Name + " - " + time.Time.ToString("dd/MM/yyyy H:mm");
+                    var placeAndTime = place.Name + " - " + time.Time.ToString("dd/MM/yyyy H:mm");
                     data.Add(placeAndTime, value);
                     resultViewModel.TimesAtPlaces.Add(time.Id, placeAndTime);
                 }

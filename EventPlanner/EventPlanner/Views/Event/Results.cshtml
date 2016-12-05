@@ -12,6 +12,12 @@
 
 <h2>Results for @Model.ChartData.EventName</h2>
 
+<div>
+    You can vote or change your vote <a asp-controller="Vote" asp-action="Index" asp-route-token="@Model.EventLink">here</a>.
+</div>
+
+<br/>
+
 <div class="panel panel-default">
     <div class="panel-heading toggle-diagram">
         <h3 class="panel-title">
