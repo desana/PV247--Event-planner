@@ -34,7 +34,7 @@ namespace EventPlanner.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index([FromRoute(Name = "token")]string eventToken, [FromQuery(Name = "session")]Guid? voteSessionId)
+        public async Task<IActionResult> Index([FromRoute(Name = "token")]Guid eventToken, [FromQuery(Name = "session")]Guid? voteSessionId)
         {
             var @event = await _eventService.GetSingleEvent(eventToken);
             if (@event == null)
@@ -72,7 +72,7 @@ namespace EventPlanner.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Vote([FromRoute(Name = "id")]int eventId, Guid? voteSessionId, int timeAtPlaceId, string value)
+        public async Task<IActionResult> Vote([FromRoute(Name = "id")]Guid eventId, Guid? voteSessionId, int timeAtPlaceId, string value)
         {
             var @event = await _eventService.GetSingleEvent(eventId);
             if (@event == null)
@@ -91,11 +91,11 @@ namespace EventPlanner.Controllers
 
             session = await _voteService.SaveVoteSession(session);
 
-            return RedirectToAction("Index", new { token = @event.Link, session = session.VoteSessionId});
+            return RedirectToAction("Index", new { token = @event.EventId, session = session.VoteSessionId});
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangeName([FromRoute(Name = "id")]int eventId, Guid? voteSessionId, string name)
+        public async Task<IActionResult> ChangeName([FromRoute(Name = "id")]Guid eventId, Guid? voteSessionId, string name)
         {
             var @event = await _eventService.GetSingleEvent(eventId);
             if (@event == null)
@@ -108,7 +108,7 @@ namespace EventPlanner.Controllers
 
             session = await _voteService.SaveVoteSession(session);
 
-            return RedirectToAction("Index", new { token = @event.Link, session = session.VoteSessionId });
+            return RedirectToAction("Index", new { token = @event.EventId.ToString(), session = session.VoteSessionId });
         }
     }
 }

@@ -45,14 +45,14 @@ namespace EventPlanner.Entities.UnitTests
             {
                new Event
                 {
-                    Id = 1,
+                    EventId = Guid.NewGuid(),
                     Name = "Sraz",
                     Description = "Sraz členů spolku",
                     Places = new List<Place> { testPlace1 }
                 },
                new Event
                 {
-                    Id = 2,
+                    EventId = Guid.Parse("toto_je_moj_guid"),
                     Name = "Sraz 2",
                     Description = "Sraz členů jiného spolku",
                     Places = new List<Place> { testPlace2 }
@@ -98,7 +98,7 @@ namespace EventPlanner.Entities.UnitTests
         [Fact]
         public async void GetSingleEvent_Async()
         {
-            var singleEvent = await _eventsRepository.GetSingleEvent(2);
+            var singleEvent = await _eventsRepository.GetSingleEvent(Guid.Parse("toto_je_moj_guid"));
 
             Assert.Equal("Sraz 2", singleEvent.Name);
             Assert.Equal("Burger Inn", singleEvent.Places.Single().Name);
@@ -108,7 +108,7 @@ namespace EventPlanner.Entities.UnitTests
         [Fact]
         public async void GetSingleEvent_Nonexisting()
         {
-            var singleEvent = await _eventsRepository.GetSingleEvent(10);
+            var singleEvent = await _eventsRepository.GetSingleEvent(Guid.NewGuid());
 
             Assert.Null(singleEvent);
         }
@@ -116,7 +116,7 @@ namespace EventPlanner.Entities.UnitTests
         [Fact]
         public async void GetSingleEvent2_Nonexisting()
         {
-            var singleEvent = await _eventsRepository.GetSingleEvent("Nonexisting event");
+            var singleEvent = await _eventsRepository.GetSingleEvent(Guid.NewGuid());
 
             Assert.Null(singleEvent);
         }

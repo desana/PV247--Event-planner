@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventPlanner.Entities.Repositories
@@ -9,13 +10,7 @@ namespace EventPlanner.Entities.Repositories
         /// Returns single event from the database.
         /// </summary>
         /// <param name="id">Id of requested event.</param>
-        Task<DTO.Event.Event> GetSingleEvent(int id);
-
-        /// <summary>
-        /// Returns single event from the database.
-        /// </summary>
-        /// <param name="token">Token of requested event.</param>
-        Task<DTO.Event.Event> GetSingleEvent(string token);
+        Task<DTO.Event.Event> GetSingleEvent(Guid id);
 
         /// <summary>
         /// Returns all events from the database.
@@ -33,7 +28,7 @@ namespace EventPlanner.Entities.Repositories
         /// </summary>
         /// <param name="id">Id of the event to be removed.</param>
         /// <returns><c>True</c> if event was removed.</returns>
-        Task<bool> DeleteEvent(int id);
+        Task<bool> DeleteEvent(Guid id);
 
         Task<DTO.Event.Event> SaveEvent(DTO.Event.Event @event);
     }

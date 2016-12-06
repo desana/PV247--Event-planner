@@ -36,7 +36,7 @@ namespace EventPlanner.Entities.UnitTests
 
             var testEvent = new Event
             {
-                Id = 1,
+                EventId = Guid.Parse("toto_je_moj_guid1"),
                 Name = "Sraz",
                 Description = "Sraz členů spolku",
                 Places = new List<Place>
@@ -78,7 +78,7 @@ namespace EventPlanner.Entities.UnitTests
             {
                 new Entities.Event
                 {
-                    Id = 3,
+                    EventId = Guid.Parse("toto_je_moj_guid3"),
                     Name = "Sraz",
                     Description = "Sraz členů spolku",
                     Places = new List<Entities.Place>
@@ -111,7 +111,7 @@ namespace EventPlanner.Entities.UnitTests
             _mockContext.Setup(m => m.Events).Returns(mockSet.Object);
             var repository = new EventsRepository(_mockContext.Object, _mapper);
 
-            bool result = await repository.DeleteEvent(3);
+            bool result = await repository.DeleteEvent(Guid.Parse("toto_je_moj_guid3"));
 
             Assert.True(result);
             mockSet.Verify(m => m.Remove(It.IsAny<Entities.Event>()), Times.Once());
@@ -138,7 +138,7 @@ namespace EventPlanner.Entities.UnitTests
             _mockContext.Setup(m => m.Events).Returns(mockSet.Object);
             var repository = new EventsRepository(_mockContext.Object, _mapper);
 
-            bool result = await repository.DeleteEvent(1);
+            bool result = await repository.DeleteEvent(Guid.Parse("toto_je_moj_guid1"));
 
             Assert.False(result);
             mockSet.Verify(m => m.Remove(It.IsAny<Entities.Event>()), Times.Never());

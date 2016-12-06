@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace EventPlanner.Entities.Entities
@@ -11,7 +12,8 @@ namespace EventPlanner.Entities.Entities
         /// <summary>
         /// Primary key of the event.
         /// </summary>
-        public int Id { get; set; }
+        [Key]
+        public Guid EventId { get; set; }
 
         /// <summary>
         /// Name of the event.
@@ -24,12 +26,6 @@ namespace EventPlanner.Entities.Entities
         /// Description of the event.
         /// </summary>
         public string Description { get; set; }
-
-        /// <summary>
-        /// Link to vote.
-        /// </summary>
-        [Required]
-        public string Link { get; set; }
 
         /// <summary>
         /// Collection of all possible locations and times.

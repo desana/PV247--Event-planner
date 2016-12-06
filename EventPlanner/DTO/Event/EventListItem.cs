@@ -1,11 +1,13 @@
-﻿namespace EventPlanner.DTO.Event
+﻿using System;
+
+namespace EventPlanner.DTO.Event
 {
     public class EventListItem
     {
         /// <summary>
         /// Primary key of the event.
         /// </summary>
-        public int Id { get; set; }
+        public Guid EventId { get; set; }
 
         /// <summary>
         /// Name of the event.
@@ -16,10 +18,5 @@
         /// Description of the event.
         /// </summary>
         public string Description { get; set; }
-
-        /// <summary>
-        /// Link to vote.
-        /// </summary>
-        public string Link { get; set; }
     }
 }

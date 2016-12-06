@@ -48,7 +48,7 @@ namespace EventPlanner.Services.Vote
         {
             var newSession = new VoteSession
             {
-                EventId = @event.Id,
+                EventId = @event.EventId,
                 VoteSessionId = Guid.NewGuid(),
             };
 
@@ -73,7 +73,7 @@ namespace EventPlanner.Services.Vote
             }
         }
 
-        public async Task<IList<VoteSession>> GetVoteSessions(int eventId)
+        public async Task<IList<VoteSession>> GetVoteSessions(Guid eventId)
         {
             return await _voteRepository.GetVoteSessions(eventId);
         }

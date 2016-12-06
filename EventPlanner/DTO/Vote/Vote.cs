@@ -1,5 +1,4 @@
 ﻿using System;
-using EventPlanner.DTO.Event;
 
 namespace EventPlanner.DTO.Vote
 {

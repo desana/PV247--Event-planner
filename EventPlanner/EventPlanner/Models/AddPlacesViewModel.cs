@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,7 +7,7 @@ namespace EventPlanner.Models
 {
     public class AddPlacesViewModel
     {
-        public int EventId { get; set; }
+        public Guid EventId { get; set; }
 
         public ICollection<PlaceViewModel> Places { get; set; } = new List<PlaceViewModel>();
 

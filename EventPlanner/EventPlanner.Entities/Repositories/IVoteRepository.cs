@@ -8,7 +8,7 @@ namespace EventPlanner.Entities.Repositories
     {
         Task<DTO.Vote.VoteSession> SaveSession(DTO.Vote.VoteSession session);
         Task<DTO.Vote.VoteSession> GetVoteSession(Guid sessionId);
-        Task<IList<DTO.Vote.VoteSession>> GetVoteSessions(int eventId);
+        Task<IList<DTO.Vote.VoteSession>> GetVoteSessions(Guid eventId);
         Task<IList<DTO.Vote.Vote>> GetVotes(ICollection<int> timeAtPlaceIds);
     }
 }

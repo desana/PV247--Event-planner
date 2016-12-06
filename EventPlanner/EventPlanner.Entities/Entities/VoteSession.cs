@@ -12,7 +12,7 @@ namespace EventPlanner.Entities.Entities
         public Guid VoteSessionId { get; set; }
 
         [ForeignKey("Event")]
-        public int EventId { get; set; }
+        public Guid EventId { get; set; }
 
         public virtual Event Event { get; set; }
 

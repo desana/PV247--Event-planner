@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EventPlanner.Entities.Entities
@@ -14,7 +15,7 @@ namespace EventPlanner.Entities.Entities
         public int Id { get; set; }
 
         [ForeignKey("Event")]
-        public int EventId { get; set; }
+        public Guid EventId { get; set; }
 
         public virtual Event Event { get; set; }
 

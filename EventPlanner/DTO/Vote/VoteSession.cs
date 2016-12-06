@@ -7,7 +7,7 @@ namespace EventPlanner.DTO.Vote
     {
         public Guid VoteSessionId { get; set; }
 
-        public int EventId { get; set; }
+        public Guid EventId { get; set; }
 
         public string VoterName { get; set; }
 

@@ -67,7 +67,7 @@ namespace EventPlanner.Entities.Repositories
             return _mapper.Map<DTO.Vote.VoteSession>(entity);
         }
 
-        public async Task<IList<DTO.Vote.VoteSession>> GetVoteSessions(int eventId)
+        public async Task<IList<DTO.Vote.VoteSession>> GetVoteSessions(Guid eventId)
         {
             var entity = await _context.VoteSessions
                 .Where(s => s.EventId == eventId)

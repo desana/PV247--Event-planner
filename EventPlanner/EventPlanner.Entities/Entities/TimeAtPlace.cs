@@ -22,7 +22,6 @@ namespace EventPlanner.Entities.Entities
         /// Place at which time slot takes place on.
         /// </summary>
         [ForeignKey("PlaceId")]
-
         public virtual Place Place { get; set; }
 
         /// <summary>

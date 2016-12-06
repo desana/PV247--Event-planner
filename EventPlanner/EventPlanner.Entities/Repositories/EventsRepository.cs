@@ -33,27 +33,11 @@ namespace EventPlanner.Entities.Repositories
         /// Returns single event from the database.
         /// </summary>
         /// <param name="id">Id of requested event.</param>
-        public async Task<DTO.Event.Event> GetSingleEvent(int id)
+        public async Task<DTO.Event.Event> GetSingleEvent(Guid id)
         {
             var plannedEvent = await _context
                 .Events
-                .Where(ev => ev.Id == id)
-                .Include(ev => ev.Places)
-                .Include(ev => ev.Places.Select(p => p.Times))
-                .SingleOrDefaultAsync();
-
-            return _mapper.Map<DTO.Event.Event>(plannedEvent);
-        }
-
-        /// <summary>
-        /// Returns single event from the database.
-        /// </summary>
-        /// <param name="token">Token of requested event.</param>
-        public async Task<DTO.Event.Event> GetSingleEvent(string token)
-        {
-            var plannedEvent = await _context
-                .Events
-                .Where(ev => ev.Link == token)
+                .Where(ev => ev.EventId == id)
                 .Include(ev => ev.Places)
                 .Include(ev => ev.Places.Select(p => p.Times))
                 .SingleOrDefaultAsync();
@@ -89,11 +73,11 @@ namespace EventPlanner.Entities.Repositories
         /// </summary>
         /// <param name="id">Id of the event to be removed.</param>
         /// <returns><c>True</c> if event was removed.</returns>
-        public async Task<bool> DeleteEvent(int id)
+        public async Task<bool> DeleteEvent(Guid id)
         {
             var foundEvent = _context
                 .Events
-                .FirstOrDefault(ev => ev.Id == id);
+                .FirstOrDefault(ev => ev.EventId == id);
 
             if (foundEvent == null)
                 return false;
@@ -110,7 +94,7 @@ namespace EventPlanner.Entities.Repositories
                 throw new ArgumentNullException(nameof(@event));
 
             var entity = _mapper.Map<Event>(@event);
-            var existing = await _context.Events.Where(e => e.Id == @event.Id)
+            var existing = await _context.Events.Where(e => e.EventId == @event.EventId)
                 .Include(ev => ev.Places)
                 .Include(ev => ev.Places.Select(p => p.Times))
                 .FirstOrDefaultAsync();

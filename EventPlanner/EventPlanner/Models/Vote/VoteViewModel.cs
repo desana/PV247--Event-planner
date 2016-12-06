@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using EventPlanner.DTO.Vote;
+using System;
 
 namespace EventPlanner.Models.Vote
 {
     public class VoteViewModel
     {
-        public int EventId { get; set; }
+        public Guid EventId { get; set; }
 
         public string EventName { get; set; }
 

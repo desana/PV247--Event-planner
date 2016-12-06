@@ -70,7 +70,7 @@ namespace EventPlanner.Controllers
             var addedEvent = await _eventService.AddEvent(newEvent);
 
             // Test update
-            var eventFromDb = await _eventService.GetSingleEvent(addedEvent.Id);
+            var eventFromDb = await _eventService.GetSingleEvent(addedEvent.EventId);
             eventFromDb.Places.Add(new Place
             {
                 Name = "Test place 2",

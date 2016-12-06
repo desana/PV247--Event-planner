@@ -41,7 +41,7 @@ namespace EventPlanner.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddPlaces(int eventId, string foursquareId = "", string errTime = "", string errPlace = "")
+        public async Task<IActionResult> AddPlaces(Guid eventId, string foursquareId = "", string errTime = "", string errPlace = "")
         {
             var eventTransferModel = await _eventService.GetSingleEvent(eventId);
             var eventViewModel = _mapper.Map<AddPlacesViewModel>(eventTransferModel);
@@ -63,7 +63,7 @@ namespace EventPlanner.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Results(int id)
+        public async Task<IActionResult> Results(Guid id)
         {
             var requestedEventName = await _eventService.GetEventName(id);
 
@@ -96,7 +96,7 @@ namespace EventPlanner.Controllers
 
             var savedEvent = await _eventService.AddEvent(_mapper.Map<Event>(newEvent));
             return RedirectToAction("AddPlaces", new {
-                eventId = savedEvent.Id
+                eventId = savedEvent.EventId
             });
         }
 
@@ -177,15 +177,15 @@ namespace EventPlanner.Controllers
         /// </summary>
         /// <param name="id">Event id.</param>
         /// <returns>Results view model.</returns>
-        private async Task<ResultsViewModel> GetResultsViewModel(int id)
+        private async Task<ResultsViewModel> GetResultsViewModel(Guid id)
         {
             var resultViewModel = new ResultsViewModel();
 
             var chartModel = new ChartModel();
             // NOTE: we do not display places and times witch zero votes
             var @event = await _eventService.GetSingleEvent(id);
-            resultViewModel.EventLink = @event.Link;
-            var voteSessions = await _voteService.GetVoteSessions(@event.Id);
+            resultViewModel.EventLink = @event.EventId.ToString();
+            var voteSessions = await _voteService.GetVoteSessions(@event.EventId);
             resultViewModel.VoteSessions = voteSessions;
             var data = new Dictionary<string, int>();
             foreach (var place in @event.Places)

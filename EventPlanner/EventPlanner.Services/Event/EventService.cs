@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using EventPlanner.DTO.Event;
 using EventPlanner.Entities.Repositories;
-using EventPlanner.Services.DataTransferModels.Generators;
 using FoursquareVenuesService.Services;
 
 namespace EventPlanner.Services.Event
@@ -34,8 +33,6 @@ namespace EventPlanner.Services.Event
         /// <param name="newEvent">Event to be added.</param>
         public async Task<DTO.Event.Event> AddEvent(DTO.Event.Event newEvent)
         {
-            newEvent.GenerateUniqueLink();
-
             return await _eventRepository.AddEvent(newEvent);
         }
 
@@ -47,17 +44,8 @@ namespace EventPlanner.Services.Event
         /// <summary>
         /// Returns single event from the database.
         /// </summary>
-        /// <param name="token">Token of requested event.</param>
-        public async Task<DTO.Event.Event> GetSingleEvent(string token)
-        {
-            return await _eventRepository.GetSingleEvent(token);
-        }
-
-        /// <summary>
-        /// Returns single event from the database.
-        /// </summary>
         /// <param name="id">Id of requested event.</param>
-        public async Task<DTO.Event.Event> GetSingleEvent(int id)
+        public async Task<DTO.Event.Event> GetSingleEvent(Guid id)
         {
             return await _eventRepository.GetSingleEvent(id);
         }
@@ -67,7 +55,7 @@ namespace EventPlanner.Services.Event
         /// </summary>
         /// <param name="id">Id of the event to be removed.</param>
         /// <returns><c>True</c> if event was removed.</returns>
-        public async Task<bool> DeleteEvent(int id)
+        public async Task<bool> DeleteEvent(Guid id)
         {
             bool wasRemoved = await _eventRepository.DeleteEvent(id);
             return wasRemoved;
@@ -80,7 +68,7 @@ namespace EventPlanner.Services.Event
         /// <param name="eventId">Id of <see cref="DTO.Event.Event">event</see> that will be updated.</param>
         /// <param name="foursquareId">Foursquare ID of the new <see cref="Place"/>.</param>
         /// <returns>Id of the newly created place.</returns>
-        public async Task<DTO.Event.Event> AddEventPlace(int eventId, string foursquareId)
+        public async Task<DTO.Event.Event> AddEventPlace(Guid eventId, string foursquareId)
         {
             var @event = await _eventRepository.GetSingleEvent(eventId);
             if (@event == null)
@@ -100,7 +88,7 @@ namespace EventPlanner.Services.Event
             return  @event;
         }
        
-        public async Task<DTO.Event.Event> AddEventTime(int eventId, string foursquareId, DateTime time)
+        public async Task<DTO.Event.Event> AddEventTime(Guid eventId, string foursquareId, DateTime time)
         {
             var @event = await _eventRepository.GetSingleEvent(eventId);
             var place = @event?.Places.FirstOrDefault(p => p.FourSquareId == foursquareId);
@@ -118,7 +106,7 @@ namespace EventPlanner.Services.Event
             return @event;
         }
 
-        public async Task<string> GetEventName(int id)
+        public async Task<string> GetEventName(Guid id)
         {
             var foundEvent = await _eventRepository.GetSingleEvent(id);
 
