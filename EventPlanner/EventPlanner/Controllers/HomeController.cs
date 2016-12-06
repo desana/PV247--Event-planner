@@ -19,6 +19,7 @@ namespace EventPlanner.Controllers
 
         public IActionResult Index()
         {
+            ViewData["EventName"] = "Home";
             return View();
         }
 
