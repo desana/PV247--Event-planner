@@ -21,15 +21,10 @@ namespace FoursquareVenuesService.Entities
         /// <returns>Open hours.</returns>
         public IEnumerable<Time> GetOpenTimeForDay(DayOfWeek dayOfWeek)
         {
-            var dayOfWeekShortened = dayOfWeek
-                .ToString()
-                .Substring(0, 3);
-
-            return Timeframes
+            var result = Timeframes
                 .Single(timeFrame => timeFrame
-                        .Days
-                        .Contains(dayOfWeekShortened))
-                .Open;            
+                        .Includes(dayOfWeek));
+            return result != null ? result.Open : null;
         }
     }
 }

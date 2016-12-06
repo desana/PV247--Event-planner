@@ -222,6 +222,8 @@ namespace EventPlanner.Controllers
         /// <returns>Error message if problem was found, null otherwise.</returns>
         public async Task<string> ValidateTime(AddPlacesViewModel targetEvent)
         {
+            DateTime targetTime;
+
             if (String.IsNullOrWhiteSpace(targetEvent.CurrentTime))
             {
                 return "You can not add empty time.";
@@ -229,7 +231,7 @@ namespace EventPlanner.Controllers
 
             try
             {
-                Convert.ToDateTime(targetEvent.CurrentTime);
+                targetTime = Convert.ToDateTime(targetEvent.CurrentTime);
             }
             catch
             {
@@ -241,10 +243,15 @@ namespace EventPlanner.Controllers
                 return "This time was already added.";
             }
 
-            if (!(await IsVenueOpen(targetEvent)))
+            if (targetTime < DateTime.Now)
             {
-                return "Venue is not open at this time";
+                return "You can not plan event to the past date";
             }
+
+            //if (!(await IsVenueOpen(targetEvent)))
+            //{
+            //    return "Venue is not open at this time";
+            //}
 
             return null;
         }
@@ -336,6 +343,11 @@ namespace EventPlanner.Controllers
             var openHours = venue
                 .Hours
                 .GetOpenTimeForDay(time.DayOfWeek);
+            
+            if (openHours == null)
+            {
+                return false;
+            }
 
             return openHours
                 .Any(openHour => openHour.IsOpenAtTime(time.TimeOfDay, openHour.RenderedTime));            
