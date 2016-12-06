@@ -10,7 +10,7 @@ using FoursquareVenuesService.Services;
 using System.Linq;
 using EventPlanner.DTO.Event;
 using EventPlanner.DTO.Vote;
-using System;
+using System.Globalization;
 
 namespace EventPlanner.Controllers
 {
@@ -215,6 +215,11 @@ namespace EventPlanner.Controllers
 
         #region Validation methods
 
+        /// <summary>
+        /// Validates new time.
+        /// </summary>
+        /// <param name="targetEvent">View model to be validated.</param>
+        /// <returns>Error message if problem was found, null otherwise.</returns>
         public async Task<string> ValidateTime(AddPlacesViewModel targetEvent)
         {
             if (String.IsNullOrWhiteSpace(targetEvent.CurrentTime))
@@ -320,9 +325,20 @@ namespace EventPlanner.Controllers
         /// <returns>True if venue is open.</returns>
         private async Task<bool> IsVenueOpen(AddPlacesViewModel targetEvent)
         {
+            var time = Convert.ToDateTime(targetEvent.CurrentTime, CultureInfo.InvariantCulture);
             var venue = await _fsService.GetVenueAsync(targetEvent.CurrentPlaceFoursquareId);
-            //! TODO
-            return true;
+
+            if (venue.Hours == null)
+            {
+                return true;
+            }
+            
+            var openHours = venue
+                .Hours
+                .GetOpenTimeForDay(time.DayOfWeek);
+
+            return openHours
+                .Any(openHour => openHour.IsOpenAtTime(time.TimeOfDay, openHour.RenderedTime));            
         }
         
         #endregion
