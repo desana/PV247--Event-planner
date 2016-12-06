@@ -13,6 +13,7 @@
                 categories: dataJson.categories
             },
             yAxis: {
+                allowDecimals: false,
                 title: {
                     text: "Number of votes"
                 }
