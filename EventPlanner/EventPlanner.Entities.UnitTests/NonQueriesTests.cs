@@ -36,7 +36,7 @@ namespace EventPlanner.Entities.UnitTests
 
             var testEvent = new Event
             {
-                EventId = Guid.Parse("toto_je_moj_guid1"),
+                EventId = Guid.Parse("fb3172f5-3255-4b8c-a928-750760a47c57"),
                 Name = "Sraz",
                 Description = "Sraz členů spolku",
                 Places = new List<Place>
@@ -78,7 +78,7 @@ namespace EventPlanner.Entities.UnitTests
             {
                 new Entities.Event
                 {
-                    EventId = Guid.Parse("toto_je_moj_guid3"),
+                    EventId = Guid.Parse("17fdb743-f2b7-4ae7-bad6-607cce096e82"),
                     Name = "Sraz",
                     Description = "Sraz členů spolku",
                     Places = new List<Entities.Place>
@@ -111,7 +111,7 @@ namespace EventPlanner.Entities.UnitTests
             _mockContext.Setup(m => m.Events).Returns(mockSet.Object);
             var repository = new EventsRepository(_mockContext.Object, _mapper);
 
-            bool result = await repository.DeleteEvent(Guid.Parse("toto_je_moj_guid3"));
+            bool result = await repository.DeleteEvent(Guid.Parse("17fdb743-f2b7-4ae7-bad6-607cce096e82"));
 
             Assert.True(result);
             mockSet.Verify(m => m.Remove(It.IsAny<Entities.Event>()), Times.Once());
@@ -138,7 +138,7 @@ namespace EventPlanner.Entities.UnitTests
             _mockContext.Setup(m => m.Events).Returns(mockSet.Object);
             var repository = new EventsRepository(_mockContext.Object, _mapper);
 
-            bool result = await repository.DeleteEvent(Guid.Parse("toto_je_moj_guid1"));
+            bool result = await repository.DeleteEvent(Guid.Parse("fb3172f5-3255-4b8c-a928-750760a47c57"));
 
             Assert.False(result);
             mockSet.Verify(m => m.Remove(It.IsAny<Entities.Event>()), Times.Never());

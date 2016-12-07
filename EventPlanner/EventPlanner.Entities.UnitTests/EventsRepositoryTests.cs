@@ -52,7 +52,7 @@ namespace EventPlanner.Entities.UnitTests
                 },
                new Event
                 {
-                    EventId = Guid.Parse("toto_je_moj_guid"),
+                    EventId = Guid.Parse("90a79b82-d4f9-4bff-bbb7-1cd50a35cdc0"),
                     Name = "Sraz 2",
                     Description = "Sraz členů jiného spolku",
                     Places = new List<Place> { testPlace2 }
@@ -98,7 +98,7 @@ namespace EventPlanner.Entities.UnitTests
         [Fact]
         public async void GetSingleEvent_Async()
         {
-            var singleEvent = await _eventsRepository.GetSingleEvent(Guid.Parse("toto_je_moj_guid"));
+            var singleEvent = await _eventsRepository.GetSingleEvent(Guid.Parse("90a79b82-d4f9-4bff-bbb7-1cd50a35cdc0"));
 
             Assert.Equal("Sraz 2", singleEvent.Name);
             Assert.Equal("Burger Inn", singleEvent.Places.Single().Name);
