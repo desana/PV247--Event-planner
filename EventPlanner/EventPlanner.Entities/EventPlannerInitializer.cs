@@ -19,7 +19,6 @@ namespace EventPlanner
             {
                 Name = "Meeting",
                 Description = "Company meeting winter 2016",
-                EventId = Guid.NewGuid(),
                 Places = new List<Place>
                 {
                     new Place

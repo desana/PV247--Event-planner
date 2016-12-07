@@ -90,7 +90,7 @@
    
 
     @* Hidden field *@
-    <input id="eventId" asp-for="EventId" type="number" hidden />
+    <input id="eventId" asp-for="EventId" type="text" hidden/>
 
     @* Submit button *@
     <input type="submit" value="Add place" class="btn btn-primary" />
@@ -110,7 +110,7 @@
     <form asp-action="ShowCreatedEvent" form class="form-horizontal">
 
         @* Hidden field *@
-        <input id="eventId" asp-for="EventId" type="number" hidden />
+        <input id="eventId" asp-for="EventId" type="text" hidden />
 
         @* Submit button *@
         <input type="submit" value="Finish" class="btn btn-primary" />

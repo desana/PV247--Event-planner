@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EventPlanner.Entities.Entities
 {
@@ -13,6 +14,7 @@ namespace EventPlanner.Entities.Entities
         /// Primary key of the event.
         /// </summary>
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid EventId { get; set; }
 
         /// <summary>

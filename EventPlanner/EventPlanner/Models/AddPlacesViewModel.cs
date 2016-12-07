@@ -7,7 +7,7 @@ namespace EventPlanner.Models
 {
     public class AddPlacesViewModel
     {
-        public Guid EventId { get; set; }
+        public string EventId { get; set; }
 
         public ICollection<PlaceViewModel> Places { get; set; } = new List<PlaceViewModel>();
 

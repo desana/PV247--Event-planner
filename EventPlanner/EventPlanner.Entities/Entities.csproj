@@ -100,21 +100,9 @@
     <Compile Include="Entities\Place.cs" />
     <Compile Include="Entities\TimeAtPlace.cs" />
     <Compile Include="EventPlannerInitializer.cs" />
-    <Compile Include="Migrations\201611201244590_Initial.cs" />
-    <Compile Include="Migrations\201611201244590_Initial.Designer.cs">
-      <DependentUpon>201611201244590_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611211946574_Votes.cs" />
-    <Compile Include="Migrations\201611211946574_Votes.Designer.cs">
-      <DependentUpon>201611211946574_Votes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611261545030_VoteSessions.cs" />
-    <Compile Include="Migrations\201611261545030_VoteSessions.Designer.cs">
-      <DependentUpon>201611261545030_VoteSessions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612062226046_EventIdToGuid.cs" />
-    <Compile Include="Migrations\201612062226046_EventIdToGuid.Designer.cs">
-      <DependentUpon>201612062226046_EventIdToGuid.cs</DependentUpon>
+    <Compile Include="Migrations\201612071243241_Initial.cs" />
+    <Compile Include="Migrations\201612071243241_Initial.Designer.cs">
+      <DependentUpon>201612071243241_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -132,24 +120,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611201244590_Initial.resx">
-      <DependentUpon>201611201244590_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611211946574_Votes.resx">
-      <DependentUpon>201611211946574_Votes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611261545030_VoteSessions.resx">
-      <DependentUpon>201611261545030_VoteSessions.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612062226046_EventIdToGuid.resx">
-      <DependentUpon>201612062226046_EventIdToGuid.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DTO\DTO.csproj">
       <Project>{7adbef1e-4386-4852-ae9e-941e89d1f33b}</Project>
       <Name>DTO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201612071243241_Initial.resx">
+      <DependentUpon>201612071243241_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
