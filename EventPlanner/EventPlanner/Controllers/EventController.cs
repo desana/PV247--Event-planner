@@ -56,16 +56,16 @@ namespace EventPlanner.Controllers
         [HttpPost]
         public async Task<IActionResult> ShowCreatedEvent(EventViewModel eventViewModel)
         {
-            var eventTransferModel = await _eventService.GetSingleEvent(Guid.Parse(eventViewModel.EventId));
+            var eventTransferModel = await _eventService.GetSingleEvent(eventViewModel.EventId);
             var completeEventViewModel = _mapper.Map<EventViewModel>(eventTransferModel);
 
             return View(completeEventViewModel);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Results(string id)
+        public async Task<IActionResult> Results(Guid id)
         {
-            var requestedEventName = await _eventService.GetEventName(Guid.Parse(id));
+            var requestedEventName = await _eventService.GetEventName(id);
 
             if (requestedEventName == null)
             {
@@ -73,7 +73,7 @@ namespace EventPlanner.Controllers
             }
 
             ViewData["EventName"] = requestedEventName;
-            var resultsViewModel = await GetResultsViewModel(Guid.Parse(id));
+            var resultsViewModel = await GetResultsViewModel(id);
             resultsViewModel.ChartData.EventName = requestedEventName;
 
             return View(resultsViewModel);
@@ -118,7 +118,7 @@ namespace EventPlanner.Controllers
                 });
             }
 
-            var currentTimeAtPlaceId = await _eventService.AddEventTime(Guid.Parse(targetEvent.EventId), targetEvent.CurrentPlaceFoursquareId, Convert.ToDateTime(targetEvent.CurrentTime));
+            var currentTimeAtPlaceId = await _eventService.AddEventTime(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId, Convert.ToDateTime(targetEvent.CurrentTime));
             return RedirectToAction("AddPlaces", new {
                 eventId = targetEvent.EventId,
                 foursquareId = targetEvent.CurrentPlaceFoursquareId });
@@ -165,7 +165,7 @@ namespace EventPlanner.Controllers
                 });
             }
 
-            await _eventService.AddEventPlace(Guid.Parse(targetEvent.EventId), targetEvent.CurrentPlaceFoursquareId);
+            await _eventService.AddEventPlace(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId);
             return RedirectToAction("AddPlaces", new {
                 eventId = targetEvent.EventId,
                 foursquareId = targetEvent.CurrentPlaceFoursquareId
@@ -300,7 +300,7 @@ namespace EventPlanner.Controllers
         /// <returns>True if value is unique.</returns>
         private async Task<bool> IsCurrentTimeUnique(AddPlacesViewModel targetEvent)
         {
-            var currentEvent = await _eventService.GetSingleEvent(Guid.Parse(targetEvent.EventId));
+            var currentEvent = await _eventService.GetSingleEvent(targetEvent.EventId);
             var place = currentEvent
                 .Places
                 .ToList()
@@ -318,7 +318,7 @@ namespace EventPlanner.Controllers
         /// <returns>True if value is unique.</returns>
         private async Task<bool> IsCurrentPlaceUnique(AddPlacesViewModel targetEvent)
         {
-            var currentEvent = await _eventService.GetSingleEvent(Guid.Parse(targetEvent.EventId));
+            var currentEvent = await _eventService.GetSingleEvent(targetEvent.EventId);
             return !currentEvent
                 .Places
                 .ToList()

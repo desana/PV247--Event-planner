@@ -5,7 +5,7 @@ namespace EventPlanner.Models
 {
     public class EventViewModel
     {
-        public string EventId { get; set; }
+        public Guid EventId { get; set; }
         
         public string EventName { get; set; }
         
