@@ -1,35 +1,31 @@
 ﻿@using System.Threading.Tasks
 @using EventPlanner.Models
 @model CreateEventViewModel
-
-<h3>Create new event</h3>
-
+<h2>Create new event</h2>
 <div class="row">
     <form asp-action="CreateNewEvent" class="col-md-4">
-       
-       @if (Model.Error != "")
-       {
-        <div>
-            @Model.Error
-        </div>
-       }
 
         @* Event title *@
         <div class="form-group">
             <label asp-for="EventName"></label>
-            <input class="form-control" asp-for="EventName"/>
+            <input class="form-control" asp-for="EventName" />
             <span asp-validation-for="EventName" class="text-danger"></span>
-        </div>
 
+            @if (Model.Error != "")
+            {
+                <div class="err">
+                    @Model.Error
+                </div>
+            }
+        </div>
         @* Event description *@
         <div class="form-group">
             <label asp-for="EventDescription"></label>
-            <input class="form-control" asp-for="EventDescription"/>
+            <input class="form-control" asp-for="EventDescription" />
         </div>
-
         @* Submit button *@
         <div class="form-group">
-            <input type="submit" value="Next" class="btn btn-primary"/>
+            <input type="submit" value="Next" class="btn btn-primary" />
         </div>
     </form>
 </div>

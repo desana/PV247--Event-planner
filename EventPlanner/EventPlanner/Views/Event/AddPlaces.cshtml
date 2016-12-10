@@ -12,71 +12,70 @@
 @section AddToHead{
     <link href="@Url.Content("~/lib/select2/dist/css/select2.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/dropdown.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css")" rel="stylesheet"/>
+    <link href="@Url.Content("~/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css")" rel="stylesheet" />
 }
 
-<h3>Add places and times</h3>
+<h2>Add places and times</h2>
 
-<ul>
-    @foreach (var place in Model.Places)
-    {
-        <li>
-            <div class="form-group">
 
-                @* Display place name *@
-                @Html.DisplayFor(modelItem => place.Name)
+@foreach (var place in Model.Places)
+{
 
-                <ul class="row">
-                    @foreach (var time in place.Times)
-                    {
-                        <li>
-                            @* Display time for the place*@
-                            @Html.DisplayFor(modelItem => time.Time)
-                        </li>
-                    }
+    <div class="form-group">
 
-                    @if (Model.CurrentPlaceFoursquareId != "" && place.FourSquareId == Model.CurrentPlaceFoursquareId)
-                    {
-                        <li class="col-sm-4">
-                            @* New time*@
+        @* Display place name *@
+        <h3>@Html.DisplayFor(modelItem => place.Name)</h3>
 
-                            <form asp-action="AddSingleTime">                                
-                                <div class="form-group">
-                                    <label asp-for="CurrentTime"></label>
-                                    <div class='input-group date' id='CurrentTime'>
-                                        <input type='text' class="form-control" asp-for="CurrentTime" name="CurrentTime" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
-                                </div>                                
-                               
-                                @* Hidden fields *@
-                                <input id="foursquareId" asp-for="CurrentPlaceFoursquareId" type="text" hidden/>
-                                <input id="eventId" asp-for="EventId" type="text" hidden/>
+        <ul class="row">
+            @foreach (var time in place.Times)
+            {
+                <li>
+                    @* Display time for the place*@
+                    @Html.DisplayFor(modelItem => time.Time)
+                </li>
+            }
 
-                                @* Add time *@
+            @if (Model.CurrentPlaceFoursquareId != "" && place.FourSquareId == Model.CurrentPlaceFoursquareId)
+            {
+                <li class="col-sm-4">
+                    @* New time*@
+
+                    <form asp-action="AddSingleTime">
+                        <div class="form-group">
+                            <div class='input-group date' id='CurrentTime'>
+
+                                <label asp-for="CurrentTime"></label>
+                                <input type='text' class="form-control" asp-for="CurrentTime" name="CurrentTime" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
 
                                 <input type="submit" value="Add time" class="btn btn-primary" />
-                                @if (Model.TimeErrorMessage != null)
-                                {
-                                    <div>
-                                        @Model.TimeErrorMessage
-                                    </div>
-                                }
-                            </form>
-                        </li>        
-                    }
-                </ul>
-            </div>
 
-        </li>
-    }
-</ul>
+                            </div>
+                        </div>
+
+                        @* Hidden fields *@
+                        <input id="foursquareId" asp-for="CurrentPlaceFoursquareId" type="text" hidden />
+                        <input id="eventId" asp-for="EventId" type="text" hidden />
+
+                        @if (Model.TimeErrorMessage != null)
+                        {
+                            <div class="err">
+                                @Model.TimeErrorMessage
+                            </div>
+                        }
+                    </form>
+                </li>
+            }
+        </ul>
+    </div>
+}
+
 
 @* New Place *@
 <form asp-action="AddSinglePlace" form class="form-inline">
-        
+
     <div class="form-group">
         <label>City: </label>
         <input class="form-control" id="PlaceCity" />
@@ -87,17 +86,17 @@
             <option selected="selected" style="width: 400px">Search places...</option>
         </select>
     </div>
-   
+
 
     @* Hidden field *@
-    <input id="eventId" asp-for="EventId" type="text" hidden/>
+    <input id="eventId" asp-for="EventId" type="text" hidden />
 
     @* Submit button *@
     <input type="submit" value="Add place" class="btn btn-primary" />
 
     @if (Model.PlaceErrorMessage != null)
     {
-        <div>
+        <div class="err">
             @Model.PlaceErrorMessage
         </div>
     }

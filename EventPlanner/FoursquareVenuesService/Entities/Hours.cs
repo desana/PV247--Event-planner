@@ -21,9 +21,19 @@ namespace FoursquareVenuesService.Entities
         /// <returns>Open hours.</returns>
         public IEnumerable<Time> GetOpenTimeForDay(DayOfWeek dayOfWeek)
         {
-            var result = Timeframes
+            Timeframe result;
+
+            try
+            {
+                result = Timeframes
                 .Single(timeFrame => timeFrame
                         .Includes(dayOfWeek));
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+
             return result != null ? result.Open : null;
         }
     }

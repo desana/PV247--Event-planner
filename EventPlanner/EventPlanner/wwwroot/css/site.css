@@ -11,6 +11,12 @@
     padding-right: 15px;
 }
 
+.err
+{
+    color : red;
+    line-height: 1.4;
+}
+
 /* Carousel */
 .carousel-caption p {
     font-size: 20px;

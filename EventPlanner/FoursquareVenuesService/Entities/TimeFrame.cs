@@ -24,7 +24,7 @@ namespace FoursquareVenuesService.Entities
 
             foreach (var day in openDays)
             {
-                var fromToRange = day.Split('–');
+                var fromToRange = day.Split('-');
 
                 if (fromToRange.Length > 1)
                 {
@@ -60,6 +60,8 @@ namespace FoursquareVenuesService.Entities
 
         private string DayCodeToDayName(string dayCode)
         {
+            dayCode = dayCode.Replace(" ", string.Empty);
+
             switch (dayCode)
             {
                 case "Mon":

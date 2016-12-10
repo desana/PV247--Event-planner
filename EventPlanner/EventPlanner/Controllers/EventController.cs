@@ -248,10 +248,10 @@ namespace EventPlanner.Controllers
                 return "You can not plan event to the past date";
             }
 
-            //if (!(await IsVenueOpen(targetEvent)))
-            //{
-            //    return "Venue is not open at this time";
-            //}
+            if (!(await IsVenueOpen(targetEvent)))
+            {
+                return "Place is not open at this time";
+            }
 
             return null;
         }
@@ -271,7 +271,7 @@ namespace EventPlanner.Controllers
 
             if (!(await DoesVenueExist(targetEvent.CurrentPlaceFoursquareId)))
             {
-                return "Selected foursquare venue does not exist";
+                return "Selected place does not exist";
             }
 
             if (!(await IsCurrentPlaceUnique(targetEvent)))
@@ -350,7 +350,7 @@ namespace EventPlanner.Controllers
             }
 
             return openHours
-                .Any(openHour => openHour.IsOpenAtTime(time.TimeOfDay, openHour.RenderedTime));            
+                .Any(openHour => openHour.IsOpenAtTime(time.TimeOfDay));            
         }
         
         #endregion

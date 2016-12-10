@@ -14,7 +14,7 @@ namespace EventPlanner.Models
         [Remote("IsCurrentPlaceUnique", "EventController")]
         public string CurrentPlaceFoursquareId { get; set; }
 
-        [Display(Name = "Event start")]
+        [Display(Name = "Time:")]
         [Remote("IsCurrentTimeUnique", "EventController")]
         public string CurrentTime { get; set; }
 
