@@ -20,11 +20,7 @@ namespace EventPlanner.Entities.UnitTests
         public NonQueriesTests()
         {
             _mockContext = new Mock<EventPlannerContext>();
-            _mapper = new MapperConfiguration(cfg =>
-            {
-                EntitiesMapperConfiguration.InitialializeMappings(cfg);
-
-            }).CreateMapper();
+            _mapper = new MapperConfiguration(EntitiesMapperConfiguration.InitialializeMappings).CreateMapper();
         }
 
         [Fact]

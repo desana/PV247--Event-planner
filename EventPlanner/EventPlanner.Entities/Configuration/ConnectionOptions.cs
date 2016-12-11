@@ -1,4 +1,4 @@
-﻿namespace EventPlanner.Configuration
+﻿namespace EventPlanner.Entities.Configuration
 {
     /// <summary>
     /// Class is used to deliver application-level configuration to EF contexts.

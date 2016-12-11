@@ -73,7 +73,10 @@ namespace EventPlanner.Entities.UnitTests
 
         IQueryProvider IQueryable.Provider
         {
-            get { return new TestDbAsyncQueryProvider<T>(this); }
+            get
+            {
+                return new TestDbAsyncQueryProvider<T>(this);
+            }
         }
     }
 
@@ -98,12 +101,18 @@ namespace EventPlanner.Entities.UnitTests
 
         public T Current
         {
-            get { return _inner.Current; }
+            get
+            {
+                return _inner.Current;
+            }
         }
 
         object IDbAsyncEnumerator.Current
         {
-            get { return Current; }
+            get
+            {
+                return Current;
+            }
         }
     }
 }

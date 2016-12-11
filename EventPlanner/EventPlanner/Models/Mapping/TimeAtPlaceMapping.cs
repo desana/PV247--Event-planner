@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EventPlanner.DTO.Event;
+using EventPlanner.Models.Event;
 
 namespace EventPlanner.Models.Mapping
 {

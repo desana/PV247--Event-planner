@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using EventPlanner.Entities;
 using EventPlanner.Entities.Entities;
 
-namespace EventPlanner
+namespace EventPlanner.Entities
 {
     class EventPlannerInitializer : System.Data.Entity.CreateDatabaseIfNotExists<EventPlannerContext>
     {

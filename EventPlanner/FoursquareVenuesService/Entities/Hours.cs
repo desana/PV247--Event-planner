@@ -34,7 +34,7 @@ namespace FoursquareVenuesService.Entities
                 return null;
             }
 
-            return result != null ? result.Open : null;
+            return result?.Open;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using EventPlanner.DTO.Vote;
 
-namespace EventPlanner.Models
+namespace EventPlanner.Models.Event
 {
     public class ResultsViewModel
     {

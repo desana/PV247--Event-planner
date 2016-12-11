@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FoursquareVenuesService.Services;
 
 namespace FoursquareVenuesService
@@ -14,7 +9,7 @@ namespace FoursquareVenuesService
     /// </summary>
     public class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             var foursquareService = new FoursquareService(new FoursquareOptions
             {

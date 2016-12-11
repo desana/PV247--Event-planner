@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EventPlanner.Models
+namespace EventPlanner.Models.Event
 {
     public class TimeAtPlaceViewModel
     {

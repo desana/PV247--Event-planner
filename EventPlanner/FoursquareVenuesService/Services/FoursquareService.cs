@@ -7,8 +7,8 @@ namespace FoursquareVenuesService.Services
 {
     public class FoursquareService : IFoursquareService
     {
-        private const string F_URL = "https://api.foursquare.com/v2/venues";
-        private const string F_VERSION = "&v=20161108";
+        private const string FUrl = "https://api.foursquare.com/v2/venues";
+        private const string FVersion = "&v=20161108";
 
         private readonly string _authQueryString;
 
@@ -19,19 +19,19 @@ namespace FoursquareVenuesService.Services
 
         public FoursquareService(FoursquareOptions foursquareOptions)
         {
-            _authQueryString = $"client_id={foursquareOptions.ClientId}&client_secret={foursquareOptions.ClientSecret}{F_VERSION}";
+            _authQueryString = $"client_id={foursquareOptions.ClientId}&client_secret={foursquareOptions.ClientSecret}{FVersion}";
         }
 
         public async Task<IEnumerable<Venue>> SearchVenuesAsync(string query, string city, int numberOfResults)
         {
-            var uri = string.Format($"{F_URL}/search?query={query}&near={city}&limit={numberOfResults}&{_authQueryString}");
+            var uri = string.Format($"{FUrl}/search?query={query}&near={city}&limit={numberOfResults}&{_authQueryString}");
             var response = await HttpHelper.GetResult<VenueSearchWrapper>(uri);
             return response.Response.Venues;
         }
 
         public async Task<Venue> GetVenueAsync(string id)
         {
-            var uri = $"{F_URL}/{id}?{_authQueryString}";          
+            var uri = $"{FUrl}/{id}?{_authQueryString}";          
             var response = await HttpHelper.GetResult<VenueWrapper>(uri);
             return response.Response.Venue;
         }
@@ -41,7 +41,7 @@ namespace FoursquareVenuesService.Services
         /// </summary>
         public async Task<string> GetVenuePhotoUrlAsync(string venueId, string size)
         {
-            var uri = string.Format($"{F_URL}/{venueId}/photos?limit=1&{_authQueryString}");
+            var uri = string.Format($"{FUrl}/{venueId}/photos?limit=1&{_authQueryString}");
             var responseType = new {response = new {photos = new {count = 0, items = new Photo[0]}}};
             var result = await HttpHelper.GetResult(uri, responseType);
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EventPlanner.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using AutoMapper;
@@ -11,10 +10,11 @@ using System.Linq;
 using EventPlanner.DTO.Event;
 using EventPlanner.DTO.Vote;
 using System.Globalization;
+using EventPlanner.Models.Event;
 
 namespace EventPlanner.Controllers
 {
-    public partial class EventController : Controller
+    public class EventController : Controller
     {
         private readonly IEventService _eventService;
         private readonly IVoteService _voteService;
@@ -145,7 +145,7 @@ namespace EventPlanner.Controllers
                 });
             }
 
-            var currentTimeAtPlaceId = await _eventService.AddEventTime(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId, Convert.ToDateTime(targetEvent.CurrentTime));
+            await _eventService.AddEventTime(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId, Convert.ToDateTime(targetEvent.CurrentTime));
             return RedirectToAction("AddPlaces", new {
                 eventId = targetEvent.EventId,
                 foursquareId = targetEvent.CurrentPlaceFoursquareId });

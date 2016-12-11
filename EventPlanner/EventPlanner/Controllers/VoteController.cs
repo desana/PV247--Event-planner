@@ -85,7 +85,7 @@ namespace EventPlanner.Controllers
             if (vote == null)
                 return NotFound();
 
-            VoteValueEnum enumValue = VoteValueEnum.Decline;
+            VoteValueEnum enumValue;
             Enum.TryParse(value, true, out enumValue);
             vote.Value = enumValue;
 

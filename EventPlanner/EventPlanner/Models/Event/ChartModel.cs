@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EventPlanner.Models
+namespace EventPlanner.Models.Event
 {
     public class ChartModel
     {

@@ -1,6 +1,5 @@
-﻿@using System.Globalization
-@using System.Threading.Tasks
-@using EventPlanner.Models
+﻿@using System.Threading.Tasks
+@using EventPlanner.Models.Event
 
 @model AddPlacesViewModel
 
@@ -17,7 +16,7 @@
 
 <h2>Add places and times</h2>
 
-@if (Model.Places.Count() > 0)
+@if (Model.Places.Any())
 {
     <div class="panel panel-default">
         <div class="panel-body">

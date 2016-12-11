@@ -41,8 +41,7 @@ namespace FoursquareVenuesService.Services
                     return JsonConvert.DeserializeAnonymousType(await response.Content.ReadAsStringAsync(), type);
                 }
 
-                var x = await response.Content.ReadAsStringAsync();
-
+                await response.Content.ReadAsStringAsync();
                 return null;
             }
         }

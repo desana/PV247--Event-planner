@@ -97,7 +97,7 @@ namespace EventPlanner.Services.Event
         /// <summary>
         /// Adds time to <see cref="DTO.Event.TimeAtPlace"/>.
         /// </summary>
-        /// <param name="targetEvent">ID of the<see cref="Event"/> which will be updated.</param>
+        /// <param name="eventId">ID of the<see cref="Event"/> which will be updated.</param>
         /// <param name="foursquareId">The foursquare Id of place to which the time belongs to.</param>
         /// <param name="time">New timeslot.</param>
         public async Task<DTO.Event.Event> AddEventTime(Guid eventId, string foursquareId, DateTime time)

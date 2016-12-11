@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using EventPlanner.Configuration;
+using EventPlanner.Entities.Configuration;
 using EventPlanner.Entities.Entities;
 using Microsoft.Extensions.Options;
 

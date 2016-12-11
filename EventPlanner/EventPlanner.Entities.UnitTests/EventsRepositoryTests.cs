@@ -14,7 +14,7 @@ namespace EventPlanner.Entities.UnitTests
 {
     public class EventsRepositoryTests
     {
-        private EventsRepository _eventsRepository;
+        private readonly EventsRepository _eventsRepository;
 
         public EventsRepositoryTests()
         {
@@ -73,11 +73,7 @@ namespace EventPlanner.Entities.UnitTests
             var mockContext = new Mock<EventPlannerContext>();
             mockContext.Setup(c => c.Events).Returns(mockSet.Object);
 
-            var mapper = new MapperConfiguration(cfg =>
-            {
-                EntitiesMapperConfiguration.InitialializeMappings(cfg);
-
-            }).CreateMapper();
+            var mapper = new MapperConfiguration(EntitiesMapperConfiguration.InitialializeMappings).CreateMapper();
 
             _eventsRepository = new EventsRepository(mockContext.Object, mapper);
         }
@@ -88,7 +84,7 @@ namespace EventPlanner.Entities.UnitTests
             var events = await _eventsRepository.GetAllEvents();
             var eventsList = events.ToList();
 
-            Assert.Equal(2, events.Count());
+            Assert.Equal(2, events.Count);
             Assert.Equal("Sraz", eventsList[0].Name);
             Assert.Equal("Sraz 2", eventsList[1].Name);
             Assert.Equal("Sraz členů spolku", eventsList[0].Description);
