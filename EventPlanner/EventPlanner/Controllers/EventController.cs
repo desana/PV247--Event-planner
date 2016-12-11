@@ -32,6 +32,8 @@ namespace EventPlanner.Controllers
         [HttpGet]
         public IActionResult CreateEvent(string err = "")
         {
+            ViewData["EventName"] = "New event";
+
             var model = new CreateEventViewModel
             {
                 Error = err
@@ -43,6 +45,8 @@ namespace EventPlanner.Controllers
         [HttpGet]
         public async Task<IActionResult> AddPlaces(Guid eventId, string foursquareId = "", string errTime = "", string errPlace = "")
         {
+            ViewData["EventName"] = "New event";
+
             var eventTransferModel = await _eventService.GetSingleEvent(eventId);
             var eventViewModel = _mapper.Map<AddPlacesViewModel>(eventTransferModel);
 
