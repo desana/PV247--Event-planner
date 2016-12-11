@@ -84,7 +84,7 @@ namespace EventPlanner.FoursquareVenuesService.UnitTests
         }
 
         [TestMethod]
-        public void TestIsOpenAtTime()
+        public void TestIsOpenAtTimeWithDash()
         {
             var openingHours = new Time
             {
@@ -98,9 +98,39 @@ namespace EventPlanner.FoursquareVenuesService.UnitTests
             Assert.IsFalse(openingHours.IsOpenAtTime(TimeSpan.Parse("15:00:01")));
             Assert.IsFalse(openingHours.IsOpenAtTime(TimeSpan.Parse("00:00:01")));
         }
-        
+
         [TestMethod]
-        public void TestGetOpenTimeForDay()
+        public void TestIsOpenAtTimeWithHyphen()
+        {
+            var openingHours = new Time
+            {
+                RenderedTime = "12:00-15:00"
+            };
+
+            Assert.IsTrue(openingHours.IsOpenAtTime(TimeSpan.Parse("12:00")));
+            Assert.IsTrue(openingHours.IsOpenAtTime(TimeSpan.Parse("15:00")));
+            Assert.IsTrue(openingHours.IsOpenAtTime(TimeSpan.Parse("13:10:43")));
+            Assert.IsFalse(openingHours.IsOpenAtTime(TimeSpan.Parse("11:59:59")));
+            Assert.IsFalse(openingHours.IsOpenAtTime(TimeSpan.Parse("15:00:01")));
+            Assert.IsFalse(openingHours.IsOpenAtTime(TimeSpan.Parse("00:00:01")));
+        }
+
+        [TestMethod]
+        public void TestIsOpenAtTimeAfterMidnight()
+        {
+            var openingHours = new Time
+            {
+                RenderedTime = "21:00-4:00"
+            };
+
+            Assert.IsTrue(openingHours.IsOpenAtTime(TimeSpan.Parse("22:00")));
+            Assert.IsTrue(openingHours.IsOpenAtTime(TimeSpan.Parse("02:00")));
+            Assert.IsFalse(openingHours.IsOpenAtTime(TimeSpan.Parse("4:59:59")));
+        }
+
+
+        [TestMethod]
+        public void TestGetOpenTimeForDayWithHyphen()
         {
             var openingHours = new Hours
             {
@@ -109,6 +139,37 @@ namespace EventPlanner.FoursquareVenuesService.UnitTests
                     new Timeframe
                     {
                         Days = "Mon-Thu, Fri",
+                        Open = new System.Collections.Generic.List<Time>
+                        {
+                            new Time
+                            {
+                                RenderedTime = "19:00–20:00"
+                            },
+                            new Time
+                            {
+                                RenderedTime = "12:00–15:00"
+                            }
+                        }
+                    }
+                }
+            };
+
+            Assert.IsNotNull(openingHours.GetOpenTimeForDay(DayOfWeek.Monday));
+            Assert.IsNotNull(openingHours.GetOpenTimeForDay(DayOfWeek.Wednesday));
+            Assert.IsNotNull(openingHours.GetOpenTimeForDay(DayOfWeek.Friday));
+            Assert.IsNull(openingHours.GetOpenTimeForDay(DayOfWeek.Sunday));
+        }
+
+        [TestMethod]
+        public void TestGetOpenTimeForDayWithDash()
+        {
+            var openingHours = new Hours
+            {
+                Timeframes = new System.Collections.Generic.List<Timeframe>
+                {
+                    new Timeframe
+                    {
+                        Days = "Mon–Thu, Fri",
                         Open = new System.Collections.Generic.List<Time>
                         {
                             new Time

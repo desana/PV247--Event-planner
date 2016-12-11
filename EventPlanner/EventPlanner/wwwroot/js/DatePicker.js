@@ -1,5 +1,5 @@
 ﻿$(function () {
     $('#CurrentTime').datetimepicker({
-        format: "D MMM YYYY, hh:mm"
+        format: "D MMM YYYY, HH:mm"
     });
 });

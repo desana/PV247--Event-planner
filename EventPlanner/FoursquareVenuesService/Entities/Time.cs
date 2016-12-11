@@ -20,7 +20,16 @@ namespace FoursquareVenuesService.Entities
         /// <returns>True if venue is open at given time.</returns>
         public bool IsOpenAtTime(TimeSpan time)
         {
-            var openingHoursRange = RenderedTime.Split('–');
+            string[] openingHoursRange;
+
+            if (RenderedTime.Contains("-"))
+            {
+                openingHoursRange = RenderedTime.Split('-');
+            }
+            else
+            {
+                openingHoursRange = RenderedTime.Split('–');
+            }
 
             var start = Convert
                 .ToDateTime(openingHoursRange[0], CultureInfo.InvariantCulture)
@@ -29,8 +38,15 @@ namespace FoursquareVenuesService.Entities
             var end = Convert
                 .ToDateTime(openingHoursRange[1], CultureInfo.InvariantCulture)
                 .TimeOfDay;
-
-            return start <= time && time <= end;
+            
+            if (start <= end)
+            {
+                return time >= start && time <= end;
+            }
+            else
+            {
+                return time >= start || time <= end;
+            }
         }
     }
 }

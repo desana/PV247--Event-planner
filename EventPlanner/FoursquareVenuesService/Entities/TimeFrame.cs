@@ -24,7 +24,16 @@ namespace FoursquareVenuesService.Entities
 
             foreach (var day in openDays)
             {
-                var fromToRange = day.Split('-');
+                string[] fromToRange;
+                
+                if (day.Contains("-"))
+                {
+                    fromToRange = day.Split('-');
+                }
+                else
+                {
+                    fromToRange = day.Split('–');
+                }
 
                 if (fromToRange.Length > 1)
                 {
