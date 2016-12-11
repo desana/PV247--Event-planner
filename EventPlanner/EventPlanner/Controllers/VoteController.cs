@@ -42,6 +42,8 @@ namespace EventPlanner.Controllers
                 return NotFound();
             }
 
+            ViewData["EventName"] = @event.Name;
+
             var viewModel = _mapper.Map<VoteViewModel>(@event);
             await DecorateWithFoursquareData(viewModel);
 
