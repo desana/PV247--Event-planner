@@ -18,14 +18,22 @@ namespace FoursquareVenuesService.Entities
         /// </summary>
         public List<Time> Open { get; set; }
 
+        /// <summary>
+        /// Checks if <see cref="Days"/> includes <paramref name="targetDay"/>.
+        /// </summary>
+        /// <param name="targetDay">Day to be checked.</param>
+        /// <returns><code>True</code> if <paramref name="targetDay"/> is included in <see cref="Days"/>.</returns>
         internal bool Includes(DayOfWeek targetDay)
         {
+            // split by slot
             var openDays = Days.Split(',');
 
             foreach (var day in openDays)
             {
+                // split by intervals
                 var fromToRange = day.Contains("-") ? day.Split('-') : day.Split('–');
                 
+                // if current day is range
                 if (fromToRange.Length > 1)
                 {
                     var startDay = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), DayCodeToDayName(fromToRange[0]));
@@ -58,6 +66,11 @@ namespace FoursquareVenuesService.Entities
             return false;
         }
 
+        /// <summary>
+        /// Converts shortened date representation to whole day name.
+        /// </summary>
+        /// <param name="dayCode">Shortened name.</param>
+        /// <returns>Whole weekday name.</returns>
         private string DayCodeToDayName(string dayCode)
         {
             dayCode = dayCode.Replace(" ", string.Empty);

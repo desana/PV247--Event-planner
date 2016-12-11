@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FoursquareVenuesService.Entities
+﻿namespace FoursquareVenuesService.Entities
 {
     /// <summary>
     /// Representation of location from Foursquare venue (https://developer.foursquare.com/docs/responses/venue).
