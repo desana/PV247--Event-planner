@@ -66,7 +66,7 @@ namespace EventPlanner.Services.Vote
             {
                 session.Votes.Add(new DTO.Vote.Vote
                 {
-                    VoteId = new Guid(),
+                    VoteId = Guid.NewGuid(),
                     TimeAtPlaceId = timeAtPlace.Id,
                     Value = VoteValueEnum.Decline,
                 });
