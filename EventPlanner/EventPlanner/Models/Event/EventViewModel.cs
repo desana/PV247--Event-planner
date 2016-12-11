@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace EventPlanner.Models
 {
@@ -10,7 +9,5 @@ namespace EventPlanner.Models
         public string EventName { get; set; }
         
         public string EventDescription { get; set; }
-
-        public ICollection<PlaceViewModel> Places { get; set; } = new List<PlaceViewModel>();
     }
 }

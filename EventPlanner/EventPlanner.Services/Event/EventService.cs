@@ -36,6 +36,11 @@ namespace EventPlanner.Services.Event
             return await _eventRepository.AddEvent(newEvent);
         }
 
+        /// <summary>
+        /// Saves event.
+        /// </summary>
+        /// <param name="event">Event to save.</param>
+        /// <returns>Saved event.</returns>
         public async Task<DTO.Event.Event> SaveEvent(DTO.Event.Event @event)
         {
             return await _eventRepository.SaveEvent(@event);
@@ -74,27 +79,38 @@ namespace EventPlanner.Services.Event
             if (@event == null)
             {
                 return null;
-            }                
+            }
 
             var fsVenue = await _foursquareService.GetVenueAsync(foursquareId);
-            @event.Places.Add(new Place
-            {
-                FourSquareId = foursquareId,
-                Name = fsVenue.Name
-            });
+            @event.Places.Add(
+                new Place
+                {
+                    FourSquareId = foursquareId,
+                    Name = fsVenue.Name
+                });
 
             @event = await _eventRepository.SaveEvent(@event);
 
             return  @event;
         }
-       
+
+        /// <summary>
+        /// Adds time to <see cref="DTO.Event.TimeAtPlace"/>.
+        /// </summary>
+        /// <param name="targetEvent">ID of the<see cref="Event"/> which will be updated.</param>
+        /// <param name="foursquareId">The foursquare Id of place to which the time belongs to.</param>
+        /// <param name="time">New timeslot.</param>
         public async Task<DTO.Event.Event> AddEventTime(Guid eventId, string foursquareId, DateTime time)
         {
             var @event = await _eventRepository.GetSingleEvent(eventId);
-            var place = @event?.Places.FirstOrDefault(p => p.FourSquareId == foursquareId);
+            var place = @event?
+                .Places
+                .FirstOrDefault(p => p.FourSquareId == foursquareId);
 
             if (place == null)
+            {
                 return null;
+            }                
 
             place.Times.Add(new TimeAtPlace
             {
@@ -106,12 +122,15 @@ namespace EventPlanner.Services.Event
             return @event;
         }
 
+        /// <summary>
+        /// Get the name of the event.
+        /// </summary>
+        /// <param name="id">Id of event.</param>
+        /// <returns>Event name.</returns>
         public async Task<string> GetEventName(Guid id)
         {
             var foundEvent = await _eventRepository.GetSingleEvent(id);
-
             return foundEvent?.Name;
-
         }
     }
     
