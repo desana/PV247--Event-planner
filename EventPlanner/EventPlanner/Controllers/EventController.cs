@@ -29,6 +29,11 @@ namespace EventPlanner.Controllers
             _fsService = foursquareService;
         }
 
+        /// <summary>
+        /// Shows page on which event name and description are added.
+        /// </summary>
+        /// <param name="err">Error message for missing event name.</param>
+        /// <returns>Page to add name and description with.</returns>
         [HttpGet]
         public IActionResult CreateEvent(string err = "")
         {
@@ -42,6 +47,14 @@ namespace EventPlanner.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Shows page on which the places and times are added.
+        /// </summary>
+        /// <param name="eventId">Id of current event.</param>
+        /// <param name="foursquareId">Foursquare ID of last added place.</param>
+        /// <param name="errTime">Error message for time validation.</param>
+        /// <param name="errPlace">Error message for place validation.</param>
+        /// <returns>Page to add places and times with.</returns>
         [HttpGet]
         public async Task<IActionResult> AddPlaces(Guid eventId, string foursquareId = "", string errTime = "", string errPlace = "")
         {
@@ -57,6 +70,11 @@ namespace EventPlanner.Controllers
             return View(eventViewModel);
         }
         
+        /// <summary>
+        /// Shows page at the end of event creation.
+        /// </summary>
+        /// <param name="eventViewModel">Model to show.</param>
+        /// <returns>Page with event overview.</returns>
         [HttpPost]
         public async Task<IActionResult> ShowCreatedEvent(EventViewModel eventViewModel)
         {
@@ -66,6 +84,11 @@ namespace EventPlanner.Controllers
             return View(completeEventViewModel);
         }
 
+        /// <summary>
+        /// Shows results of a vote.
+        /// </summary>
+        /// <param name="id">Id of an event.</param>
+        /// <returns>Page with results.</returns>
         [HttpGet]
         public async Task<IActionResult> Results(Guid id)
         {
