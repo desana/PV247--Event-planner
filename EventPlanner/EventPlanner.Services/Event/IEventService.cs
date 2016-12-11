@@ -61,5 +61,19 @@ namespace EventPlanner.Services.Event
         /// <param name="event">Event to save.</param>
         /// <returns>Saved event.</returns>
         Task<DTO.Event.Event> SaveEvent(DTO.Event.Event @event);
+
+        /// <summary>
+        /// Checks if all places in event have time.
+        /// </summary>
+        /// <param name="eventId">Id of the event to check.</param>
+        /// <returns><c>True</c> if event has at least one time per place.</returns>
+        Task<bool> AllPlacesHaveTime(Guid eventId);
+
+        /// <summary>
+        /// Checks that there is at least one place which belongs to event.
+        /// </summary>
+        /// <param name="eventId">Id of the event to check.</param>
+        /// <returns><c>True</c> if event has at least one place.</returns>
+        Task<bool> HasAnyPlace(Guid eventId);
     }
 }

@@ -132,6 +132,32 @@ namespace EventPlanner.Services.Event
             var foundEvent = await _eventRepository.GetSingleEvent(id);
             return foundEvent?.Name;
         }
+
+        /// <summary>
+        /// Checks if all places in event have time.
+        /// </summary>
+        /// <param name="eventId">Id of the event to check.</param>
+        /// <returns><c>True</c> if event has at least one time per place.</returns>
+        public async Task<bool> AllPlacesHaveTime(Guid eventId)
+        {
+            var foundEvent = await _eventRepository.GetSingleEvent(eventId);
+            return foundEvent
+                .Places
+                .All(place => place.Times.Any());
+        }
+
+        /// <summary>
+        /// Checks that there is at least one place which belongs to event.
+        /// </summary>
+        /// <param name="eventId">Id of the event to check.</param>
+        /// <returns><c>True</c> if event has at least one place.</returns>
+        public async Task<bool> HasAnyPlace(Guid eventId)
+        {
+            var foundEvent = await _eventRepository.GetSingleEvent(eventId);
+            return foundEvent
+                .Places
+                .Any();
+        }
     }
     
 }

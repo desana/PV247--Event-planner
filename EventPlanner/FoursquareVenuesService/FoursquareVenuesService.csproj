@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CBF55C00-1BD1-4838-85FB-2F769536F0A0}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FoursquareVenuesService</RootNamespace>
     <AssemblyName>FoursquareVenuesService</AssemblyName>
@@ -85,7 +85,6 @@
     <Compile Include="Entities\VenueWrapper.cs" />
     <Compile Include="Entities\VenueResponse.cs" />
     <Compile Include="FoursquareOptions.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FoursquareService.cs" />
     <Compile Include="Services\HttpHelper.cs" />

@@ -69,7 +69,7 @@ namespace EventPlanner.Controllers
 
             return View(eventViewModel);
         }
-        
+
         /// <summary>
         /// Shows page at the end of event creation.
         /// </summary>
@@ -78,6 +78,15 @@ namespace EventPlanner.Controllers
         [HttpPost]
         public async Task<IActionResult> ShowCreatedEvent(EventViewModel eventViewModel)
         {
+            var errorMessage = await ValidateBeforeFinish(eventViewModel);
+            if (errorMessage != null)
+            {
+                return RedirectToAction("AddPlaces", new
+                {
+                    eventId = eventViewModel.EventId,
+                    errTime = errorMessage
+                });
+            }
             var eventTransferModel = await _eventService.GetSingleEvent(eventViewModel.EventId);
             var completeEventViewModel = _mapper.Map<EventViewModel>(eventTransferModel);
 
@@ -93,7 +102,6 @@ namespace EventPlanner.Controllers
         public async Task<IActionResult> Results(Guid id)
         {
             var requestedEventName = await _eventService.GetEventName(id);
-
             if (requestedEventName == null)
             {
                 throw new System.Web.HttpException(404, "Event does not exist.");
@@ -163,7 +171,7 @@ namespace EventPlanner.Controllers
             if (String.IsNullOrEmpty(placeName) || String.IsNullOrEmpty(placeCity))
                 return Json(new List<string>());
 
-            var places = await _fsService.SearchVenuesAsync(placeName, placeCity, 10);  //TODO how many results do we want?  
+            var places = await _fsService.SearchVenuesAsync(placeName, placeCity, 10); 
             foreach (var place in places)
             {
                 place.PhotoUrl = await _fsService.GetVenuePhotoUrlAsync(place.Id, "36x36");
@@ -187,7 +195,6 @@ namespace EventPlanner.Controllers
             {
                 return RedirectToAction("AddPlaces", new {
                     eventId = targetEvent.EventId,
-                    // TODO add last valid place ?!
                     errPlace = errorMessage
                 });
             }
@@ -240,8 +247,6 @@ namespace EventPlanner.Controllers
             return resultViewModel;
         }
 
-        #region Validation methods
-
         /// <summary>
         /// Validates new time.
         /// </summary>
@@ -251,7 +256,7 @@ namespace EventPlanner.Controllers
         {
             DateTime targetTime;
 
-            if (String.IsNullOrWhiteSpace(targetEvent.CurrentTime))
+            if (string.IsNullOrWhiteSpace(targetEvent.CurrentTime))
             {
                 return "You can not add empty time.";
             }
@@ -265,7 +270,7 @@ namespace EventPlanner.Controllers
                 return "Inserted value is not valid time.";
             }
 
-            if (!(await IsCurrentTimeUnique(targetEvent)))
+            if (!await IsCurrentTimeUnique(targetEvent))
             {
                 return "This time was already added.";
             }
@@ -275,7 +280,7 @@ namespace EventPlanner.Controllers
                 return "You can not plan event to the past date";
             }
 
-            if (!(await IsVenueOpen(targetEvent)))
+            if (!await IsVenueOpen(targetEvent))
             {
                 return "Place is not open at this time";
             }
@@ -291,17 +296,22 @@ namespace EventPlanner.Controllers
         /// <returns>Error message if problem was found, null otherwise.</returns>
         public async Task<string> ValidatePlace(AddPlacesViewModel targetEvent)
         {
-            if (String.IsNullOrWhiteSpace(targetEvent.CurrentPlaceFoursquareId) || targetEvent.CurrentPlaceFoursquareId.Equals("Search places..."))
+            if (!await _eventService.AllPlacesHaveTime(targetEvent.EventId))
+            {
+                return "Please add at least one time to place.";
+            }
+
+            if (string.IsNullOrWhiteSpace(targetEvent.CurrentPlaceFoursquareId) || targetEvent.CurrentPlaceFoursquareId.Equals("Search places..."))
             {
                 return "You can not add empty place.";
             }
 
-            if (!(await DoesVenueExist(targetEvent.CurrentPlaceFoursquareId)))
+            if (!await DoesVenueExist(targetEvent.CurrentPlaceFoursquareId))
             {
                 return "Selected place does not exist";
             }
 
-            if (!(await IsCurrentPlaceUnique(targetEvent)))
+            if (!await IsCurrentPlaceUnique(targetEvent))
             {
                 return "This place was already added. Please check previous places.";
             }
@@ -379,8 +389,26 @@ namespace EventPlanner.Controllers
             return openHours
                 .Any(openHour => openHour.IsOpenAtTime(time.TimeOfDay));            
         }
-        
-        #endregion
+
+        /// <summary>
+        /// Checks that model has at least one place with at least one time in the database.
+        /// </summary>
+        /// <param name="eventViewModel">Model to check.</param>
+        /// <returns><c>True if model is valid.</c></returns>
+        private async Task<string> ValidateBeforeFinish(EventViewModel eventViewModel)
+        {
+            if (!await _eventService.AllPlacesHaveTime(eventViewModel.EventId))
+            {
+                return "Please add at least one time to place.";
+            }
+
+            if (!await _eventService.HasAnyPlace(eventViewModel.EventId))
+            {
+                return "Please add at least one place.";
+            }
+
+            return null;
+        }
     }
 }
 
