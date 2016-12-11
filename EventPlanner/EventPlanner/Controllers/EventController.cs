@@ -96,7 +96,7 @@ namespace EventPlanner.Controllers
 
             if (requestedEventName == null)
             {
-                //TODO show 404 or something
+                throw new System.Web.HttpException(404, "Event does not exist.");
             }
 
             ViewData["EventName"] = requestedEventName;
