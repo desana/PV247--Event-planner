@@ -88,6 +88,11 @@ namespace EventPlanner.Entities.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Saves event to the database.
+        /// </summary>
+        /// <param name="event">Event to be saved.</param>
+        /// <returns>Saved event.</returns>
         public async Task<DTO.Event.Event> SaveEvent(DTO.Event.Event @event)
         {
             if (@event == null)

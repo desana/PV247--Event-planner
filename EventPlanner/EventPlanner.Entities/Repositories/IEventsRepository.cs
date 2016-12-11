@@ -30,6 +30,11 @@ namespace EventPlanner.Entities.Repositories
         /// <returns><c>True</c> if event was removed.</returns>
         Task<bool> DeleteEvent(Guid id);
 
+        /// <summary>
+        /// Saves event to the database.
+        /// </summary>
+        /// <param name="event">Event to be saved.</param>
+        /// <returns>Saved event.</returns>
         Task<DTO.Event.Event> SaveEvent(DTO.Event.Event @event);
     }
 }

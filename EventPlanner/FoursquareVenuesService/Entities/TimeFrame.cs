@@ -24,17 +24,8 @@ namespace FoursquareVenuesService.Entities
 
             foreach (var day in openDays)
             {
-                string[] fromToRange;
+                var fromToRange = day.Contains("-") ? day.Split('-') : day.Split('–');
                 
-                if (day.Contains("-"))
-                {
-                    fromToRange = day.Split('-');
-                }
-                else
-                {
-                    fromToRange = day.Split('–');
-                }
-
                 if (fromToRange.Length > 1)
                 {
                     var startDay = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), DayCodeToDayName(fromToRange[0]));

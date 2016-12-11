@@ -33,8 +33,14 @@ namespace EventPlanner.Entities
         /// </summary>
         public virtual DbSet<Event> Events { get; set; }
 
+        /// <summary>
+        /// Votes recorded for event timeplaces.
+        /// </summary>
         public virtual DbSet<Vote> Votes { get; set; }
 
+        /// <summary>
+        /// Existing vote sessions.
+        /// </summary>
         public virtual DbSet<VoteSession> VoteSessions { get; set; }
     }
 }

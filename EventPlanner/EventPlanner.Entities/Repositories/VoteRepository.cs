@@ -29,6 +29,11 @@ namespace EventPlanner.Entities.Repositories
         {
         }
 
+        /// <summary>
+        /// Saves current session to the database.
+        /// </summary>
+        /// <param name="session">Session to be saved.</param>
+        /// <returns>Saved session.</returns>
         public async Task<DTO.Vote.VoteSession> SaveSession(DTO.Vote.VoteSession session)
         {
             if (session == null)
@@ -54,6 +59,11 @@ namespace EventPlanner.Entities.Repositories
             return _mapper.Map<DTO.Vote.VoteSession>(entity);
         }
 
+        /// <summary>
+        /// Returns vote session.
+        /// </summary>
+        /// <param name="sessionId">Id of session to be returned.</param>
+        /// <returns>Session with <paramref name="sessionId"/>"/></returns>
         public async Task<DTO.Vote.VoteSession> GetVoteSession(Guid sessionId)
         {
             var entity = await _context.VoteSessions
@@ -67,6 +77,11 @@ namespace EventPlanner.Entities.Repositories
             return _mapper.Map<DTO.Vote.VoteSession>(entity);
         }
 
+        /// <summary>
+        /// Returns all vote sessions for event.
+        /// </summary>
+        /// <param name="eventId">Event which sessions will be returned.</param>
+        /// <returns>Sessions for <paramref name="eventId"/></returns>
         public async Task<IList<DTO.Vote.VoteSession>> GetVoteSessions(Guid eventId)
         {
             var entity = await _context.VoteSessions
@@ -77,6 +92,11 @@ namespace EventPlanner.Entities.Repositories
             return _mapper.Map<IList<DTO.Vote.VoteSession>>(entity);
         }
 
+        /// <summary>
+        /// Returns all votes for timeslots.
+        /// </summary>
+        /// <param name="timeAtPlaceIds">Timeslots.</param>
+        /// <returns>All votes for timeslots.</returns>
         public async Task<IList<DTO.Vote.Vote>> GetVotes(ICollection<int> timeAtPlaceIds)
         {
             var query = from vote in _context.Votes where timeAtPlaceIds.Contains(vote.TimeAtPlaceId) select vote;
