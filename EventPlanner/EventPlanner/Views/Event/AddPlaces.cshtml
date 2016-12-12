@@ -55,7 +55,7 @@
                                 <input id="foursquareId" asp-for="CurrentPlaceFoursquareId" value="@place.FourSquareId" type="text" hidden />
                                 <input id="eventId" asp-for="EventId" type="text" hidden />
 
-                                @if (Model.TimeErrorMessage != null)
+                                @if (Model.TimeErrorMessage != null && Model.CurrentPlaceFoursquareId == place.FourSquareId)
                                 {
                                     <div class="err">
                                         @Model.TimeErrorMessage

@@ -85,6 +85,7 @@ namespace EventPlanner.Controllers
                     new
                     {
                         eventId = eventViewModel.EventId,
+                        foursquareId = (await _eventService.GetSingleEvent(eventViewModel.EventId)).Places.Last().FourSquareId,
                         errTime = errorMessage
                     });
             }
@@ -314,7 +315,7 @@ namespace EventPlanner.Controllers
         {
             if (!await _eventService.AllPlacesHaveTime(targetEvent.EventId))
             {
-                return "Please add at least one time to place.";
+                return "Add at least one time to the last place before adding another place.";
             }
 
             if (string.IsNullOrWhiteSpace(targetEvent.CurrentPlaceFoursquareId) || targetEvent.CurrentPlaceFoursquareId.Equals("Search places..."))
@@ -329,7 +330,7 @@ namespace EventPlanner.Controllers
 
             if (!await IsCurrentPlaceUnique(targetEvent))
             {
-                return "This place was already added. Please check previous places.";
+                return "This place was already added. Check previous places.";
             }
 
             return null;
@@ -415,12 +416,12 @@ namespace EventPlanner.Controllers
         {
             if (!await _eventService.AllPlacesHaveTime(eventViewModel.EventId))
             {
-                return "Please add at least one time to place.";
+                return "Add at least one time to place.";
             }
 
             if (!await _eventService.HasAnyPlace(eventViewModel.EventId))
             {
-                return "Please add at least one place.";
+                return "Add at least one place.";
             }
 
             return null;
