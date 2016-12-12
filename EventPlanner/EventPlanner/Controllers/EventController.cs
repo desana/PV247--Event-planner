@@ -81,11 +81,12 @@ namespace EventPlanner.Controllers
             var errorMessage = await ValidateBeforeFinish(eventViewModel);
             if (errorMessage != null)
             {
-                return RedirectToAction("AddPlaces", new
-                {
-                    eventId = eventViewModel.EventId,
-                    errTime = errorMessage
-                });
+                return RedirectToAction("AddPlaces",
+                    new
+                    {
+                        eventId = eventViewModel.EventId,
+                        errTime = errorMessage
+                    });
             }
             var eventTransferModel = await _eventService.GetSingleEvent(eventViewModel.EventId);
             var completeEventViewModel = _mapper.Map<EventViewModel>(eventTransferModel);
@@ -124,15 +125,19 @@ namespace EventPlanner.Controllers
         {
             if (String.IsNullOrEmpty(newEvent.EventName))
             {
-                return RedirectToAction("CreateEvent", new {
-                    err = "Add event title."
-                });
+                return RedirectToAction("CreateEvent",
+                    new
+                    {
+                        err = "Add event title."
+                    });
             }
 
             var savedEvent = await _eventService.AddEvent(_mapper.Map<Event>(newEvent));
-            return RedirectToAction("AddPlaces", new {
-                eventId = savedEvent.EventId
-            });
+            return RedirectToAction("AddPlaces",
+                new
+                {
+                    eventId = savedEvent.EventId
+                });
         }
 
         /// <summary>
@@ -146,17 +151,22 @@ namespace EventPlanner.Controllers
             var errorMessage = await ValidateTime(targetEvent);
             if (errorMessage != null)
             {
-                return RedirectToAction("AddPlaces", new {
-                    eventId = targetEvent.EventId,
-                    foursquareId = targetEvent.CurrentPlaceFoursquareId,
-                    errTime =  errorMessage
-                });
+                return RedirectToAction("AddPlaces",
+                    new
+                    {
+                        eventId = targetEvent.EventId,
+                        foursquareId = targetEvent.CurrentPlaceFoursquareId,
+                        errTime = errorMessage
+                    });
             }
 
             await _eventService.AddEventTime(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId, Convert.ToDateTime(targetEvent.CurrentTime));
-            return RedirectToAction("AddPlaces", new {
-                eventId = targetEvent.EventId,
-                foursquareId = targetEvent.CurrentPlaceFoursquareId });
+            return RedirectToAction("AddPlaces",
+                new
+                {
+                    eventId = targetEvent.EventId,
+                    foursquareId = targetEvent.CurrentPlaceFoursquareId
+                });
         }
 
         /// <summary>
@@ -169,9 +179,10 @@ namespace EventPlanner.Controllers
         public async Task<IActionResult> GetPlaces(string placeName, string placeCity)
         {
             if (String.IsNullOrEmpty(placeName) || String.IsNullOrEmpty(placeCity))
+            {
                 return Json(new List<string>());
-
-            var places = await _fsService.SearchVenuesAsync(placeName, placeCity, 10); 
+            }
+            var places = await _fsService.SearchVenuesAsync(placeName, placeCity, 10);
             foreach (var place in places)
             {
                 place.PhotoUrl = await _fsService.GetVenuePhotoUrlAsync(place.Id, "36x36");
@@ -193,17 +204,22 @@ namespace EventPlanner.Controllers
             var errorMessage = await ValidatePlace(targetEvent);
             if (errorMessage != null)
             {
-                return RedirectToAction("AddPlaces", new {
-                    eventId = targetEvent.EventId,
-                    errPlace = errorMessage
-                });
+                return RedirectToAction("AddPlaces",
+                    new
+                    {
+                        eventId = targetEvent.EventId,
+                        foursquareId = "ssss",
+                        errPlace = errorMessage
+                    });
             }
 
             await _eventService.AddEventPlace(targetEvent.EventId, targetEvent.CurrentPlaceFoursquareId);
-            return RedirectToAction("AddPlaces", new {
-                eventId = targetEvent.EventId,
-                foursquareId = targetEvent.CurrentPlaceFoursquareId
-            });
+            return RedirectToAction("AddPlaces",
+                new
+                {
+                    eventId = targetEvent.EventId,
+                    foursquareId = targetEvent.CurrentPlaceFoursquareId
+                });
         }
 
         /// <summary>
@@ -329,7 +345,7 @@ namespace EventPlanner.Controllers
             var venue = await _fsService.GetVenueAsync(id);
             return venue != null;
         }
-        
+
         /// <summary>
         /// Checks if time to be inserted has unique value.
         /// </summary>
@@ -376,18 +392,18 @@ namespace EventPlanner.Controllers
             {
                 return true;
             }
-            
+
             var openHours = venue
                 .Hours
                 .GetOpenTimeForDay(time.DayOfWeek);
-            
+
             if (openHours == null)
             {
                 return false;
             }
 
             return openHours
-                .Any(openHour => openHour.IsOpenAtTime(time.TimeOfDay));            
+                .Any(openHour => openHour.IsOpenAtTime(time.TimeOfDay));
         }
 
         /// <summary>
