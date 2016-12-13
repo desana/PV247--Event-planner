@@ -24,9 +24,11 @@
             @foreach (var place in Model.Places)
             {
                 string divId = "CurrentTime" + iterator;
-                <div class="form-group">
+                <div class="placeName">
                     @* Display place name *@
-                    <h3>@Html.DisplayFor(modelItem => place.Name)</h3>
+                    <h3>
+                        @Html.DisplayFor(modelItem => place.Name)
+                    </h3>
 
                     <ul class="row">
                         @foreach (var time in place.Times)
@@ -65,12 +67,31 @@
                         }
                     </ul>
                 </div>
+
+                if (place.OpeningHours != "")
+                {
+                    <div class="openingHours">
+                        <h4>Opening hours:</h4>
+
+                        @if (place.OpeningHours == null)
+                        {
+                            <p>Not available for this place.</p>
+                        }
+                        else
+                        {
+                            string[] hours = place.OpeningHours.Split('\n');
+                            foreach (var hour in hours)
+                            {
+                                <p>@hour.Trim()</p>
+                            }
+                        }
+                    </div>
+                }
                 iterator++;
             }
         </div>
     </div>
 }
-
 
     @* New Place *@
     <div class="panel panel-default">
@@ -88,7 +109,6 @@
                     </select>
                 </div>
 
-
                 @* Hidden field *@
                 <input id="eventId" asp-for="EventId" type="text" hidden />
 
@@ -96,19 +116,18 @@
                 <input type="submit" value="Add place" class="btn btn-primary" />
 
                 @if (Model.PlaceErrorMessage != null)
-            {
+                {
                     <div class="err">
                         @Model.PlaceErrorMessage
                     </div>
                 }
-
             </form>
         </div>
     </div>
 
     @* Submit form and create the event *@
     @if (Model.CurrentPlaceFoursquareId != "")
-            {
+    {
         <form asp-action="ShowCreatedEvent" form class="form-horizontal">
 
             @* Hidden field *@

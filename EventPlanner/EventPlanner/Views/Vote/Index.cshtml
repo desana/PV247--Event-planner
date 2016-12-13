@@ -31,16 +31,24 @@
     @foreach (var item in Model.Places)
     {
         <div class="col-xs-6 col-sm-4 col-md-3">
-            <img src="@item.PlacePhotoUrl" class="img-rounded">
+
+            @if (string.IsNullOrWhiteSpace(item.PlacePhotoUrl))
+            {
+                <img src="~/images/default.jpg" class="img-rounded">
+            }
+            else
+            {
+                <img src="@item.PlacePhotoUrl" class="img-rounded">
+            }
             <div class="caption">
                 <h3>@item.Place.Name</h3>
                 @foreach (var timeItem in item.Place.Times)
                 {
                     var vote = Model.VoteSession.Votes.First(v => v.TimeAtPlaceId == timeItem.Id);
                     <form asp-controller="Vote" asp-action="Vote" asp-route-id="@Model.EventId" method="post">
-                        <input type="hidden" name="voteSessionId" value="@Model.VoteSession.VoteSessionId"/>
-                        <input type="hidden" name="timeAtPlaceId" value="@vote.TimeAtPlaceId"/>
-                        <input type="hidden" name="value" value="@(vote.Value == VoteValueEnum.Accept ? VoteValueEnum.Decline : VoteValueEnum.Accept)"/>
+                        <input type="hidden" name="voteSessionId" value="@Model.VoteSession.VoteSessionId" />
+                        <input type="hidden" name="timeAtPlaceId" value="@vote.TimeAtPlaceId" />
+                        <input type="hidden" name="value" value="@(vote.Value == VoteValueEnum.Accept ? VoteValueEnum.Decline : VoteValueEnum.Accept)" />
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox"
@@ -56,11 +64,9 @@
     }
 </div>
 <hr />
-<div class="row">
-    <div class="col-xs-12">
-        <a asp-controller="Event" asp-action="Results" asp-route-id="@Model.EventId">Show results</a>
-    </div>
-</div>
+
+<a class="btn btn-primary btn-lg" asp-controller="Event" asp-action="Results" asp-route-id="@Model.EventId">Show results</a>   
+
 
 @section scripts
 {

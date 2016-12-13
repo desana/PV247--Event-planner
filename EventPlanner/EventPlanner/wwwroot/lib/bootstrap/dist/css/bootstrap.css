@@ -325,22 +325,29 @@ th {
   content: "\e009";
 }
 .glyphicon-th-large:before {
-  content: "\e010";
+    content: "\e010";
 }
+
 .glyphicon-th:before {
-  content: "\e011";
+    content: "\e011";
 }
+
 .glyphicon-th-list:before {
-  content: "\e012";
+    content: "\e012";
 }
+
 .glyphicon-ok:before {
-  content: "\e013";
+    content: "\e013";
+    color: black;
 }
+
 .glyphicon-remove:before {
-  content: "\e014";
+    content: "\e014";
+    color: #c0c0c0;
 }
+
 .glyphicon-zoom-in:before {
-  content: "\e015";
+    content: "\e015";
 }
 .glyphicon-zoom-out:before {
   content: "\e016";
@@ -2633,6 +2640,33 @@ input[type="search"] {
 .form-group {
   margin-bottom: 15px;
 }
+
+.openingHours {
+    display: inline-block;
+}
+   
+.placeName { 
+    width: 600px;
+    display: inline-block;
+}
+
+.toast {
+    margin: auto;
+    width: 100%;
+    padding: 0px;
+}
+
+.toast img {
+    width: 100%;
+}
+
+.img-right img {
+    width: 50%;    
+    float: right;
+      margin-right: 50px;
+      margin-top:30px
+}
+
 .radio,
 .checkbox {
   position: relative;

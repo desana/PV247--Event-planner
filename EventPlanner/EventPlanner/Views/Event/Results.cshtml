@@ -2,74 +2,70 @@
 @using EventPlanner.DTO.Vote
 @using EventPlanner.Models.Event
 @model ResultsViewModel
-
 <script src=@Url.Content("~/lib/jquery/dist/jquery.min.js") type="text/javascript"></script>
 <script src=@Url.Content("~/lib/highcharts/highcharts.js") type="text/javascript"></script>
-
 @section AddToHead{
     <link href="@Url.Content("~/css/resultspage.css")" rel="stylesheet" type="text/css" />
 }
-
 <h2>Results for @Model.ChartData.EventName</h2>
-
-<div>
-    Back to <a asp-controller="Vote" asp-action="Index" asp-route-token="@Model.EventLink">voting</a>.
-</div>
-
-<br/>
-
-<div class="panel panel-default">
-    <div class="panel-heading toggle-diagram">
-        <h3 class="panel-title">
-            <span id="arrow" class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>
-            Click to show/hide diagram with votes
-        </h3>
+<br />
+    <div class="panel panel-default">
+        <div class="panel-heading toggle-diagram">
+            <h3 class="panel-title">
+                <span id="arrow" class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>
+                Click to show/hide diagram with votes
+            </h3>
+        </div>
+        <div id="toggle-div" class="panel-body">
+            <div id="container" style="width: 100%; height: auto;"></div>
+        </div>
     </div>
-    <div id="toggle-div" class="panel-body">
-        <div id="container" style="width: 100%; height: auto;"></div>
-    </div>
-</div>
-
-@if (Model.VoteSessions.Any())
-{
-    <div class="panel panel-default table-panel">
-        <table class="table table-hover">
-            <tr>
-                <th class="bg-primary">Name</th>
-                @foreach (var place in Model.TimesAtPlaces.OrderBy(k => k.Value))
-                {
-                    <th class="votes bg-primary">@place.Value</th>
-                }
-            </tr>
-
-            @foreach (var session in Model.VoteSessions)
-            {
+    @if (Model.VoteSessions.Any())
+    {
+        <div class="panel panel-default table-panel">
+            <table class="table table-hover">
                 <tr>
-                    <td>@session.VoterName</td>
+                    <th class="bg-primary">Name</th>
                     @foreach (var place in Model.TimesAtPlaces.OrderBy(k => k.Value))
-                    {
-                        if (session.Votes.First(v => v.TimeAtPlaceId == place.Key).Value == VoteValueEnum.Accept)
-                        {
-                            <td class="votes"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-                        }
-                        else
-                        {
-                            <td class="votes"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-                        }
+                {
+                        <th class="votes bg-primary">@place.Value</th>
                     }
-
                 </tr>
-            }
+                @foreach (var session in Model.VoteSessions)
+                {
+                    <tr>
+                        <td>
+                            <a asp-area="" asp-controller="Vote" asp-action="Index" asp-route-token="@Model.EventLink" asp-route-session=@session.VoteSessionId class="text-nowrap">
+                                <img src="~/images/editIcon.png" style="height: 20px"/>
+                            </a>
+                            @session.VoterName
+                            
+                        </td>
+                        @foreach (var place in Model.TimesAtPlaces.OrderBy(k => k.Value))
+                        {
+                            if (session.Votes.First(v => v.TimeAtPlaceId == place.Key).Value == VoteValueEnum.Accept)
+                            {
+                                <td class="votes"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                            }
+                            else
+                            {
+                                <td class="votes"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+                            }
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+    else
+    {
+        <div>
+            There are no votes for this event.
+        </div>
+    }
 
-        </table>
+    <div class="div-spaced">
+        <a class="btn btn-default btn-lg" asp-area="" asp-controller="Vote" asp-action="Index" asp-route-token="@Model.EventLink">Vote again</a>
     </div>
-}
-else
-{
-    <div>
-        There are no votes for this event.
-    </div>
-}
-
-<script>var dataJson = @(Json.Serialize(Model.ChartData));</script>
-<script src =@Url.Content("~/js/results-chart.js")></script>
+    <script>var dataJson = @(Json.Serialize(Model.ChartData));</script>
+    <script src=@Url.Content("~/js/results-chart.js")></script>
