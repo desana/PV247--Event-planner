@@ -35,11 +35,11 @@
                 {
                     <tr>
                         <td>
-                            <a asp-area="" asp-controller="Vote" asp-action="Index" asp-route-token="@Model.EventLink" asp-route-session=@session.VoteSessionId>
+                            <a asp-area="" asp-controller="Vote" asp-action="Index" asp-route-token="@Model.EventLink" asp-route-session=@session.VoteSessionId class="text-nowrap">
                                 <img src="~/images/editIcon.png" style="height: 20px"/>
                             </a>
-
                             @session.VoterName
+                            
                         </td>
                         @foreach (var place in Model.TimesAtPlaces.OrderBy(k => k.Value))
                         {
