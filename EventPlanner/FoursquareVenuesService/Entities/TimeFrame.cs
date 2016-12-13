@@ -16,7 +16,7 @@ namespace FoursquareVenuesService.Entities
         /// <summary>
         /// An array of times the venue is open on days within the timeframe.
         /// </summary>
-        public List<Time> Open { get; set; }
+        public List<Time> Open { get; set; } = new List<Time>();
 
         /// <summary>
         /// Checks if <see cref="Days"/> includes <paramref name="targetDay"/>.

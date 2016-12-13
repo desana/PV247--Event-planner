@@ -27,6 +27,7 @@
                 <div class="form-group">
                     @* Display place name *@
                     <h3>@Html.DisplayFor(modelItem => place.Name)</h3>
+                    <p>@Html.DisplayFor(modelItem => place.OpeningHours)</p>
 
                     <ul class="row">
                         @foreach (var time in place.Times)

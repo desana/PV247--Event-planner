@@ -67,7 +67,33 @@ namespace EventPlanner.Controllers
             eventViewModel.PlaceErrorMessage = errPlace;
             eventViewModel.TimeErrorMessage = errTime;
 
+            await DecorateWithOpeningHours(eventViewModel);      
+
             return View(eventViewModel);
+        }
+
+        /// <summary>
+        /// Decorates places with opening hours.
+        /// </summary>
+        /// <param name="eventViewModel">Event view model to be decorated.</param>
+        /// <returns>Event view model.</returns>
+        private async Task DecorateWithOpeningHours(AddPlacesViewModel eventViewModel)
+        {
+            foreach (var place in eventViewModel.Places)
+            {
+                if (!string.IsNullOrEmpty(place.OpeningHours)) continue;
+                var venue = await _fsService.GetVenueAsync(place.FourSquareId);
+                if (venue.Hours == null) continue;
+                foreach (var timeframe in venue.Hours.Timeframes)
+                {
+                    place.OpeningHours += timeframe.Days + ": ";
+                    foreach (var time in timeframe.Open)
+                    {
+                        place.OpeningHours += time.RenderedTime;
+                    }
+                    place.OpeningHours += " ";
+                }
+            }
         }
 
         /// <summary>

@@ -13,5 +13,7 @@ namespace EventPlanner.Models.Event
         public string FourSquareId { get; internal set; }
         
         public ICollection<TimeAtPlaceViewModel> Times { get; set; } = new List<TimeAtPlaceViewModel>();
+
+        public string OpeningHours { get; set; }
     }
 }
