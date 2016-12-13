@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 
 namespace FoursquareVenuesService.Entities
 {
@@ -21,7 +22,7 @@ namespace FoursquareVenuesService.Entities
         public bool IsOpenAtTime(TimeSpan time)
         {
             var openingHoursRange = RenderedTime.Contains("-") ? RenderedTime.Split('-') : RenderedTime.Split('–');
-            
+
             var start = Convert
                 .ToDateTime(openingHoursRange[0], CultureInfo.InvariantCulture)
                 .TimeOfDay;
@@ -29,15 +30,33 @@ namespace FoursquareVenuesService.Entities
             var end = Convert
                 .ToDateTime(openingHoursRange[1], CultureInfo.InvariantCulture)
                 .TimeOfDay;
-            
+
             if (start <= end)
             {
                 return time >= start && time <= end;
             }
-            else
-            {
-                return time >= start || time <= end;
-            }
+
+            return time >= start || time <= end;
+        }
+
+        /// <summary>
+        /// Returns time range in invariant culture.
+        /// </summary>
+        /// <returns>Opening hours in invarian culture.</returns>
+        public string ReturnAsInvariantCulture()
+        {
+            var openingHoursRange = RenderedTime.Contains("-") ? RenderedTime.Split('-') : RenderedTime.Split('–');
+
+            var start = Convert
+                .ToDateTime(openingHoursRange[0], CultureInfo.InvariantCulture)
+                .ToString("HH:mm");
+
+            var end = Convert
+                .ToDateTime(openingHoursRange[1], CultureInfo.InvariantCulture)
+                .ToString("HH:mm");
+
+            return $"{start}-{end}";
+
         }
     }
 }

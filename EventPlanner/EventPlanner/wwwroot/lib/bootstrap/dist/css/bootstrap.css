@@ -2633,6 +2633,26 @@ input[type="search"] {
 .form-group {
   margin-bottom: 15px;
 }
+
+.openingHours {
+    display: inline-block;
+}
+   
+.placeName { 
+    width: 600px;
+    display: inline-block;
+}
+
+.toast {
+    margin: auto;
+    width: 100%;
+    padding: 0px;
+}
+
+.toast img {
+    width: 100%;
+}
+
 .radio,
 .checkbox {
   position: relative;

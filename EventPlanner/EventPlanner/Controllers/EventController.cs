@@ -81,17 +81,23 @@ namespace EventPlanner.Controllers
         {
             foreach (var place in eventViewModel.Places)
             {
-                if (!string.IsNullOrEmpty(place.OpeningHours)) continue;
+                if (!string.IsNullOrEmpty(place.OpeningHours))
+                {
+                    continue;
+                }
                 var venue = await _fsService.GetVenueAsync(place.FourSquareId);
-                if (venue.Hours == null) continue;
+                if (venue.Hours == null)
+                {
+                    continue;
+                }
                 foreach (var timeframe in venue.Hours.Timeframes)
                 {
                     place.OpeningHours += timeframe.Days + ": ";
                     foreach (var time in timeframe.Open)
                     {
-                        place.OpeningHours += time.RenderedTime;
+                        place.OpeningHours += time.ReturnAsInvariantCulture();
                     }
-                    place.OpeningHours += " ";
+                    place.OpeningHours += "\n";
                 }
             }
         }
