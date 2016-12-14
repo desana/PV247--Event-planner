@@ -19,7 +19,7 @@ namespace FoursquareVenuesService.Entities
         /// </summary>
         /// <param name="dayOfWeek">Day to find open hours.</param>
         /// <returns>Open hours.</returns>
-        public IEnumerable<Time> GetOpenTimeForDay(DayOfWeek dayOfWeek)
+        public IEnumerable<Time> GetOpenTimeAtDay(DayOfWeek dayOfWeek)
         {
             Timeframe result;
 

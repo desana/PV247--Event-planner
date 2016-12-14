@@ -116,6 +116,21 @@ namespace EventPlanner.FoursquareVenuesService.UnitTests
         }
 
         [TestMethod]
+        public void TestIsOpenAtSpecial()
+        {
+            var openingHours = new Time
+            {
+                RenderedTime = "Noon-Midnight"
+            };
+
+            Assert.IsTrue(openingHours.IsOpenAtTime(TimeSpan.Parse("12:01")));
+            Assert.IsTrue(openingHours.IsOpenAtTime(TimeSpan.Parse("15:00")));
+            Assert.IsTrue(openingHours.IsOpenAtTime(TimeSpan.Parse("23:59:59")));
+            Assert.IsFalse(openingHours.IsOpenAtTime(TimeSpan.Parse("05:00:01")));
+            Assert.IsFalse(openingHours.IsOpenAtTime(TimeSpan.Parse("00:00:01")));
+        }
+
+        [TestMethod]
         public void TestIsOpenAtTimeAfterMidnight()
         {
             var openingHours = new Time
@@ -154,10 +169,10 @@ namespace EventPlanner.FoursquareVenuesService.UnitTests
                 }
             };
 
-            Assert.IsNotNull(openingHours.GetOpenTimeForDay(DayOfWeek.Monday));
-            Assert.IsNotNull(openingHours.GetOpenTimeForDay(DayOfWeek.Wednesday));
-            Assert.IsNotNull(openingHours.GetOpenTimeForDay(DayOfWeek.Friday));
-            Assert.IsNull(openingHours.GetOpenTimeForDay(DayOfWeek.Sunday));
+            Assert.IsNotNull(openingHours.GetOpenTimeAtDay(DayOfWeek.Monday));
+            Assert.IsNotNull(openingHours.GetOpenTimeAtDay(DayOfWeek.Wednesday));
+            Assert.IsNotNull(openingHours.GetOpenTimeAtDay(DayOfWeek.Friday));
+            Assert.IsNull(openingHours.GetOpenTimeAtDay(DayOfWeek.Sunday));
         }
 
         [TestMethod]
@@ -185,10 +200,10 @@ namespace EventPlanner.FoursquareVenuesService.UnitTests
                 }
             };
 
-            Assert.IsNotNull(openingHours.GetOpenTimeForDay(DayOfWeek.Monday));
-            Assert.IsNotNull(openingHours.GetOpenTimeForDay(DayOfWeek.Wednesday));
-            Assert.IsNotNull(openingHours.GetOpenTimeForDay(DayOfWeek.Friday));
-            Assert.IsNull(openingHours.GetOpenTimeForDay(DayOfWeek.Sunday));
+            Assert.IsNotNull(openingHours.GetOpenTimeAtDay(DayOfWeek.Monday));
+            Assert.IsNotNull(openingHours.GetOpenTimeAtDay(DayOfWeek.Wednesday));
+            Assert.IsNotNull(openingHours.GetOpenTimeAtDay(DayOfWeek.Friday));
+            Assert.IsNull(openingHours.GetOpenTimeAtDay(DayOfWeek.Sunday));
         }
     }
 }

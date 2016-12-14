@@ -428,7 +428,7 @@ namespace EventPlanner.Controllers
 
             var openHours = venue
                 .Hours
-                .GetOpenTimeForDay(time.DayOfWeek);
+                .GetOpenTimeAtDay(time.DayOfWeek);
 
             if (openHours == null)
             {
