@@ -138,7 +138,7 @@ namespace EventPlanner.Controllers
             var requestedEventName = await _eventService.GetEventName(id);
             if (requestedEventName == null)
             {
-                throw new System.Web.HttpException(404, "Event does not exist.");
+                return NotFound();
             }
 
             ViewData["EventName"] = requestedEventName;
