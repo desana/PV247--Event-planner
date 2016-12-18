@@ -4,9 +4,6 @@
 # Local settings
 EventPlanner/EventPlanner/appsettings.local.json
 
-# App.config with clientId and clientSecret
-EventPlanner/FoursquareVenuesService/App.config
-
 # Highcharts library
 #EventPlanner/EventPlanner/wwwroot/lib/highcharts
 
@@ -260,3 +257,6 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+#.Net core local project files
+*.fragment.lock.json
